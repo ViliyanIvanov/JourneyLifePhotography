@@ -1,6 +1,6 @@
 # Journey Life Photography - Frontend
 
-A production-grade Next.js + TypeScript frontend for a professional photography portfolio website.
+A Next.js + TypeScript frontend for a professional photography portfolio website.
 
 ## Features
 
@@ -118,14 +118,6 @@ npm run dev
 - Proper caching headers
 - Code splitting
 
-## Next Steps
-
-1. Connect to .NET backend API
-2. Implement authentication for admin panel
-3. Add real image upload functionality
-4. Configure email service for contact form
-5. Set up Google Analytics
-6. Deploy to production
 
 ## License
 
