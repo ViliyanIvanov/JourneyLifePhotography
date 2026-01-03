@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Host
+Host: https://journeylifephotography.com
+
+# Sitemaps
+Sitemap: https://journeylifephotography.com/sitemap.xml

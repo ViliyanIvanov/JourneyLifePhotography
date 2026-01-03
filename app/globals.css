@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Design System: Black #0A0A0A, White #FFFFFF, Emerald #0F3D2E */
+    /* ALL SECTIONS ARE BLACK BY DEFAULT */
+
+    --background: 0 0% 4%;            /* Black #0A0A0A */
+    --foreground: 0 0% 100%;          /* White */
+
+    --card: 0 0% 4%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 158 60% 15%;           /* Emerald #0F3D2E */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 158 60% 15%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 158 60% 15%;
+
+    --radius: 0.75rem; /* 12px */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ------------------------------------------------------------
+   Floating Navbar Anchor Support
+   ------------------------------------------------------------ */
+
+/*
+  The NavAnchor component sets CSS variables:
+  --nav-anchor-vh          (mobile)
+  --nav-anchor-vh-desktop  (desktop)
+
+  This rule switches the anchor position at md breakpoint
+  WITHOUT duplicating the element or ID.
+*/
+
+#nav-anchor {
+  top: calc(var(--nav-anchor-vh) * 1vh);
+}
+
+@media (min-width: 768px) {
+  #nav-anchor {
+    top: calc(var(--nav-anchor-vh-desktop) * 1vh);
+  }
+}
