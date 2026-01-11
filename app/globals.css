@@ -83,3 +83,37 @@
     top: calc(var(--nav-anchor-vh-desktop) * 1vh);
   }
 }
+
+@layer utilities {
+  @keyframes loader-pulse {
+    0% {
+      opacity: 0.2;
+      transform: scale(0.95);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 0.2;
+      transform: scale(0.95);
+    }
+  }
+
+  @keyframes loader-overlay {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-loader-pulse {
+    animation: loader-pulse 1.4s ease-in-out infinite;
+  }
+
+  .animate-loader-overlay {
+    animation: loader-overlay 0.4s ease-in-out;
+  }
+}

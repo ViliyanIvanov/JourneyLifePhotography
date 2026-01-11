@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { Providers } from './providers';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { GlobalLoader } from '@/components/ui/global-loader';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} ${inter.className}`}>
         <Providers>
+          <GlobalLoader />
           <Header />
           {children}
           <Footer />
