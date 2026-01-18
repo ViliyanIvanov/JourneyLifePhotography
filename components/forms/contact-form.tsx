@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -8,29 +7,45 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useContactSubmit, ApiClientError, type ContactRequest } from '@/lib/api';
 
 const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().optional(),
-  subject: z.string().min(3, 'Subject must be at least 3 characters'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  name: z.string().min(2, 'Name must be at least 2 characters').max(200),
+  email: z.string().email('Please enter a valid email address').max(254),
+  phone: z.string().max(50).optional(),
+  subject: z.string().min(3, 'Subject must be at least 3 characters').max(300),
+  message: z.string().min(10, 'Message must be at least 10 characters').max(5000),
   honeypot: z.string().optional(), // Spam protection
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
 export function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setError,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+  });
+
+  const contactSubmit = useContactSubmit({
+    onSuccess: () => {
+      reset();
+    },
+    onError: (error) => {
+      if (error instanceof ApiClientError && error.is('VALIDATION_ERROR')) {
+        // Map API validation errors to form fields
+        error.getAllFieldErrors().forEach(({ field, messages }) => {
+          const fieldName = field.toLowerCase() as keyof ContactFormData;
+          if (fieldName in contactSchema.shape) {
+            setError(fieldName, { message: messages[0] });
+          }
+        });
+      }
+    },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -40,21 +55,15 @@ export function ContactForm() {
       return;
     }
 
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
+    const request: ContactRequest = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone || undefined,
+      subject: data.subject,
+      message: data.message,
+    };
 
-    try {
-      // Mock API call - replace with actual API call later
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      // Simulate success
-      setSubmitStatus('success');
-      reset();
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    contactSubmit.mutate(request);
   };
 
   return (
@@ -86,6 +95,7 @@ export function ContactForm() {
                 {...register('name')}
                 placeholder="Your name"
                 aria-invalid={errors.name ? 'true' : 'false'}
+                disabled={contactSubmit.isPending}
               />
               {errors.name && (
                 <p className="text-sm text-destructive mt-1">{errors.name.message}</p>
@@ -102,6 +112,7 @@ export function ContactForm() {
                 {...register('email')}
                 placeholder="your.email@example.com"
                 aria-invalid={errors.email ? 'true' : 'false'}
+                disabled={contactSubmit.isPending}
               />
               {errors.email && (
                 <p className="text-sm text-destructive mt-1">{errors.email.message}</p>
@@ -118,6 +129,7 @@ export function ContactForm() {
               type="tel"
               {...register('phone')}
               placeholder="+44 (0) 123 456 7890"
+              disabled={contactSubmit.isPending}
             />
           </div>
 
@@ -130,6 +142,7 @@ export function ContactForm() {
               {...register('subject')}
               placeholder="What is this regarding?"
               aria-invalid={errors.subject ? 'true' : 'false'}
+              disabled={contactSubmit.isPending}
             />
             {errors.subject && (
               <p className="text-sm text-destructive mt-1">{errors.subject.message}</p>
@@ -146,13 +159,14 @@ export function ContactForm() {
               placeholder="Tell us about your photography needs..."
               rows={6}
               aria-invalid={errors.message ? 'true' : 'false'}
+              disabled={contactSubmit.isPending}
             />
             {errors.message && (
               <p className="text-sm text-destructive mt-1">{errors.message.message}</p>
             )}
           </div>
 
-          {submitStatus === 'success' && (
+          {contactSubmit.isSuccess && (
             <div className="rounded-lg bg-brand-emerald/10 border-2 border-brand-emerald p-4 text-brand-emerald">
               <p className="font-medium">Message sent successfully!</p>
               <p className="text-sm mt-1">
@@ -161,21 +175,20 @@ export function ContactForm() {
             </div>
           )}
 
-          {submitStatus === 'error' && (
+          {contactSubmit.isError && !contactSubmit.error.is?.('VALIDATION_ERROR') && (
             <div className="rounded-lg bg-brand-white/10 border-2 border-brand-white/30 p-4 text-brand-white">
               <p className="font-medium">Something went wrong</p>
               <p className="text-sm mt-1">
-                Please try again later or contact us directly.
+                {contactSubmit.error.message || 'Please try again later or contact us directly.'}
               </p>
             </div>
           )}
 
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? 'Sending...' : 'Send Message'}
+          <Button type="submit" disabled={contactSubmit.isPending} className="w-full">
+            {contactSubmit.isPending ? 'Sending...' : 'Send Message'}
           </Button>
         </form>
       </CardContent>
     </Card>
   );
 }
-

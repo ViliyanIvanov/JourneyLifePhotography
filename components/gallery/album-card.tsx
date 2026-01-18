@@ -1,24 +1,26 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
-import { Album } from '@/content/mock-data';
-import { Camera } from 'lucide-react';
+import type { AlbumDto } from '@/lib/api';
+import { Lock } from 'lucide-react';
 
 interface AlbumCardProps {
-  album: Album;
+  album: AlbumDto;
   index?: number;
 }
 
 export function AlbumCard({ album, index = 0 }: AlbumCardProps) {
+  // Use cover image if available, otherwise use a placeholder
+  const coverImageUrl = album.coverImage?.webUrl || album.coverImage?.thumbUrl || '/placeholder-album.jpg';
+
   return (
     <ScrollAnimation direction="up" delay={index * 100}>
-      <Link href={`/portfolio/${album.slug}`}>
+      <Link href={album.isPrivate ? `/private/${album.slug || album.id}` : `/portfolio/${album.slug || album.id}`}>
         <div className="group relative overflow-hidden bg-brand-black">
           {/* Big album cover - cinematic aspect ratio */}
           <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden">
             <Image
-              src={album.coverImage}
+              src={coverImageUrl}
               alt={album.title}
               fill
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
@@ -26,7 +28,14 @@ export function AlbumCard({ album, index = 0 }: AlbumCardProps) {
             />
             {/* Dark overlay on hover */}
             <div className="absolute inset-0 bg-brand-black/0 group-hover:bg-brand-black/30 transition-colors duration-500" />
-            
+
+            {/* Private badge */}
+            {album.isPrivate && (
+              <div className="absolute top-4 right-4 bg-brand-black/70 backdrop-blur-sm rounded-full p-2">
+                <Lock className="h-4 w-4 text-brand-white" />
+              </div>
+            )}
+
             {/* Minimal title overlay - bottom positioned */}
             <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 bg-gradient-to-t from-brand-black/90 via-brand-black/50 to-transparent">
               <h3 className="text-xl sm:text-2xl font-light text-brand-white font-serif mb-1 group-hover:text-brand-emerald transition-colors duration-300">
@@ -41,4 +50,3 @@ export function AlbumCard({ album, index = 0 }: AlbumCardProps) {
     </ScrollAnimation>
   );
 }
-
