@@ -1,8 +1,9 @@
-import { Container } from '@/components/layout/container';
+﻿import { Container } from '@/components/layout/container';
 import { NavAnchor } from '@/components/layout/nav-anchor';
 import { Button } from '@/components/ui/button';
 import { Overlay } from '@/components/ui/overlay';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
+import { SplitText } from '@/components/ui/split-text';
 import Link from 'next/link';
 
 const LOGO_DATA_URL =
@@ -34,10 +35,10 @@ export function HomeHeroSection() {
         <div className="flex min-h-screen items-center justify-center pb-20 pt-28">
           <div className="w-full max-w-6xl px-4 text-center">
             <ScrollAnimation direction="fade" delay={80}>
-              {/* Small editorial line (luxury detail, not “extra UI”) */}
+              {/* Small editorial line (luxury detail, not â€œextra UIâ€) */}
               <div className="mb-7 flex items-center justify-center gap-4 text-[11px] tracking-[0.34em] text-white/65">
                 <span className="h-px w-10 bg-white/15" />
-                <span>BOUDOIR • MATERNITY • PORTRAITS</span>
+                <span>Events, Pets, Corporate</span>
                 <span className="h-px w-10 bg-white/15" />
               </div>
             </ScrollAnimation>
@@ -53,21 +54,24 @@ export function HomeHeroSection() {
               </div>
             </ScrollAnimation>
 
-            <ScrollAnimation direction="fade" delay={200}>
-              {/* Minimal modern statement */}
-              <div className="mx-auto mt-8 max-w-3xl text-balance text-white/90">
-                <div className="text-[44px] leading-[0.95] tracking-[-0.04em] sm:text-[58px] lg:text-[48px]">
-                  A journey shaped by light.
-                </div>
-              </div>
-            </ScrollAnimation>
+            {/* Minimal modern statement */}
+            <div className="mx-auto mt-8 max-w-3xl text-balance text-white/90">
+              <SplitText
+                text="A journey shaped by light."
+                delay={200}
+                className="text-[44px] leading-[1.08] tracking-[-0.04em] sm:text-[58px] lg:text-[48px]"
+              />
+            </div>
 
             <ScrollAnimation direction="up" delay={260}>
               {/* Minimal CTAs */}
-              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-              <Button size="lg">Portfolio</Button>
-              <Button size="lg" variant="secondary">Book</Button>
-
+              <div className="mt-10 flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">
+                <Button asChild size="lg">
+                  <Link href="/portfolio">Portfolio</Link>
+                </Button>
+                <Button asChild size="lg" variant="secondary">
+                  <Link href="/contact">Book</Link>
+                </Button>
               </div>
             </ScrollAnimation>
           </div>
@@ -78,3 +82,5 @@ export function HomeHeroSection() {
     </Overlay>
   );
 }
+
+
