@@ -36,6 +36,7 @@ const FALLBACK_VH_MOBILE = 0.82;
 
 export function Header() {
   const pathname = usePathname();
+  const isHome = pathname === '/';
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDocked, setIsDocked] = useState(false);
@@ -58,6 +59,15 @@ export function Header() {
    * Dock / undock logic (hysteresis)
    */
   useEffect(() => {
+    if (!isHome) {
+      setIsDocked(true);
+      setRenderY(0);
+      targetYRef.current = 0;
+      currentYRef.current = 0;
+      lastSetRef.current = 0;
+      return;
+    }
+
     const onScroll = () => {
       const y = window.scrollY || 0;
 
@@ -71,7 +81,7 @@ export function Header() {
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [isDocked]);
+  }, [isDocked, isHome]);
 
   /**
    * Compute targetY continuously:
@@ -79,6 +89,7 @@ export function Header() {
    * - else => follow viewport fallback (e.g. 90vh / 82vh)
    */
   useEffect(() => {
+    if (!isHome) return;
     let raf = 0;
   
     const computeTarget = () => {
@@ -120,7 +131,7 @@ export function Header() {
       window.removeEventListener('resize', onScrollOrResize);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [isHome]);
   
 
   /**
@@ -129,6 +140,7 @@ export function Header() {
    * - snap to half-pixel reduces shimmer
    */
   useEffect(() => {
+    if (!isHome) return;
     const tick = () => {
       const desired = isDocked ? 0 : targetYRef.current;
       const current = currentYRef.current;
@@ -159,7 +171,7 @@ export function Header() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [isDocked]);
+  }, [isDocked, isHome]);
 
   /**
    * Close mobile menu on route change
@@ -208,7 +220,7 @@ export function Header() {
           willChange: 'transform',
         }}
       >
-        <Container className={isFloating ? 'max-w-5xl' : ''}>
+        <Container className={isFloating ? 'max-w-5xl' : 'max-w-none px-0'}>
           <div
             className={cn(
               'flex items-center justify-between gap-4',
