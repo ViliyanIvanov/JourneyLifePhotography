@@ -24,16 +24,24 @@ export function SectionShell({
   background = 'black',
   padding = 'lg',
 }: SectionShellProps) {
+  const bgClass =
+    background === 'black'
+      ? // use both so if brand token ever fails, bg-background still keeps it black
+        'bg-brand-black bg-background text-brand-white'
+      : 'bg-transparent text-brand-white';
+
   return (
     <section
       className={cn(
+        'relative w-full',          // ensures full-width section
         paddingClasses[padding],
-        background === 'black' ? 'bg-brand-black text-brand-white' : 'text-brand-white',
+        bgClass,
         className
       )}
     >
-      <Container className={containerClassName}>{children}</Container>
+      <Container className={cn('relative', containerClassName)}>
+        {children}
+      </Container>
     </section>
   );
 }
-
