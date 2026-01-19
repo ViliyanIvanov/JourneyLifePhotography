@@ -15,22 +15,20 @@ export function PrivateAlbumAccess() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!accessKey.trim()) {
+      setError('Please enter an access key');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      // Mock validation - replace with actual API call later
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // For now, just redirect to a placeholder album
-      // In production, this would validate the key and redirect to the correct album
-      if (accessKey.trim()) {
-        router.push(`/private/${encodeURIComponent(accessKey.trim())}`);
-      } else {
-        setError('Please enter an access key');
-      }
+      // Navigate to the private album page with the token
+      // The actual validation will happen on the album page
+      router.push(`/private/${encodeURIComponent(accessKey.trim())}`);
     } catch (err) {
-      setError('Invalid access key. Please try again.');
-    } finally {
+      setError('Something went wrong. Please try again.');
       setIsLoading(false);
     }
   };
@@ -51,6 +49,9 @@ export function PrivateAlbumAccess() {
           disabled={isLoading}
           className="bg-brand-white/10 border-brand-white/30 text-brand-white placeholder:text-brand-white/50 focus:border-brand-emerald focus:ring-brand-emerald"
         />
+        <p className="text-brand-white/50 text-sm mt-2">
+          Enter the access key or token you received to view your private album.
+        </p>
       </div>
 
       {error && (
@@ -65,4 +66,3 @@ export function PrivateAlbumAccess() {
     </form>
   );
 }
-

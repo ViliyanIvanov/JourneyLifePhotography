@@ -1,16 +1,16 @@
-import { createMetadata } from '@/lib/seo';
+'use client';
+
 import { PageHeader } from '@/components/layout/page-header';
 import { Container } from '@/components/layout/container';
 import { AlbumGrid } from '@/components/gallery/album-grid';
-import { mockAlbums } from '@/content/mock-data';
-
-export const metadata = createMetadata({
-  title: 'Portfolio',
-  description:
-    'Browse our photography portfolio featuring weddings, portraits, corporate events, and pet photography.',
-});
+import { useAlbums } from '@/lib/api';
 
 export default function PortfolioPage() {
+  const { data: albums, isLoading, error } = useAlbums();
+
+  // Filter to only show public, published albums
+  const publicAlbums = albums?.filter((album) => !album.isPrivate) || [];
+
   return (
     <>
       <PageHeader
@@ -19,10 +19,15 @@ export default function PortfolioPage() {
       />
       <main className="py-12 md:py-16 bg-brand-black min-h-screen">
         <Container>
-          <AlbumGrid albums={mockAlbums} />
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-brand-white/70 mb-4">Unable to load albums</p>
+              <p className="text-brand-white/50 text-sm">{error.message}</p>
+            </div>
+          )}
+          <AlbumGrid albums={publicAlbums} isLoading={isLoading} />
         </Container>
       </main>
     </>
   );
 }
-

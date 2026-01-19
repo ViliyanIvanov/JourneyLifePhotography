@@ -1,9 +1,9 @@
-import { Album } from '@/content/mock-data';
+import type { AlbumDto } from '@/lib/api';
 import { AlbumCard } from './album-card';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface AlbumGridProps {
-  albums: Album[];
+  albums: AlbumDto[];
   isLoading?: boolean;
 }
 
@@ -38,4 +38,3 @@ export function AlbumGrid({ albums, isLoading }: AlbumGridProps) {
     </div>
   );
 }
-
