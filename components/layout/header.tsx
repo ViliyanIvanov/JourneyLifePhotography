@@ -249,20 +249,94 @@ export function Header() {
           willChange: 'transform',
         }}
       >
-        <Container className={isFloating ? 'max-w-5xl' : 'max-w-none px-0'}>
+        {isFloating ? (
+          <Container className="max-w-5xl">
+            <div
+              className={cn(
+                'flex items-center justify-between gap-4',
+                'transition-all duration-500 ease-out',
+                'rounded-full border border-brand-white/15 bg-brand-black/35 backdrop-blur-md shadow-[0_18px_40px_rgba(0,0,0,0.40)] px-5 md:px-7 py-3 md:py-4'
+              )}
+            >
+              {/* Logo */}
+              <Link
+                href="/"
+                className="flex items-center gap-2 group py-0"
+                aria-label="Journey Life Photography"
+              >
+                <img
+                  src="/logo.png"
+                  alt="Journey Life Photography Logo"
+                  className="h-8 w-8 rounded-full object-cover group-hover:opacity-80 transition-opacity"
+                />
+                <span className="font-serif text-brand-white text-base md:text-lg tracking-tight">
+                  Journey Life Photography
+                </span>
+              </Link>
+
+              {/* Desktop Nav */}
+              <nav className="hidden md:flex items-center gap-8">
+                {navigation.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={cn(
+                        'group relative text-[11px] tracking-[0.28em] uppercase font-light transition-colors',
+                        active ? 'text-brand-white' : 'text-brand-white/70 hover:text-brand-white'
+                      )}
+                    >
+                      {item.name}
+                      <span
+                        className={cn(
+                          'absolute left-0 right-0 -bottom-2 mx-auto h-px bg-brand-white transition-all duration-300',
+                          active
+                            ? 'opacity-100 scale-x-100'
+                            : 'opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'
+                        )}
+                        style={{ transformOrigin: 'center' }}
+                      />
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Actions */}
+              <div className="flex items-center gap-3">
+                <div className="hidden md:block">
+                  <Button
+                    asChild
+                    size="sm"
+                  >
+                    <Link href="/contact">Book</Link>
+                  </Button>
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden text-brand-white hover:text-brand-white/80 hover:bg-transparent"
+                  onClick={() => setMobileMenuOpen((v) => !v)}
+                  aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                >
+                  {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                </Button>
+              </div>
+            </div>
+          </Container>
+        ) : (
           <div
             className={cn(
-              'flex items-center justify-between gap-4',
+              'flex items-center justify-between gap-4 w-full',
               'transition-all duration-500 ease-out',
-              isFloating
-                ? 'rounded-full border border-brand-white/15 bg-brand-black/35 backdrop-blur-md shadow-[0_18px_40px_rgba(0,0,0,0.40)] px-5 md:px-7 py-3 md:py-4'
-                : 'border-b border-brand-white/10 bg-brand-black/75 backdrop-blur-md px-0 py-0 shadow-[0_10px_30px_rgba(0,0,0,0.25)]'
+              'border-b border-brand-white/10 bg-brand-black/75 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.25)]'
             )}
           >
             {/* Logo */}
             <Link
               href="/"
-              className={cn('flex items-center gap-2 group', isFloating ? 'py-0' : 'py-4')}
+              className="flex items-center gap-2 group"
               aria-label="Journey Life Photography"
             >
               <img
@@ -325,7 +399,7 @@ export function Header() {
               </Button>
             </div>
           </div>
-        </Container>
+        )}
       </header>
 
       {/* Mobile Menu Overlay */}
