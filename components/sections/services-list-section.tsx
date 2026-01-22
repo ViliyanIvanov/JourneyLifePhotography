@@ -12,10 +12,10 @@ interface ServicesListSectionProps {
 
 function ServiceCard({ service, index }: { service: Service; index: number }) {
   return (
-    <ScrollAnimation direction="up" delay={index * 150}>
+    <ScrollAnimation direction="up" delay={index * 150} className="h-full">
       <Card
         id={service.id}
-        className="overflow-hidden border-2 border-brand-white/10 bg-black hover:border-brand-white/20 transition-colors"
+        className="h-full flex flex-col overflow-hidden border-2 border-brand-white/10 bg-black hover:border-brand-white/20 transition-colors"
       >
         <div className="relative aspect-video overflow-hidden">
           <Image
@@ -32,9 +32,9 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
             {service.description}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="flex flex-col space-y-4 flex-grow">
           <p className="text-2xl font-semibold text-brand-white">{service.price}</p>
-          <ul className="space-y-2">
+          <ul className="space-y-2 flex-grow">
             {service.features.map((feature, idx) => (
               <li key={idx} className="flex items-start">
                 <span className="mr-2 text-brand-white">•</span>
