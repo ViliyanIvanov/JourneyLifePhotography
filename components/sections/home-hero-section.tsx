@@ -55,11 +55,11 @@ export function HomeHeroSection() {
             </ScrollAnimation>
 
             {/* Minimal modern statement */}
-            <div className="mx-auto mt-8 max-w-3xl text-balance text-white/90">
+            <div className="mx-auto mt-8 mb-4 max-w-3xl text-balance text-white/90">
               <SplitText
                 text="A journey shaped by light."
                 delay={200}
-                className="text-[44px] leading-[1.08] tracking-[-0.04em] sm:text-[58px] lg:text-[48px]"
+                className="text-[44px] leading-[1.18] tracking-[-0.04em] sm:text-[58px] lg:text-[48px]"
               />
             </div>
 

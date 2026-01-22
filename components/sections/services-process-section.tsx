@@ -34,9 +34,9 @@ const processSteps: ProcessStep[] = [
 function ProcessCard({ item, index }: { item: ProcessStep; index: number }) {
   return (
     <ScrollAnimation direction="up" delay={index * 100}>
-      <Card className="border-2 border-brand-white/10 bg-brand-black">
+      <Card className="border-2 border-brand-white/10 bg-black">
         <CardHeader>
-          <div className="w-12 h-12 rounded-full bg-brand-emerald text-brand-white flex items-center justify-center text-xl font-bold mb-4">
+          <div className="w-12 h-12 rounded-full bg-brand-white text-brand-black flex items-center justify-center text-xl font-bold mb-4">
             {item.step}
           </div>
           <CardTitle className="font-serif text-brand-white">{item.title}</CardTitle>
@@ -53,7 +53,7 @@ function ProcessCard({ item, index }: { item: ProcessStep; index: number }) {
 
 export function ServicesProcessSection() {
   return (
-    <SectionShell padding="md" className="border-t border-brand-white/10">
+    <SectionShell padding="lg" background="black">
       <ScrollAnimation direction="fade">
         <Heading as="h2" size="xl" className="text-center mb-12">
           Our Process

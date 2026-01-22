@@ -1,9 +1,10 @@
 import type { AlbumDto } from '@/lib/api';
+import type { Album } from '@/content/mock-data';
 import { AlbumCard } from './album-card';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface AlbumGridProps {
-  albums: AlbumDto[];
+  albums: (AlbumDto | Album)[];
   isLoading?: boolean;
 }
 
@@ -31,10 +32,20 @@ export function AlbumGrid({ albums, isLoading }: AlbumGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
-      {albums.map((album, index) => (
-        <AlbumCard key={album.id} album={album} index={index} />
-      ))}
+    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 auto-rows-max">
+      {albums.map((album, index) => {
+        // Create variable heights for masonry effect
+        const heights = [
+          'sm:row-span-1',
+          'sm:row-span-1',
+          'sm:row-span-1',
+        ];
+        return (
+          <div key={album.id} className={heights[index % heights.length]}>
+            <AlbumCard album={album} index={index} />
+          </div>
+        );
+      })}
     </div>
   );
 }

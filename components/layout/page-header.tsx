@@ -12,12 +12,23 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
     <div
       className={cn(
         // Leave space for sticky header
-        'bg-brand-black text-brand-white pt-24 md:pt-28 pb-14 md:pb-20 border-b border-brand-emerald/20',
+        'relative bg-black text-brand-white pt-24 md:pt-28 pb-14 md:pb-20 overflow-hidden',
         className
       )}
     >
-      <Container>
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-black/95" />
 
+      {/* Grain texture */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' result=\'noise\'/%3E%3CfeColorMatrix in=\'noise\' type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'400\' height=\'400\' fill=\'white\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+          backgroundSize: '400px 400px',
+        }}
+      />
+
+      <Container className="relative z-10">
         <div className="max-w-3xl">
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             {title}

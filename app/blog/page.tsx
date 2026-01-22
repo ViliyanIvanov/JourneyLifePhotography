@@ -20,7 +20,7 @@ function BlogPostCard({ post, index }: { post: BlogPostSummaryDto; index: number
   return (
     <ScrollAnimation direction="up" delay={index * 100}>
       <Link href={`/blog/${post.slug}`}>
-        <Card className="h-full overflow-hidden transition-all duration-300 border-2 border-brand-white/10 hover:border-brand-emerald/30 bg-brand-black">
+        <Card className="h-full overflow-hidden transition-all duration-300 border-2 border-brand-white/10 hover:border-brand-white/20 bg-brand-black">
           <div className="relative aspect-video overflow-hidden">
             <Image
               src={coverImageUrl}
@@ -33,12 +33,12 @@ function BlogPostCard({ post, index }: { post: BlogPostSummaryDto; index: number
           <CardHeader>
             <div className="flex items-center gap-2 mb-2">
               {tags.slice(0, 2).map((tag) => (
-                <Badge key={tag} className="text-xs bg-brand-emerald text-brand-white border-0">
+                <Badge key={tag} className="text-xs bg-brand-white/10 text-brand-white border border-brand-white/20">
                   {tag}
                 </Badge>
               ))}
             </div>
-            <CardTitle className="line-clamp-2 font-serif text-brand-white group-hover:text-brand-emerald transition-colors">
+            <CardTitle className="line-clamp-2 font-serif text-brand-white group-hover:text-brand-white/90 transition-colors">
               {post.title}
             </CardTitle>
             {post.excerpt && (
@@ -94,9 +94,9 @@ export default function BlogPage() {
     <>
       <PageHeader
         title="Blog"
-        description="Photography tips, tutorials, and insights"
+        description="Insights, inspiration, and expert guidance on photography. Discover techniques, stories behind the lens, and creative perspectives."
       />
-      <main className="py-12 md:py-16 bg-brand-black">
+      <main className="py-24 md:py-32 bg-black">
         <Container>
           {isLoading && <BlogListSkeleton />}
 

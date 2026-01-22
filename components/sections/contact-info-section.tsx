@@ -36,7 +36,7 @@ function ContactInfoCard({ info }: { info: ContactInfo }) {
   const content = info.href ? (
     <a
       href={info.href}
-      className="hover:text-brand-emerald transition-colors"
+      className="hover:text-brand-white transition-colors"
     >
       {info.content}
     </a>
@@ -48,7 +48,7 @@ function ContactInfoCard({ info }: { info: ContactInfo }) {
     <Card className="border-2 border-brand-white/10 bg-brand-black">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <Icon className="h-5 w-5 text-brand-emerald" />
+          <Icon className="h-5 w-5 text-brand-white" />
           <CardTitle className="font-serif text-brand-white">{info.title}</CardTitle>
         </div>
       </CardHeader>

@@ -58,7 +58,7 @@ export function PhotoGrid({
           <button
             key={photo.id}
             onClick={() => handlePhotoClick(index)}
-            className="relative aspect-square overflow-hidden group focus:outline-none focus:ring-2 focus:ring-brand-emerald focus:ring-offset-2 focus:ring-offset-brand-black"
+            className="relative aspect-square overflow-hidden group focus:outline-none focus:ring-2 focus:ring-brand-white/40 focus:ring-offset-2 focus:ring-offset-brand-black"
           >
             <Image
               src={photo.thumbnailUrl}

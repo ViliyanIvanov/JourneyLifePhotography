@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Container } from './container';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Camera } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navigation = [
@@ -19,15 +19,14 @@ const navigation = [
 /**
  * Tuning knobs
  * - Thresholds: how far to scroll before docking to top
- * - Smooth: how “springy” the float follows the anchor
+ * - Smooth: how "springy" the float follows the anchor
  * - Deadzone: ignore tiny changes to prevent micro-jiggle
  */
-const SCROLL_THRESHOLD = 570;
-const SCROLL_UNDOCK = 480;
+const SCROLL_THRESHOLD = 600;
+const SCROLL_UNDOCK = 500;
 
-
-const SMOOTHING = 0.16; // 0.10 = slower, 0.22 = snappier
-const DEADZONE_PX = 1.25; // ignore tiny deltas to stop micro jiggle
+const SMOOTHING = 0.20; // 0.10 = slower, 0.22 = snappier
+const DEADZONE_PX = 2; // ignore tiny deltas to stop micro jiggle
 const CLAMP_TOP = 14;
 const CLAMP_BOTTOM_PADDING = 96;
 
@@ -39,8 +38,9 @@ export function Header() {
   const isHome = pathname === '/';
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isDocked, setIsDocked] = useState(false);
-  const [renderY, setRenderY] = useState(0); // what we actually apply to transform
+  const [isDocked, setIsDocked] = useState(!isHome); // Non-home pages start docked
+  const [renderY, setRenderY] = useState(0);
+  const [isReady, setIsReady] = useState(false); // Track when positioning is ready
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +49,7 @@ export function Header() {
   const currentYRef = useRef<number>(0);
   const rafRef = useRef<number | null>(null);
   const lastSetRef = useRef<number>(0);
+  const lastScrollY = useRef<number>(0);
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -68,19 +69,37 @@ export function Header() {
       return;
     }
 
+    let timeoutId: number | null = null;
+
     const onScroll = () => {
       const y = window.scrollY || 0;
+      lastScrollY.current = y;
 
-      if (isDocked) {
-        if (y < SCROLL_UNDOCK) setIsDocked(false);
-      } else {
-        if (y > SCROLL_THRESHOLD) setIsDocked(true);
+      // Clear any pending state change
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
       }
+
+      // Debounce the dock state change to prevent wiggle
+      timeoutId = window.setTimeout(() => {
+        const currentY = lastScrollY.current;
+
+        if (isDocked) {
+          if (currentY < SCROLL_UNDOCK) setIsDocked(false);
+        } else {
+          if (currentY > SCROLL_THRESHOLD) setIsDocked(true);
+        }
+      }, 50);
     };
 
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [isDocked, isHome]);
 
   /**
@@ -89,12 +108,16 @@ export function Header() {
    * - else => follow viewport fallback (e.g. 90vh / 82vh)
    */
   useEffect(() => {
-    if (!isHome) return;
+    if (!isHome) {
+      setIsReady(true);
+      return;
+    }
+
     let raf = 0;
-  
+
     const computeTarget = () => {
       const anchor = document.getElementById('nav-anchor');
-  
+
       if (anchor) {
         const rect = anchor.getBoundingClientRect();
         const clamped = Math.min(
@@ -104,28 +127,33 @@ export function Header() {
         targetYRef.current = clamped;
         return;
       }
-  
+
       const vh = window.innerWidth < 768 ? FALLBACK_VH_MOBILE : FALLBACK_VH_DESKTOP;
       targetYRef.current = Math.round(window.innerHeight * vh);
     };
-  
+
     const onScrollOrResize = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         computeTarget();
       });
     };
-  
+
     // ✅ IMPORTANT: initialize position immediately
     computeTarget();
-    const initial = Math.round(targetYRef.current * 2) / 2;
+    const initial = Math.round(targetYRef.current);
     currentYRef.current = initial;
     lastSetRef.current = initial;
     setRenderY(initial);
-  
+
+    // Small delay before showing to ensure position is calculated
+    requestAnimationFrame(() => {
+      setIsReady(true);
+    });
+
     window.addEventListener('scroll', onScrollOrResize, { passive: true });
     window.addEventListener('resize', onScrollOrResize);
-  
+
     return () => {
       window.removeEventListener('scroll', onScrollOrResize);
       window.removeEventListener('resize', onScrollOrResize);
@@ -137,7 +165,7 @@ export function Header() {
   /**
    * Smoothly animate currentY -> targetY
    * - deadzone filters tiny changes
-   * - snap to half-pixel reduces shimmer
+   * - snap to full pixels for stability
    */
   useEffect(() => {
     if (!isHome) return;
@@ -155,13 +183,13 @@ export function Header() {
 
       currentYRef.current = next;
 
-      // Snap to 0.5px to reduce subpixel shimmering on scroll
-      const snapped = Math.round(next * 2) / 2;
+      // Round to whole pixels for stability
+      const rounded = Math.round(next);
 
       // Only set state if changed enough (avoid too many renders)
-      if (Math.abs(snapped - lastSetRef.current) >= 0.5) {
-        lastSetRef.current = snapped;
-        setRenderY(snapped);
+      if (Math.abs(rounded - lastSetRef.current) >= 1) {
+        lastSetRef.current = rounded;
+        setRenderY(rounded);
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -213,7 +241,8 @@ export function Header() {
       <header
         className={cn(
           'fixed left-0 right-0 top-0 z-50',
-          'transition-[background-color,backdrop-filter,border-radius,box-shadow] duration-500 ease-out'
+          'transition-[background-color,backdrop-filter,border-radius,box-shadow,opacity] duration-500 ease-out',
+          !isReady && isHome && 'opacity-0'
         )}
         style={{
           transform: `translateY(${renderY}px)`,
@@ -227,7 +256,7 @@ export function Header() {
               'transition-all duration-500 ease-out',
               isFloating
                 ? 'rounded-full border border-brand-white/15 bg-brand-black/35 backdrop-blur-md shadow-[0_18px_40px_rgba(0,0,0,0.40)] px-5 md:px-7 py-3 md:py-4'
-                : 'border-b border-brand-emerald/20 bg-brand-black/75 backdrop-blur-md px-0 py-0 shadow-[0_10px_30px_rgba(0,0,0,0.25)]'
+                : 'border-b border-brand-white/10 bg-brand-black/75 backdrop-blur-md px-0 py-0 shadow-[0_10px_30px_rgba(0,0,0,0.25)]'
             )}
           >
             {/* Logo */}
@@ -236,7 +265,11 @@ export function Header() {
               className={cn('flex items-center gap-2 group', isFloating ? 'py-0' : 'py-4')}
               aria-label="Journey Life Photography"
             >
-              <Camera className="h-5 w-5 text-brand-white group-hover:text-brand-emerald transition-colors" />
+              <img
+                src="/logo.png"
+                alt="Journey Life Photography Logo"
+                className="h-8 w-8 rounded-full object-cover group-hover:opacity-80 transition-opacity"
+              />
               <span className="font-serif text-brand-white text-base md:text-lg tracking-tight">
                 Journey Life Photography
               </span>
@@ -252,13 +285,13 @@ export function Header() {
                     href={item.href}
                     className={cn(
                       'group relative text-[11px] tracking-[0.28em] uppercase font-light transition-colors',
-                      active ? 'text-brand-emerald' : 'text-brand-white/85 hover:text-brand-white'
+                      active ? 'text-brand-white' : 'text-brand-white/70 hover:text-brand-white'
                     )}
                   >
                     {item.name}
                     <span
                       className={cn(
-                        'absolute left-0 right-0 -bottom-2 mx-auto h-px bg-brand-emerald transition-all duration-300',
+                        'absolute left-0 right-0 -bottom-2 mx-auto h-px bg-brand-white transition-all duration-300',
                         active
                           ? 'opacity-100 scale-x-100'
                           : 'opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'
@@ -276,7 +309,6 @@ export function Header() {
                 <Button
                   asChild
                   size="sm"
-                  className="rounded-full px-5 font-light tracking-wide bg-brand-emerald text-brand-black hover:opacity-90"
                 >
                   <Link href="/contact">Book</Link>
                 </Button>
@@ -285,7 +317,7 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden text-brand-white hover:text-brand-emerald hover:bg-transparent"
+                className="md:hidden text-brand-white hover:text-brand-white/80 hover:bg-transparent"
                 onClick={() => setMobileMenuOpen((v) => !v)}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               >
@@ -314,7 +346,6 @@ export function Header() {
           onClick={() => setMobileMenuOpen(false)}
           className="flex items-center gap-2"
         >
-          <Camera className="h-5 w-5 text-brand-white" />
           <span className="font-serif text-brand-white text-lg tracking-tight">
             Journey Life
           </span>
@@ -323,7 +354,7 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="text-brand-white hover:text-brand-emerald hover:bg-transparent"
+          className="text-brand-white hover:text-brand-white/80 hover:bg-transparent"
           onClick={() => setMobileMenuOpen(false)}
           aria-label="Close menu"
         >
@@ -357,7 +388,7 @@ export function Header() {
 
                 {/* Active indicator */}
                 {active ? (
-                  <span className="h-2 w-2 rounded-full bg-brand-emerald" />
+                  <span className="h-2 w-2 rounded-full bg-brand-white" />
                 ) : (
                   <span className="h-2 w-2 rounded-full bg-transparent" />
                 )}
@@ -371,7 +402,7 @@ export function Header() {
           <Button
             asChild
             size="lg"
-            className="w-full rounded-xl bg-brand-emerald text-brand-black hover:opacity-90"
+            className="w-full"
           >
             <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
               Book a Session

@@ -25,8 +25,8 @@ export function ScrollAnimation({
   const { ref, inView } = useInView({
     threshold,
     triggerOnce: true,
-    fallbackInView: true,
-    rootMargin: '0px 0px -20% 0px',
+    fallbackInView: false, // Disable fallback to ensure scroll-based triggering
+    rootMargin: '0px 0px -10% 0px', // Trigger when element is 10% into viewport
   });
 
   const [hasEntered, setHasEntered] = useState(false);
@@ -34,12 +34,6 @@ export function ScrollAnimation({
   useEffect(() => {
     if (inView) setHasEntered(true);
   }, [inView]);
-
-  // Safety: if the observer never fires (rare), reveal after a short delay
-  useEffect(() => {
-    const timer = window.setTimeout(() => setHasEntered(true), 1200);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   const isMask = effect === 'mask';
   const isFloat = effect === 'float';
@@ -51,7 +45,7 @@ export function ScrollAnimation({
     fade: '',
   };
 
-  const shouldShow = hasEntered || inView;
+  const shouldShow = hasEntered;
 
   return (
     <div

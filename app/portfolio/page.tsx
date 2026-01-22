@@ -15,9 +15,9 @@ export default function PortfolioPage() {
     <>
       <PageHeader
         title="Portfolio"
-        description="Explore our collection of photography work across different categories"
+        description="Explore our collection of curated photography work. Each album tells a unique story, captured with artistry and attention to detail."
       />
-      <main className="py-12 md:py-16 bg-brand-black min-h-screen">
+      <main className="py-24 md:py-32 bg-black min-h-screen">
         <Container>
           {error && (
             <div className="text-center py-12">

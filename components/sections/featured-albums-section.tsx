@@ -13,25 +13,30 @@ interface FeaturedAlbumsSectionProps {
 
 export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
   return (
-    <SectionShell background="black" className="min-h-[80vh] bg-brand-black">
+    <SectionShell background="black" className="py-32 md:py-48">
       <ScrollAnimation direction="fade">
-        <div className="mb-20 max-w-3xl">
-          <Heading as="h2" size="3xl" className="mb-8">
+        <div className="mb-28 max-w-4xl">
+          <Heading as="h2" size="4xl" className="mb-6 font-serif tracking-tight">
             Featured Albums
           </Heading>
-          <Text size="xl">
-            Explore our latest work and see how we capture special moments
+          <Text size="lg" className="text-brand-white/70 leading-relaxed">
+            Explore our latest work and see how we capture special moments with precision and emotion.
           </Text>
         </div>
       </ScrollAnimation>
-      <AlbumGrid albums={albums} />
-      <ScrollAnimation direction="fade" delay={200}>
-        <div className="mt-20">
+
+      <ScrollAnimation direction="up" delay={100}>
+        <div className="mb-20">
+          <AlbumGrid albums={albums} />
+        </div>
+      </ScrollAnimation>
+
+      <ScrollAnimation direction="up" delay={300}>
+        <div className="flex justify-center">
           <Button
             asChild
-            variant="outline"
+            variant="secondary"
             size="lg"
-            className="border-brand-white text-brand-white hover:bg-brand-emerald hover:border-brand-emerald"
           >
             <Link href="/portfolio">View All Albums</Link>
           </Button>

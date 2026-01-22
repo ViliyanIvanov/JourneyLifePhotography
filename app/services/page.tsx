@@ -15,7 +15,7 @@ export default function ServicesPage() {
     <>
       <PageHeader
         title="Our Services"
-        description="Professional photography services tailored to your needs"
+        description="From weddings to portraits, we offer bespoke photography services designed to capture your most meaningful moments with elegance and authenticity."
       />
       <main>
         <ServicesListSection services={mockServices} />
