@@ -16,7 +16,7 @@ export default function AboutPage() {
     <>
       <PageHeader
         title="About Us"
-        description="Capturing life's precious moments with passion and expertise"
+        description="Driven by artistry and dedication, we transform fleeting moments into timeless visual narratives. Every frame is crafted with intention, passion, and an unwavering commitment to excellence."
       />
       <main>
         <AboutIntroSection />

@@ -15,7 +15,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
     <ScrollAnimation direction="up" delay={index * 150}>
       <Card
         id={service.id}
-        className="overflow-hidden border-2 border-brand-white/10 bg-brand-black hover:border-brand-emerald/30 transition-colors"
+        className="overflow-hidden border-2 border-brand-white/10 bg-black hover:border-brand-white/20 transition-colors"
       >
         <div className="relative aspect-video overflow-hidden">
           <Image
@@ -33,11 +33,11 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-2xl font-semibold text-brand-emerald">{service.price}</p>
+          <p className="text-2xl font-semibold text-brand-white">{service.price}</p>
           <ul className="space-y-2">
             {service.features.map((feature, idx) => (
               <li key={idx} className="flex items-start">
-                <span className="mr-2 text-brand-emerald">•</span>
+                <span className="mr-2 text-brand-white">•</span>
                 <span className="text-brand-white/70">{feature}</span>
               </li>
             ))}
@@ -53,7 +53,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
 export function ServicesListSection({ services }: ServicesListSectionProps) {
   return (
-    <SectionShell padding="md">
+    <SectionShell padding="lg" background="black">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {services.map((service, index) => (
           <ServiceCard key={service.id} service={service} index={index} />

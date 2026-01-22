@@ -137,7 +137,6 @@ function AlbumContent({ album }: { album: AlbumWithMediaDto }) {
               )}
               <div className="flex items-center gap-6 text-sm text-brand-white/60">
                 <div className="flex items-center gap-2">
-                  <Camera className="h-4 w-4" />
                   <span>{album.media?.length || 0} photos</span>
                 </div>
                 <div className="flex items-center gap-2">

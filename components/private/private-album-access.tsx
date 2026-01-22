@@ -47,7 +47,7 @@ export function PrivateAlbumAccess() {
           placeholder="Enter your access key"
           required
           disabled={isLoading}
-          className="bg-brand-white/10 border-brand-white/30 text-brand-white placeholder:text-brand-white/50 focus:border-brand-emerald focus:ring-brand-emerald"
+          className="bg-brand-white/10 border-brand-white/30 text-brand-white placeholder:text-brand-white/50"
         />
         <p className="text-brand-white/50 text-sm mt-2">
           Enter the access key or token you received to view your private album.

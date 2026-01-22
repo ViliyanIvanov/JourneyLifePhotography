@@ -1,16 +1,15 @@
 'use client';
 
-import { use } from 'react';
 import { notFound } from 'next/navigation';
 import { Container } from '@/components/layout/container';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
-import { Calendar, User } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { useBlogPost } from '@/lib/api';
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 function PostSkeleton() {
@@ -45,7 +44,7 @@ function PostSkeleton() {
 }
 
 export default function BlogPostPage({ params }: PageProps) {
-  const { slug } = use(params);
+  const { slug } = params;
   const { data: post, isLoading, error } = useBlogPost(slug);
 
   if (isLoading) {
@@ -84,7 +83,7 @@ export default function BlogPostPage({ params }: PageProps) {
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-6">
                 {tags.map((tag) => (
-                  <Badge key={tag} className="bg-brand-emerald text-brand-white border-0">
+                  <Badge key={tag} className="bg-brand-white/10 text-brand-white border border-brand-white/20">
                     {tag}
                   </Badge>
                 ))}

@@ -23,7 +23,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-brand-emerald/20 bg-brand-black text-brand-white">
+    <footer className="border-t border-brand-white/10 bg-brand-black text-brand-white">
       <Container>
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
@@ -41,7 +41,7 @@ export function Footer() {
                     <Link
                       key={social.name}
                       href={social.href}
-                      className="text-brand-white/70 hover:text-brand-emerald transition-colors"
+                      className="text-brand-white/70 hover:text-brand-white transition-colors"
                       aria-label={social.name}
                     >
                       <Icon className="h-5 w-5" />
@@ -59,7 +59,7 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm text-brand-white/70 hover:text-brand-emerald transition-colors"
+                      className="text-sm text-brand-white/70 hover:text-brand-white transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -73,7 +73,7 @@ export function Footer() {
               <h4 className="mb-4 text-sm font-semibold font-serif">Contact</h4>
               <ul className="space-y-2 text-sm text-brand-white/70">
                 <li>
-                  <Link href="/contact" className="hover:text-brand-emerald transition-colors">
+                  <Link href="/contact" className="hover:text-brand-white transition-colors">
                     Get in Touch
                   </Link>
                 </li>
@@ -90,7 +90,7 @@ export function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm text-brand-white/70 hover:text-brand-emerald transition-colors"
+                      className="text-sm text-brand-white/70 hover:text-brand-white transition-colors"
                     >
                       {link.name}
                     </Link>
@@ -100,7 +100,7 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="mt-12 border-t border-brand-emerald/20 pt-8 text-center text-sm text-brand-white/70">
+          <div className="mt-12 border-t border-brand-white/10 pt-8 text-center text-sm text-brand-white/70">
             <p>
               &copy; {new Date().getFullYear()} Journey Life Photography. All
               rights reserved.

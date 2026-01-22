@@ -196,7 +196,7 @@ export function GlobalLoader() {
         <img
           src="/logo.png"
           alt="Journey Life Photography"
-          className="h-32 w-32 animate-loader-pulse opacity-100"
+          className="h-32 w-32 rounded-full animate-loader-pulse opacity-100"
         />
       </div>
     </div>

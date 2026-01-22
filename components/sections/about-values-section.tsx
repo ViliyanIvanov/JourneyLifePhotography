@@ -1,6 +1,7 @@
 import { SectionShell } from '@/components/ui/section-shell';
 import { Heading } from '@/components/ui/heading';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { Camera, Heart, Award, Users } from 'lucide-react';
 
 interface Value {
@@ -39,9 +40,9 @@ const values: Value[] = [
 function ValueCard({ value }: { value: Value }) {
   const Icon = value.icon;
   return (
-    <Card className="border-2 border-brand-white/10 bg-brand-black hover:border-brand-emerald/30 transition-colors">
+    <Card className="border-2 border-brand-white/10 bg-black hover:border-brand-white/20 transition-colors">
       <CardHeader>
-        <Icon className="h-8 w-8 text-brand-emerald mb-2" />
+        <Icon className="h-8 w-8 text-brand-white mb-2" />
         <CardTitle className="font-serif text-brand-white">{value.title}</CardTitle>
       </CardHeader>
       <CardContent>
@@ -53,13 +54,17 @@ function ValueCard({ value }: { value: Value }) {
 
 export function AboutValuesSection() {
   return (
-    <SectionShell padding="md">
-      <Heading as="h2" size="xl" className="text-center mb-12">
-        Our Values
-      </Heading>
+    <SectionShell padding="lg" background="black">
+      <ScrollAnimation direction="up" delay={0}>
+        <Heading as="h2" size="xl" className="text-center mb-12">
+          Our Values
+        </Heading>
+      </ScrollAnimation>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {values.map((value) => (
-          <ValueCard key={value.title} value={value} />
+        {values.map((value, index) => (
+          <ScrollAnimation key={value.title} direction="up" delay={200 + index * 100}>
+            <ValueCard value={value} />
+          </ScrollAnimation>
         ))}
       </div>
     </SectionShell>

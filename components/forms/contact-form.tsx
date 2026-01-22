@@ -167,7 +167,7 @@ export function ContactForm() {
           </div>
 
           {contactSubmit.isSuccess && (
-            <div className="rounded-lg bg-brand-emerald/10 border-2 border-brand-emerald p-4 text-brand-emerald">
+            <div className="rounded-lg bg-green-500/10 border-2 border-green-500/50 p-4 text-green-400">
               <p className="font-medium">Message sent successfully!</p>
               <p className="text-sm mt-1">
                 We&apos;ll get back to you as soon as possible.

@@ -201,7 +201,7 @@ export const mockServices: Service[] = [
       "Online gallery with high-resolution images",
       "USB with all edited photos",
     ],
-    image: img(DEMO_PHOTO_FILE_IDS[6], 800, 600),
+    image: img(DEMO_PHOTO_FILE_IDS[0], 800, 600),
   },
   {
     id: "2",
@@ -215,6 +215,6 @@ export const mockServices: Service[] = [
       "10–15 edited digital images",
       "Online gallery access",
     ],
-    image: img(DEMO_PHOTO_FILE_IDS[7], 800, 600),
+    image: img(DEMO_PHOTO_FILE_IDS[1], 800, 600),
   },
 ];

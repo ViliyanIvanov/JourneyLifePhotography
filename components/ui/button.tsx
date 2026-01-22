@@ -6,63 +6,65 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva(
   [
     'inline-flex items-center justify-center whitespace-nowrap select-none',
-    'rounded-2xl',
-    // modern type feel (no all caps)
-    'font-semibold tracking-[0.01em]',
-    'transition-[transform,box-shadow,background-color,border-color,color] duration-150 ease-out',
-    'will-change-transform',
-    'hover:scale-[1.02] active:scale-[0.98] active:duration-75',
+    'rounded-full',
+    'font-medium tracking-wide',
+    'transition-all duration-300 ease-out',
+    'hover:scale-[1.02] active:scale-[0.98]',
     // focus
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald/55 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
     // disabled
-    'disabled:pointer-events-none disabled:opacity-45 disabled:shadow-none disabled:scale-100',
+    'disabled:pointer-events-none disabled:opacity-40 disabled:scale-100',
   ].join(' '),
   {
     variants: {
       variant: {
         /**
-         * PRIMARY — modern luxury (quiet, not glossy)
-         * Reads like a design brand: flat, confident, minimal.
+         * DEFAULT — Premium white button with depth
+         * Polished, elegant, professional
          */
         default: [
-          'bg-gradient-to-b from-brand-emerald to-brand-emerald/85 text-brand-white',
-          'ring-1 ring-inset ring-white/10',
-          'shadow-[0_12px_30px_-20px_rgba(0,0,0,0.6)]',
-          'hover:from-brand-emerald/95 hover:to-brand-emerald/75',
-          'hover:shadow-[0_16px_34px_-20px_rgba(0,0,0,0.7)]',
-          'active:translate-y-[1px] active:shadow-[0_8px_22px_-14px_rgba(0,0,0,0.65)]',
+          'bg-gradient-to-b from-brand-white to-brand-white/95',
+          'text-brand-black font-semibold',
+          'shadow-[0_1px_0_0_rgba(255,255,255,0.3)_inset,0_8px_24px_-6px_rgba(255,255,255,0.2)]',
+          'hover:shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_12px_32px_-6px_rgba(255,255,255,0.3)]',
+          'hover:from-brand-white hover:to-brand-white',
         ].join(' '),
 
         /**
-         * SECONDARY — glass outline (modern + premium on photos)
-         * No heavy blur; just a whisper of translucency.
+         * SECONDARY — Outlined glass style
+         * Subtle with backdrop blur
          */
         secondary: [
-          'bg-white/[0.06] text-brand-white/90',
-          'border border-white/35',
-          'shadow-[0_10px_24px_-18px_rgba(0,0,0,0.45)]',
-          'hover:bg-white/[0.12] hover:border-white/55 hover:text-brand-white',
-          'active:translate-y-[1px]',
-          'backdrop-blur-[2px]',
+          'bg-brand-white/5 text-brand-white',
+          'border-2 border-brand-white/20',
+          'backdrop-blur-sm',
+          'shadow-[0_4px_16px_-4px_rgba(0,0,0,0.3)]',
+          'hover:bg-brand-white/10 hover:border-brand-white/30',
         ].join(' '),
 
         /**
-         * GHOST — modern nav/action
-         * Understated hover, no borders.
+         * GHOST — Minimal hover effect
+         * For subtle actions
          */
         ghost: [
-          'bg-transparent text-brand-white/70',
-          'hover:text-brand-white hover:bg-white/[0.08]',
+          'bg-transparent text-brand-white/80',
+          'hover:text-brand-white hover:bg-brand-white/5',
         ].join(' '),
 
-        // Keep only if you need it for admin; otherwise delete.
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        /**
+         * DESTRUCTIVE — For delete/warning actions
+         */
+        destructive: [
+          'bg-red-500/90 text-white',
+          'border border-red-400/30',
+          'hover:bg-red-500',
+        ].join(' '),
       },
       size: {
-        sm: 'h-9 px-4 text-[12px]',
-        default: 'h-11 px-6 text-[13px]',
-        lg: 'h-12 px-8 text-[14px]',
-        icon: 'h-11 w-11 p-0',
+        sm: 'h-10 px-5 text-xs',
+        default: 'h-12 px-8 text-sm',
+        lg: 'h-14 px-10 text-base',
+        icon: 'h-10 w-10 p-0',
       },
     },
     defaultVariants: {
