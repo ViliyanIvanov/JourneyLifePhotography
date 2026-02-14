@@ -21,13 +21,13 @@ export function HomeHeroSection() {
       {/* Luxury tint/legibility (works even if BG is empty) */}
       <div className="pointer-events-none absolute inset-0">
         {/* base darkening */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/20" />
         {/* vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05)_0%,rgba(0,0,0,0.60)_58%,rgba(0,0,0,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05)_0%,rgba(0,0,0,0.30)_58%,rgba(0,0,0,0.60)_100%)]" />
         {/* subtle center lift so the logo reads cleanly */}
         <div className="absolute left-1/2 top-1/2 h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-3xl" />
         {/* gentle bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       </div>
 
       <Container className="relative">
