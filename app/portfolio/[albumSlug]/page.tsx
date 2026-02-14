@@ -1,11 +1,12 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Container } from '@/components/layout/container';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PhotoGrid } from '@/components/gallery/photo-grid';
 import Image from 'next/image';
 import { Calendar } from 'lucide-react';
-import { useAlbums } from '@/lib/api';
 
 function AlbumPageSkeleton() {
   return (
@@ -60,33 +61,98 @@ export default function AlbumPage() {
   const params = useParams<{ albumSlug: string }>();
   const albumSlug = params?.albumSlug;
 
-  const { data: albums, isLoading, error } = useAlbums();
+  const [album, setAlbum] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (isLoading) {
-    return <AlbumPageSkeleton />;
-  }
+  useEffect(() => {
+    async function loadAlbum() {
+      if (!albumSlug) return;
 
-  if (error) {
-    return (
-      <main className="py-16 bg-black min-h-screen">
-        <Container>
-          <div className="text-center">
-            <p className="text-brand-white/70 mb-4">Unable to load album</p>
-            <p className="text-brand-white/50 text-sm">{error.message}</p>
-          </div>
-        </Container>
-      </main>
-    );
-  }
+      try {
+        const { getAlbumBySlug, getAlbumImages } = await import('@/content/albums-data-full');
+        const albumData = getAlbumBySlug(albumSlug as string);
+
+        if (!albumData) {
+          setError('Album not found');
+          setIsLoading(false);
+          return;
+        }
+
+        const images = getAlbumImages(albumData.id);
+
+        // Convert to AlbumWithMediaDto format
+        const { getThumbnailUrl, getImageUrl } = await import('@/content/albums-data-full');
+
+        const converted = {
+          id: albumData.id,
+          title: albumData.title,
+          description: albumData.description,
+          slug: albumData.slug,
+          isPrivate: albumData.isPrivate,
+          coverImage: {
+            id: albumData.id,
+            fileName: albumData.slug,
+            mimeType: 'image/jpeg',
+            webUrl: albumData.coverImagePath ? getImageUrl(albumData.coverImagePath) : '/placeholder-album.jpg',
+            thumbUrl: albumData.coverImagePath ? getThumbnailUrl(albumData.coverImagePath) : '/placeholder-album.jpg',
+            fileSize: 0,
+            width: 1920,
+            height: 1440,
+            sortOrder: 0,
+            createdAt: albumData.createdAt,
+          },
+          sortOrder: 0,
+          createdAt: albumData.createdAt,
+          media: images.map((img, index) => ({
+            id: `${albumData.id}-${index}`,
+            fileName: img.fileName,
+            mimeType: 'image/jpeg',
+            webUrl: img.url,
+            thumbUrl: img.thumbnailUrl || img.url,
+            fileSize: 0,
+            width: 1920,
+            height: 1440,
+            altText: img.alt,
+            sortOrder: index,
+            createdAt: albumData.createdAt,
+          })),
+        };
+
+        setAlbum(converted);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadAlbum();
+  }, [albumSlug]);
 
   if (!albumSlug) {
     return <AlbumNotFound />;
   }
 
-  const album = albums?.find((a) => a.slug === albumSlug || a.id === albumSlug);
+  if (isLoading) {
+    return <AlbumPageSkeleton />;
+  }
 
-  if (!album) {
-    return <AlbumNotFound />;
+  if (error || !album) {
+    if (error === 'Album not found') {
+      return <AlbumNotFound />;
+    }
+
+    return (
+      <main className="py-16 bg-black min-h-screen">
+        <Container>
+          <div className="text-center">
+            <p className="text-brand-white/70 mb-4">Unable to load album</p>
+            <p className="text-brand-white/50 text-sm">{error || 'Please try again later'}</p>
+          </div>
+        </Container>
+      </main>
+    );
   }
 
   const coverImageUrl =
@@ -124,21 +190,22 @@ export default function AlbumPage() {
                   <Calendar className="h-4 w-4" />
                   <span>{new Date(album.createdAt).toLocaleDateString()}</span>
                 </div>
+                <div>
+                  <span>{album.media?.length || 0} photos</span>
+                </div>
               </div>
             </div>
           </div>
         </Container>
       </section>
 
-      <section className="py-16 md:py-24 bg-black">
-        <Container>
-          <div className="text-center py-12">
-            <p className="text-brand-white/70">
-              Photos will be displayed here when the album is loaded with its media.
-            </p>
-          </div>
-        </Container>
-      </section>
+      {album.media && album.media.length > 0 && (
+        <section className="py-16 md:py-24 bg-black">
+          <Container>
+            <PhotoGrid photos={album.media} />
+          </Container>
+        </section>
+      )}
     </main>
   );
 }

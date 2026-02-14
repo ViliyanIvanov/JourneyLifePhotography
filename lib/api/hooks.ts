@@ -119,6 +119,103 @@ export function useAlbums(
   });
 }
 
+// Hook to use static albums data from local files or S3
+export function useStaticAlbums(
+  options?: Omit<UseQueryOptions<AlbumDto[], ApiClientError>, 'queryKey' | 'queryFn'>
+) {
+  return useQuery({
+    queryKey: queryKeys.albums.all,
+    queryFn: async () => {
+      // Dynamically import to avoid bundling issues
+      const { getAllAlbums } = await import('@/content/albums-data-full');
+      const albums = getAllAlbums();
+
+      // Convert to AlbumDto format
+      return albums.map(album => ({
+        id: album.id,
+        title: album.title,
+        description: album.description,
+        slug: album.slug,
+        isPrivate: album.isPrivate,
+        coverImage: {
+          id: album.id,
+          fileName: album.slug,
+          mimeType: 'image/jpeg',
+          webUrl: album.coverImageFull || album.coverImage,
+          thumbUrl: album.coverImage,
+          fileSize: 0,
+          width: 1920,
+          height: 1440,
+          sortOrder: 0,
+          createdAt: album.createdAt,
+        },
+        sortOrder: 0,
+        createdAt: album.createdAt,
+      }));
+    },
+    ...options,
+  });
+}
+
+// Hook to get album details with all photos from static data
+export function useStaticAlbumDetail(
+  albumSlug: string,
+  options?: Omit<UseQueryOptions<AlbumWithMediaDto, ApiClientError>, 'queryKey' | 'queryFn'>
+) {
+  return useQuery({
+    queryKey: queryKeys.albums.detail(albumSlug),
+    queryFn: async () => {
+      // Dynamically import to avoid bundling issues
+      const { getAlbumBySlug, getAlbumImages } = await import('@/content/albums-data-full');
+      const album = getAlbumBySlug(albumSlug);
+
+      if (!album) {
+        throw new Error('Album not found');
+      }
+
+      const images = getAlbumImages(album.id);
+
+      // Convert to AlbumWithMediaDto format
+      return {
+        id: album.id,
+        title: album.title,
+        description: album.description,
+        slug: album.slug,
+        isPrivate: album.isPrivate,
+        coverImage: {
+          id: album.id,
+          fileName: album.slug,
+          mimeType: 'image/jpeg',
+          webUrl: album.coverImagePath ? (await import('@/content/albums-data-full')).getImageUrl(album.coverImagePath) : '/placeholder-album.jpg',
+          thumbUrl: album.coverImagePath ? (await import('@/content/albums-data-full')).getThumbnailUrl(album.coverImagePath) : '/placeholder-album.jpg',
+          fileSize: 0,
+          width: 1920,
+          height: 1440,
+          sortOrder: 0,
+          createdAt: album.createdAt,
+        },
+        sortOrder: 0,
+        createdAt: album.createdAt,
+        media: images.map((img, index) => ({
+          id: `${album.id}-${index}`,
+          fileName: img.fileName,
+          mimeType: 'image/jpeg',
+          webUrl: img.url,
+          thumbUrl: img.thumbnailUrl || img.url,
+          fileSize: 0,
+          width: 1920,
+          height: 1440,
+          altText: img.alt,
+          sortOrder: index,
+          createdAt: album.createdAt,
+        })),
+      };
+    },
+    enabled: !!albumSlug,
+    ...options,
+  });
+}
+
 export function useAlbum(
   albumId: string,
   options?: Omit<UseQueryOptions<AlbumDto, ApiClientError>, 'queryKey' | 'queryFn'>

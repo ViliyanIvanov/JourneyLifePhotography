@@ -70,6 +70,8 @@ export {
   useHealthCheck,
   // Public Albums
   useAlbums,
+  useStaticAlbums,
+  useStaticAlbumDetail,
   useAlbum,
   useUnlockAlbum,
   // Public Blog
