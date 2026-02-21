@@ -29,7 +29,7 @@ export function Footer() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {/* Brand */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold font-serif">Journey Life Photography</h3>
+              <h3 className="text-lg font-semibold font-serif">Iva Dimitrov Photography</h3>
               <p className="text-sm text-brand-white/70">
                 Capturing life&apos;s precious moments with professional photography
                 services.
@@ -102,7 +102,7 @@ export function Footer() {
 
           <div className="mt-12 border-t border-brand-white/10 pt-8 text-center text-sm text-brand-white/70">
             <p>
-              &copy; {new Date().getFullYear()} Journey Life Photography. All
+              &copy; {new Date().getFullYear()} Iva Dimitrov Photography. All
               rights reserved.
             </p>
           </div>

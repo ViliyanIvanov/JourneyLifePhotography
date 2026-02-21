@@ -5,7 +5,7 @@ import { ContactInfoSection } from '@/components/sections/contact-info-section';
 export const metadata = createMetadata({
   title: 'Contact',
   description:
-    'Get in touch with Journey Life Photography to discuss your photography needs.',
+    'Get in touch with Iva Dimitrov Photography to discuss your photography needs.',
 });
 
 export default function ContactPage() {

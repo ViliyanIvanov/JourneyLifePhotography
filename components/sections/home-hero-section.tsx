@@ -48,7 +48,7 @@ export function HomeHeroSection() {
               <div className="flex justify-center">
                 <img
                   src={LOGO_DATA_URL}
-                  alt="Journey Life Photography"
+                  alt="Iva Dimitrov Photography"
                   className="h-auto w-[92px] opacity-95 drop-shadow-[0_18px_55px_rgba(0,0,0,0.70)] sm:w-[110px] lg:w-[120px]"
                 />
               </div>

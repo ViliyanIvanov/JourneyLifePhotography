@@ -58,6 +58,17 @@ const albumMetadata = {
     description: 'Travel and adventure photography from around the world',
     category: 'Travel',
   },
+  'Sports': {
+    title: 'Sports',
+    description: 'Dynamic sports and action photography',
+    category: 'Sports',
+  },
+  // Headshot - Data kept for future use, not displayed yet
+  // 'Headshot': {
+  //   title: 'Headshot',
+  //   description: 'Professional headshot and portrait photography',
+  //   category: 'Portraits',
+  // },
 };
 
 function getImageDimensions(filePath) {
@@ -223,6 +234,20 @@ export interface AlbumConfig {
 export function getImageUrl(path: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/JourneyLifePhotos';
   return \`\${baseUrl}\${path.startsWith('/') ? path : '/' + path}\`;
+}
+
+// Get the thumbnail URL (for frontend display)
+export function getThumbnailUrl(path: string): string {
+  if (!path) return '/placeholder-album.jpg';
+  const ext = path.substring(path.lastIndexOf('.'));
+  const basePath = path.substring(0, path.lastIndexOf('.'));
+  const thumbPath = \`\${basePath}_thumb\${ext}\`;
+  return getImageUrl(thumbPath);
+}
+
+// Get the full image URL (for backend/lightbox)
+export function getFullImageUrl(path: string): string {
+  return getImageUrl(path);
 }
 
 export const albumsData: AlbumConfig[] = [${albumsCode}

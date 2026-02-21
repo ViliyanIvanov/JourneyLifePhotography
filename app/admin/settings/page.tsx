@@ -31,11 +31,11 @@ export default function AdminSettingsPage() {
           <CardContent className="space-y-4">
             <div>
               <Label htmlFor="siteName">Site Name</Label>
-              <Input id="siteName" defaultValue="Journey Life Photography" />
+              <Input id="siteName" defaultValue="Iva Dimitrov Photography" />
             </div>
             <div>
               <Label htmlFor="siteUrl">Site URL</Label>
-              <Input id="siteUrl" defaultValue="https://journeylifephotography.com" />
+              <Input id="siteUrl" defaultValue="https://ivadmitrovphotography.com" />
             </div>
             <Button>Save Changes</Button>
           </CardContent>
@@ -54,7 +54,7 @@ export default function AdminSettingsPage() {
               <Input
                 id="contactEmail"
                 type="email"
-                defaultValue="info@journeylifephotography.com"
+                defaultValue="info@ivadmitrovphotography.com"
               />
             </div>
             <div>

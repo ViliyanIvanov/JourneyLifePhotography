@@ -2,6 +2,7 @@ import { createMetadata } from '@/lib/seo';
 import { HomeHeroSection } from '@/components/sections/home-hero-section';
 import { FeaturedAlbumsSection } from '@/components/sections/featured-albums-section';
 import { ServicesPreviewSection } from '@/components/sections/services-preview-section';
+import { TestimonialsSection } from '@/components/sections/testimonials-section';
 import { ReadyToCaptureSection } from '@/components/sections/ready-to-capture-section';
 import { mockServices } from '@/content/mock-data';
 import { albumsData, getImageUrl, getFullImageUrl } from '@/content/albums-data';
@@ -10,7 +11,7 @@ import { CarouselAlbum } from '@/components/carousel/album-carousel';
 export const metadata = createMetadata({
   title: 'Home',
   description:
-    'Journey Life Photography — professional wedding, family, travel, architecture, and branding photography. Capturing life\'s precious moments with elegance and artistry.',
+    'Iva Dimitrov Photography — professional wedding, family, travel, architecture, and branding photography. Capturing life\'s precious moments with elegance and artistry.',
 });
 
 // Select 5 albums (1 per category) for the carousel
@@ -42,7 +43,7 @@ function JsonLd() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: 'Journey Life Photography',
+    name: 'Iva Dimitrov Photography',
     description:
       'Professional photography services specializing in weddings, family portraits, travel, architecture, and branding photography.',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://journeylifephotography.com',
@@ -94,6 +95,7 @@ export default function HomePage() {
       <HomeHeroSection />
       <FeaturedAlbumsSection albums={carouselAlbums} />
       <ServicesPreviewSection services={featuredServices} />
+      <TestimonialsSection />
       <ReadyToCaptureSection />
     </main>
   );

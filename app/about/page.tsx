@@ -8,7 +8,7 @@ import { AboutCtaSection } from '@/components/sections/about-cta-section';
 export const metadata = createMetadata({
   title: 'About',
   description:
-    'Learn about Journey Life Photography and our passion for capturing life\'s precious moments.',
+    'Learn about Iva Dimitrov Photography and our passion for capturing life\'s precious moments.',
 });
 
 export default function AboutPage() {

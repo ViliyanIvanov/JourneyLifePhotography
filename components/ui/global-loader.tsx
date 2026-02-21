@@ -195,7 +195,7 @@ export function GlobalLoader() {
       <div className="flex items-center justify-center">
         <img
           src="/logo.png"
-          alt="Journey Life Photography"
+          alt="Iva Dimitrov Photography"
           className="h-32 w-32 rounded-full animate-loader-pulse opacity-100"
         />
       </div>

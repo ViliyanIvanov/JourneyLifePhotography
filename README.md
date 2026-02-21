@@ -1,4 +1,4 @@
-# Journey Life Photography - Frontend
+# Iva Dimitrov Photography - Frontend
 
 A Next.js + TypeScript frontend for a professional photography portfolio website.
 

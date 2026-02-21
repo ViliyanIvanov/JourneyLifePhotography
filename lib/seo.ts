@@ -9,7 +9,7 @@ export interface SEOProps {
   nofollow?: boolean;
 }
 
-const defaultTitle = 'Journey Life Photography';
+const defaultTitle = 'Iva Dimitrov Photography';
 const defaultDescription =
   "Professional photography services capturing life's precious moments. Specializing in weddings, portraits, pets, and corporate photography.";
 
