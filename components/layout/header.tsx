@@ -262,15 +262,15 @@ export function Header() {
               <Link
                 href="/"
                 className="flex items-center gap-2 group py-0"
-                aria-label="Journey Life Photography"
+                aria-label="Iva Dimitrov Photography"
               >
                 <img
                   src="/logo.png"
-                  alt="Journey Life Photography Logo"
+                  alt="Iva Dimitrov Photography Logo"
                   className="h-8 w-8 rounded-full object-cover group-hover:opacity-80 transition-opacity"
                 />
                 <span className="font-serif text-brand-white text-base md:text-lg tracking-tight">
-                  Journey Life Photography
+                  Iva Dimitrov Photography
                 </span>
               </Link>
 
@@ -337,15 +337,15 @@ export function Header() {
             <Link
               href="/"
               className="flex items-center gap-2 group"
-              aria-label="Journey Life Photography"
+              aria-label="Iva Dimitrov Photography"
             >
               <img
                 src="/logo.png"
-                alt="Journey Life Photography Logo"
+                alt="Iva Dimitrov Photography Logo"
                 className="h-8 w-8 rounded-full object-cover group-hover:opacity-80 transition-opacity"
               />
               <span className="font-serif text-brand-white text-base md:text-lg tracking-tight">
-                Journey Life Photography
+                Iva Dimitrov Photography
               </span>
             </Link>
 
@@ -421,7 +421,7 @@ export function Header() {
           className="flex items-center gap-2"
         >
           <span className="font-serif text-brand-white text-lg tracking-tight">
-            Journey Life
+            Iva Dimitrov
           </span>
         </Link>
 

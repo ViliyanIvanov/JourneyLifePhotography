@@ -1,13 +1,13 @@
 /**
  * Centralized Design Tokens
- * 
- * STRICT COLOR RULES:
- * - Black: #0A0A0A (default background for ALL sections)
+ *
+ * COLOR RULES:
+ * - Black: #0A0A0A (default background)
+ * - Dark tones: #111111, #141414, #1A1A1A (section rhythm)
  * - White: #FFFFFF (primary text)
- * - Brand Accent (Emerald): #0F3D2E (used sparingly)
- * 
- * Opacity variations are allowed (e.g. rgba/hex alpha of black/white/emerald).
- * No other colors (no gray, beige, warm tones, etc.)
+ * - Brand Accent (Dusty Rose): #C4898A (used sparingly)
+ *
+ * Opacity variations are allowed (e.g. rgba/hex alpha).
  */
 
 export const theme = {
@@ -15,36 +15,39 @@ export const theme = {
     // Primary colors
     black: '#0A0A0A',
     white: '#FFFFFF',
-    emerald: '#0F3D2E',
-    
+    accent: '#C4898A',
+
+    // Dark tones for section rhythm
+    'dark-1': '#111111',
+    'dark-2': '#141414',
+    'dark-3': '#1A1A1A',
+
     // Semantic color mappings
     bg: '#0A0A0A',
     text: '#FFFFFF',
-    accent: '#0F3D2E',
-    
+
     // Opacity variations (for overlays, borders, etc.)
     blackOverlay: {
-      light: 'rgba(10, 10, 10, 0.55)', // ~55% opacity
-      medium: 'rgba(10, 10, 10, 0.70)', // ~70% opacity
-      heavy: 'rgba(10, 10, 10, 0.85)', // ~85% opacity
+      light: 'rgba(10, 10, 10, 0.55)',
+      medium: 'rgba(10, 10, 10, 0.70)',
+      heavy: 'rgba(10, 10, 10, 0.85)',
     },
     whiteOverlay: {
       light: 'rgba(255, 255, 255, 0.10)',
       medium: 'rgba(255, 255, 255, 0.20)',
       heavy: 'rgba(255, 255, 255, 0.30)',
     },
-    emeraldOverlay: {
-      light: 'rgba(15, 61, 46, 0.10)',
-      medium: 'rgba(15, 61, 46, 0.20)',
-      heavy: 'rgba(15, 61, 46, 0.30)',
+    accentOverlay: {
+      light: 'rgba(196, 137, 138, 0.10)',
+      medium: 'rgba(196, 137, 138, 0.20)',
+      heavy: 'rgba(196, 137, 138, 0.30)',
     },
-    
+
     // Border colors
     border: 'rgba(255, 255, 255, 0.10)',
-    borderEmerald: 'rgba(15, 61, 46, 0.20)',
+    borderAccent: 'rgba(196, 137, 138, 0.20)',
   },
-  
-  // Typography scale (optional but recommended)
+
   typography: {
     fontFamily: {
       serif: 'var(--font-serif)',
@@ -65,8 +68,7 @@ export const theme = {
       '8xl': '6rem',
     },
   },
-  
-  // Spacing scale (optional but recommended)
+
   spacing: {
     xs: '0.5rem',
     sm: '1rem',
@@ -83,4 +85,3 @@ export const theme = {
 export const colors = theme.colors;
 export const typography = theme.typography;
 export const spacing = theme.spacing;
-

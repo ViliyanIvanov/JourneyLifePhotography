@@ -7,7 +7,7 @@ export function AboutIntroSection() {
     <SectionShell padding="lg" background="black">
       <ScrollAnimation direction="up" delay={0}>
         <Text size="lg" className="mb-6">
-          At Journey Life Photography, we believe that every moment tells a story. Our mission is to
+          At Iva Dimitrov Photography, we believe that every moment tells a story. Our mission is to
           capture those precious, fleeting moments that make life beautiful and meaningful.
         </Text>
       </ScrollAnimation>

@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 interface OverlayProps {
   children: ReactNode;
   imageUrl?: string;
-  gradient?: 'default' | 'heavy' | 'light';
+  gradient?: 'default' | 'heavy' | 'light' | 'subtle';
   className?: string;
 }
 
@@ -12,6 +12,7 @@ const gradientClasses = {
   default: 'bg-gradient-to-b from-black/80 via-black/60 to-black/80',
   heavy: 'bg-black/70',
   light: 'bg-gradient-to-b from-black/85 via-black/55 to-black/85',
+  subtle: 'bg-gradient-to-b from-black/60 via-black/35 to-black/60',
 };
 
 export function Overlay({ children, imageUrl, gradient = 'default', className }: OverlayProps) {

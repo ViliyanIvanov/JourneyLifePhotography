@@ -14,13 +14,13 @@ interface ServicesPreviewSectionProps {
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <Card className="group overflow-hidden border-2 border-transparent bg-brand-black hover:border-brand-white/20 transition-all duration-500 hover:shadow-[0_20px_50px_-12px_rgba(255,255,255,0.1)] hover:-translate-y-1">
+    <Card className="group overflow-hidden border-2 border-transparent bg-brand-black transition-all duration-500 hover:border-brand-accent/30 hover:shadow-[0_20px_50px_-12px_rgba(196,137,138,0.15)] hover:-translate-y-1 hover:scale-[1.02]">
       <div className="relative aspect-video overflow-hidden">
         <Image
           src={service.image}
           alt={service.title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-110"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.15]"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
         <div className="absolute inset-0 bg-brand-black/0 group-hover:bg-brand-black/20 transition-colors duration-500" />
@@ -33,7 +33,7 @@ function ServiceCard({ service }: { service: Service }) {
         <ul className="space-y-3">
           {service.features.slice(0, 3).map((feature, idx) => (
             <li key={idx} className="flex items-start gap-3">
-              <span className="text-brand-white/50 text-sm">—</span>
+              <span className="text-brand-accent/60 text-sm">—</span>
               <span className="text-sm text-brand-white/75">{feature}</span>
             </li>
           ))}
@@ -48,9 +48,19 @@ function ServiceCard({ service }: { service: Service }) {
 
 export function ServicesPreviewSection({ services }: ServicesPreviewSectionProps) {
   return (
-    <SectionShell className="py-32 md:py-48">
+    <SectionShell background="black" blendEdges className="py-32 md:py-48">
+      {/* Subtle accent radial glow — adds warmth without a visible background change */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: 'radial-gradient(ellipse at top right, rgba(196,137,138,0.06) 0%, transparent 60%)',
+        }}
+      />
+
       <ScrollAnimation direction="fade" delay={0}>
         <div className="mb-28 max-w-4xl">
+          {/* Decorative line */}
+          <div className="mb-6 h-px w-12 origin-left animate-line-grow bg-brand-accent" />
           <Heading as="h2" size="4xl" className="mb-6 font-serif tracking-tight">
             Our Services
           </Heading>
@@ -62,7 +72,7 @@ export function ServicesPreviewSection({ services }: ServicesPreviewSectionProps
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3 mb-20">
         {services.map((service, index) => (
-          <ScrollAnimation key={service.id} direction="up" delay={200 + index * 200}>
+          <ScrollAnimation key={service.id} direction="up" delay={150 + index * 250}>
             <ServiceCard service={service} />
           </ScrollAnimation>
         ))}
@@ -78,4 +88,3 @@ export function ServicesPreviewSection({ services }: ServicesPreviewSectionProps
     </SectionShell>
   );
 }
-
