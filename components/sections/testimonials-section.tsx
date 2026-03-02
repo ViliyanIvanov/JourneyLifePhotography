@@ -1,9 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
-import { TiltCard } from '@/components/ui/tilt-card';
 import { Star } from 'lucide-react';
 import { SplitText } from '@/components/ui/split-text';
 
@@ -90,72 +88,71 @@ function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; ind
   return (
     <ScrollAnimation
       direction="up"
-      delay={index * 120}
+      delay={index * 150}
+      effect="float"
     >
-      <TiltCard maxTilt={5}>
-        <div className="group relative">
-          {/* Card content — fixed height so every card matches */}
-          <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden card-glow-hover transition-[background-color,border-color,box-shadow] duration-500 group-hover:bg-white/[0.10] group-hover:border-white/[0.25] flex flex-col h-[350px]">
-            {/* Top edge highlight */}
-            <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent flex-shrink-0" />
+      <div className="group relative">
+        {/* Card content — fixed height, CSS hover lift instead of TiltCard */}
+        <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden card-glow-hover card-lift-hover transition-[background-color,border-color,box-shadow,transform] duration-500 group-hover:bg-white/[0.10] group-hover:border-brand-accent/30 flex flex-col h-[350px]">
+          {/* Top edge highlight */}
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-accent/20 to-transparent flex-shrink-0" />
 
-            <div className="p-8 flex flex-col flex-1">
-              {/* Quote mark accent */}
-              <div
-                className="absolute top-6 right-6 text-6xl font-serif"
-                style={{ color: '#C4898A', opacity: '0.2' }}
-              >
-                &quot;
+          <div className="p-8 flex flex-col flex-1">
+            {/* Quote mark accent */}
+            <div
+              className="absolute top-6 right-6 text-6xl font-serif transition-opacity duration-500 group-hover:opacity-[0.35]"
+              style={{ color: '#C4898A', opacity: '0.2' }}
+            >
+              &quot;
+            </div>
+
+            {/* Review text */}
+            <p className="text-brand-white/80 leading-relaxed mb-6 text-sm md:text-base relative z-10 whitespace-pre-wrap flex-1 overflow-hidden">
+              {testimonial.review}
+            </p>
+
+            {/* Divider */}
+            <div
+              className="h-px mb-6 flex-shrink-0"
+              style={{
+                background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
+                opacity: '0.3',
+              }}
+            />
+
+            {/* Footer with avatar, name, and rating */}
+            <div className="flex items-center justify-between gap-4 flex-shrink-0">
+              <div className="flex items-center gap-3 min-w-0">
+                <AvatarInitial name={testimonial.name} />
+                <p className="font-serif text-brand-white text-sm font-semibold truncate">
+                  {testimonial.name}
+                </p>
               </div>
-
-              {/* Review text */}
-              <p className="text-brand-white/80 leading-relaxed mb-6 text-sm md:text-base relative z-10 whitespace-pre-wrap flex-1 overflow-hidden">
-                {testimonial.review}
-              </p>
-
-              {/* Divider */}
-              <div
-                className="h-px mb-6 flex-shrink-0"
-                style={{
-                  background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
-                  opacity: '0.3',
-                }}
-              />
-
-              {/* Footer with avatar, name, and rating */}
-              <div className="flex items-center justify-between gap-4 flex-shrink-0">
-                <div className="flex items-center gap-3 min-w-0">
-                  <AvatarInitial name={testimonial.name} />
-                  <p className="font-serif text-brand-white text-sm font-semibold truncate">
-                    {testimonial.name}
-                  </p>
-                </div>
-                <StarRating rating={testimonial.rating} />
-              </div>
+              <StarRating rating={testimonial.rating} />
             </div>
           </div>
         </div>
-      </TiltCard>
+      </div>
     </ScrollAnimation>
   );
 }
 
 export function TestimonialsSection() {
   return (
-    <section className="relative py-24 md:py-32 bg-brand-dark-1 overflow-hidden">
-      {/* Background orbs */}
+    <section className="relative py-24 md:py-32 bg-brand-warm-1 overflow-hidden">
+      {/* Background orbs with breathe animation */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute top-20 left-10 w-80 h-80 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-80 h-80 rounded-full blur-3xl animate-breathe"
           style={{ backgroundColor: '#C4898A', opacity: '0.09' }}
         />
         <div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl"
-          style={{ backgroundColor: '#C4898A', opacity: '0.09' }}
+          className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-breathe"
+          style={{ backgroundColor: '#C4898A', opacity: '0.09', animationDelay: '2s' }}
         />
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-3xl"
-          style={{ backgroundColor: '#C4898A', opacity: '0.05' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-3xl animate-breathe"
+          style={{ backgroundColor: '#C4898A', opacity: '0.05', animationDelay: '1s' }}
         />
       </div>
 

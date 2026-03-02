@@ -23,19 +23,31 @@ export function ReadyToCaptureSection() {
       gradient="subtle"
       className="min-h-[80vh] py-40 md:py-56 flex items-center"
     >
-      {/* Floating decorations */}
+      {/* Floating decorations — more prominent */}
       <div className="pointer-events-none absolute inset-0 z-[5]">
         <div
           className="deco-line animate-float"
-          style={{ top: '20%', right: '10%', height: '70px', animationDelay: '0s' }}
+          style={{ top: '15%', right: '10%', height: '90px', animationDelay: '0s' }}
         />
         <div
           className="deco-dot animate-pulse-glow"
-          style={{ top: '65%', left: '8%', animationDelay: '1.5s' }}
+          style={{ top: '65%', left: '8%', animationDelay: '1.5s', width: '6px', height: '6px', opacity: '0.6' }}
         />
         <div
           className="deco-line animate-float-slow"
-          style={{ top: '45%', left: '5%', height: '50px', animationDelay: '0.8s' }}
+          style={{ top: '45%', left: '5%', height: '70px', animationDelay: '0.8s' }}
+        />
+        <div
+          className="deco-line animate-drift"
+          style={{ top: '30%', left: '15%', height: '50px', animationDelay: '1.2s' }}
+        />
+        <div
+          className="deco-dot animate-breathe"
+          style={{ top: '25%', right: '20%', animationDelay: '0.5s', width: '5px', height: '5px' }}
+        />
+        <div
+          className="deco-line animate-float"
+          style={{ bottom: '20%', right: '6%', height: '60px', animationDelay: '2s' }}
         />
       </div>
 
@@ -47,29 +59,29 @@ export function ReadyToCaptureSection() {
             </Heading>
           </ScrollAnimation>
 
-          <ScrollAnimation direction="up" delay={300}>
+          <ScrollAnimation direction="up" delay={250}>
             <Text size="lg" className="mb-12 text-brand-white/80 leading-relaxed">
               Let&apos;s discuss your vision and create something extraordinary together. Your moments deserve to be preserved with elegance and care.
             </Text>
           </ScrollAnimation>
 
-          {/* Stats row with animated counters */}
-          <ScrollAnimation direction="up" delay={400}>
-            <div className="mb-14 flex items-center justify-center gap-8 md:gap-12">
-              {STATS.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="font-serif text-3xl font-bold text-brand-white md:text-4xl">
+          {/* Stats row with staggered animated counters */}
+          <div className="mb-14 flex items-center justify-center gap-8 md:gap-12">
+            {STATS.map((stat, i) => (
+              <ScrollAnimation key={stat.label} direction="up" delay={350 + i * 150} effect="float">
+                <div className="text-center">
+                  <div className="font-serif text-3xl font-bold text-brand-white md:text-4xl overflow-hidden">
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} duration={2000} />
                   </div>
                   <div className="mt-1 text-xs tracking-wider text-brand-white/50 uppercase">
                     {stat.label}
                   </div>
                 </div>
-              ))}
-            </div>
-          </ScrollAnimation>
+              </ScrollAnimation>
+            ))}
+          </div>
 
-          <ScrollAnimation direction="up" delay={500}>
+          <ScrollAnimation direction="up" delay={700} effect="float">
             <MagneticHover className="inline-block">
               <Button asChild size="lg">
                 <Link href="/contact">Start a Conversation</Link>

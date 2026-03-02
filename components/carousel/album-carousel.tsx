@@ -135,12 +135,11 @@ export function AlbumCarousel({ albums }: AlbumCarouselProps) {
       const pos = positions[i];
       const dist = Math.abs(i - active);
       const isActive = dist === 0;
-      const scale = isActive ? 1 : dist === 1 ? 0.97 : 0.94;
-      const opacity = isActive ? 1 : dist === 1 ? 0.55 : 0.3;
+      const opacity = isActive ? 1 : dist === 1 ? 0.6 : 0.35;
 
       el.style.left = `${pos.left}px`;
       el.style.width = `${pos.width}px`;
-      el.style.transform = `scale(${scale})`;
+      el.style.transform = '';
       el.style.opacity = `${opacity}`;
     }
   }, [getCardGeometry, total]);
@@ -256,7 +255,7 @@ export function AlbumCarousel({ albums }: AlbumCarouselProps) {
   useEffect(() => {
     const el = containerRef.current; if (!el) return;
     const h = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) < Math.abs(e.deltaY) || Math.abs(e.deltaX) < 2) return;
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY) * 1.5 || Math.abs(e.deltaX) < 5) return;
       e.preventDefault(); wa.current += e.deltaX;
       if (wt.current) clearTimeout(wt.current);
       wt.current = setTimeout(() => { const d = wa.current; wa.current = 0; if (d > 30) goNext(); else if (d < -30) goPrev(); }, 150);
@@ -352,9 +351,8 @@ export function AlbumCarousel({ albums }: AlbumCarouselProps) {
                     left: pos.left,
                     width: pos.width,
                     height: '100%',
-                    transform: `scale(${isActive ? 1 : dist === 1 ? 0.97 : 0.94})`,
-                    opacity: isActive ? 1 : dist === 1 ? 0.55 : 0.3,
-                    transition: 'transform 400ms cubic-bezier(0.22,1,0.36,1), opacity 400ms cubic-bezier(0.22,1,0.36,1)',
+                    opacity: isActive ? 1 : dist === 1 ? 0.6 : 0.35,
+                    transition: 'opacity 400ms cubic-bezier(0.22,1,0.36,1)',
                   }}
                   role="group"
                   aria-roledescription="slide"

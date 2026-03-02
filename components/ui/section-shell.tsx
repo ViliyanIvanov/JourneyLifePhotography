@@ -6,7 +6,7 @@ interface SectionShellProps {
   children: ReactNode;
   className?: string;
   containerClassName?: string;
-  background?: 'black' | 'transparent' | 'dark-1' | 'dark-2' | 'dark-3';
+  background?: 'black' | 'transparent' | 'dark-1' | 'dark-2' | 'dark-3' | 'warm-1' | 'warm-2';
   padding?: 'sm' | 'md' | 'lg' | 'xl';
   /** Blurred background photo URL — creates warmth behind content */
   bgImage?: string;
@@ -31,6 +31,17 @@ const bgClasses: Record<string, string> = {
   'dark-1': 'bg-brand-dark-1 text-brand-white',
   'dark-2': 'bg-brand-dark-2 text-brand-white',
   'dark-3': 'bg-brand-dark-3 text-brand-white',
+  'warm-1': 'bg-brand-warm-1 text-brand-white',
+  'warm-2': 'bg-brand-warm-2 text-brand-white',
+};
+
+const blendColorMap: Record<string, string> = {
+  black: '#0A0A0A',
+  'dark-1': '#111111',
+  'dark-2': '#141414',
+  'dark-3': '#1A1A1A',
+  'warm-1': '#141210',
+  'warm-2': '#1E1C1A',
 };
 
 export function SectionShell({
@@ -44,7 +55,7 @@ export function SectionShell({
   blendEdges = false,
   blendColor,
 }: SectionShellProps) {
-  const edgeColor = blendColor || '#0A0A0A';
+  const edgeColor = blendColor || blendColorMap[background] || '#0A0A0A';
   return (
     <section
       className={cn(
