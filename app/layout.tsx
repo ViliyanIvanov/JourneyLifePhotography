@@ -7,13 +7,19 @@ import { Providers } from './providers';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { GlobalLoader } from '@/components/ui/global-loader';
+import dynamic from 'next/dynamic';
 
-const inter = Inter({ 
+const ScrollProgress = dynamic(
+  () => import('@/components/ui/scroll-progress').then((m) => m.ScrollProgress),
+  { ssr: false }
+);
+
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 });
 
-const playfair = Playfair_Display({ 
+const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-serif',
 });
@@ -29,6 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} ${inter.className}`}>
         <Providers>
+          <ScrollProgress />
           <GlobalLoader />
           <Header />
           {children}
@@ -39,4 +46,3 @@ export default function RootLayout({
     </html>
   );
 }
-

@@ -14,7 +14,9 @@ interface ServicesPreviewSectionProps {
 
 function ServiceCard({ service }: { service: Service }) {
   return (
-    <Card className="group overflow-hidden border-2 border-transparent bg-brand-black transition-all duration-500 hover:border-brand-accent/30 hover:shadow-[0_20px_50px_-12px_rgba(196,137,138,0.15)] hover:-translate-y-1 hover:scale-[1.02]">
+    <Card className="group overflow-hidden border-2 border-transparent bg-gradient-to-b from-brand-dark-1 to-brand-black card-glow-hover transition-all duration-500 hover:border-brand-accent/30 hover:-translate-y-1 hover:scale-[1.02]">
+      {/* Top edge highlight */}
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       <div className="relative aspect-video overflow-hidden">
         <Image
           src={service.image}
@@ -49,17 +51,29 @@ function ServiceCard({ service }: { service: Service }) {
 export function ServicesPreviewSection({ services }: ServicesPreviewSectionProps) {
   return (
     <SectionShell background="black" blendEdges className="py-32 md:py-48">
-      {/* Subtle accent radial glow — adds warmth without a visible background change */}
+      {/* Soft inner background — gradient fades in/out so no hard edge */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
-          background: 'radial-gradient(ellipse at top right, rgba(196,137,138,0.06) 0%, transparent 60%)',
+          background: 'linear-gradient(to bottom, transparent 0%, rgba(20,20,20,0.6) 15%, rgba(20,20,20,0.6) 85%, transparent 100%)',
+        }}
+      />
+      {/* Accent radial glows */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: 'radial-gradient(ellipse at top right, rgba(196,137,138,0.10) 0%, transparent 60%)',
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: 'radial-gradient(ellipse at bottom left, rgba(196,137,138,0.07) 0%, transparent 50%)',
         }}
       />
 
       <ScrollAnimation direction="fade" delay={0}>
         <div className="mb-28 max-w-4xl">
-          {/* Decorative line */}
           <div className="mb-6 h-px w-12 origin-left animate-line-grow bg-brand-accent" />
           <Heading as="h2" size="4xl" className="mb-6 font-serif tracking-tight">
             Our Services

@@ -45,7 +45,8 @@ function ContactInfoCard({ info }: { info: ContactInfo }) {
   );
 
   return (
-    <Card className="border-2 border-brand-white/10 bg-brand-black">
+    <Card className="border border-brand-white/10 bg-gradient-to-b from-brand-dark-1 to-brand-black card-glow-hover hover:border-brand-white/20 transition-all duration-500 overflow-hidden">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       <CardHeader>
         <div className="flex items-center gap-3">
           <Icon className="h-5 w-5 text-brand-white" />

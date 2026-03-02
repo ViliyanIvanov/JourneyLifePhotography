@@ -15,8 +15,9 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
     <ScrollAnimation direction="up" delay={index * 150} className="h-full">
       <Card
         id={service.id}
-        className="h-full flex flex-col overflow-hidden border-2 border-brand-white/10 bg-black hover:border-brand-white/20 transition-colors"
+        className="h-full flex flex-col overflow-hidden border border-brand-white/10 bg-gradient-to-b from-brand-dark-1 to-brand-black card-glow-hover hover:border-brand-white/20 transition-all duration-500"
       >
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
         <div className="relative aspect-video overflow-hidden">
           <Image
             src={service.image}
@@ -53,7 +54,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
 export function ServicesListSection({ services }: ServicesListSectionProps) {
   return (
-    <SectionShell padding="lg" background="black">
+    <SectionShell padding="lg" background="dark-1">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {services.map((service, index) => (
           <ServiceCard key={service.id} service={service} index={index} />
@@ -62,4 +63,3 @@ export function ServicesListSection({ services }: ServicesListSectionProps) {
     </SectionShell>
   );
 }
-

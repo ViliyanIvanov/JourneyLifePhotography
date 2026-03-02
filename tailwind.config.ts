@@ -99,6 +99,14 @@ const config: Config = {
           '0%, 100%': { opacity: '0.3' },
           '50%': { opacity: '0.8' },
         },
+        'counter-up': {
+          from: { opacity: '0', transform: 'translateY(8px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -108,6 +116,8 @@ const config: Config = {
         'line-grow': 'line-grow 1s ease-out forwards',
         'fade-in-up': 'fade-in-up 0.6s ease-out forwards',
         'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+        'counter-up': 'counter-up 0.4s ease-out forwards',
+        shimmer: 'shimmer 2s linear infinite',
       },
     },
   },

@@ -3,10 +3,10 @@
 import { useRef } from 'react';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
+import { TiltCard } from '@/components/ui/tilt-card';
 import { Star } from 'lucide-react';
 import { SplitText } from '@/components/ui/split-text';
 
-// Testimonial data structure
 interface Testimonial {
   id: string;
   name: string;
@@ -14,7 +14,6 @@ interface Testimonial {
   rating: number;
 }
 
-// Sample testimonials (hardcoded - can be replaced with props)
 const testimonials: Testimonial[] = [
   {
     id: '1',
@@ -48,7 +47,6 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-// Avatar component with initials
 function AvatarInitial({ name }: { name: string }) {
   const initials = name
     .split(' ')
@@ -71,7 +69,6 @@ function AvatarInitial({ name }: { name: string }) {
   );
 }
 
-// Star rating component
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex items-center gap-1.5">
@@ -89,80 +86,75 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-// Individual testimonial card
 function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
   return (
     <ScrollAnimation
       direction="up"
       delay={index * 120}
     >
-      <div
-        ref={cardRef}
-        className="group relative h-full flex flex-col"
-      >
-        {/* Gradient background (visible on hover) */}
-        <div
-          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-          style={{ backgroundColor: '#C4898A', opacity: '0' }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.1')}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = '0')}
-        />
+      <TiltCard maxTilt={5}>
+        <div className="group relative">
+          {/* Card content — fixed height so every card matches */}
+          <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden card-glow-hover transition-[background-color,border-color,box-shadow] duration-500 group-hover:bg-white/[0.10] group-hover:border-white/[0.25] flex flex-col h-[350px]">
+            {/* Top edge highlight */}
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent flex-shrink-0" />
 
-        {/* Card content */}
-        <div className="relative backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 transition-all duration-500 group-hover:bg-white/8 group-hover:border-white/20 group-hover:shadow-2xl group-hover:-translate-y-1 flex flex-col h-full">
-          {/* Quote mark accent */}
-          <div
-            className="absolute top-6 right-6 text-6xl font-serif"
-            style={{ color: '#C4898A', opacity: '0.2' }}
-          >
-            &quot;
-          </div>
+            <div className="p-8 flex flex-col flex-1">
+              {/* Quote mark accent */}
+              <div
+                className="absolute top-6 right-6 text-6xl font-serif"
+                style={{ color: '#C4898A', opacity: '0.2' }}
+              >
+                &quot;
+              </div>
 
-          {/* Review text */}
-          <p className="text-brand-white/80 leading-relaxed mb-6 text-sm md:text-base relative z-10 flex-grow whitespace-pre-wrap">
-            {testimonial.review}
-          </p>
-
-          {/* Divider */}
-          <div
-            className="h-px mb-6 mt-auto"
-            style={{
-              background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
-              opacity: '0.3',
-            }}
-          />
-
-          {/* Footer with avatar, name, and rating */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-              <AvatarInitial name={testimonial.name} />
-              <p className="font-serif text-brand-white text-sm font-semibold truncate">
-                {testimonial.name}
+              {/* Review text */}
+              <p className="text-brand-white/80 leading-relaxed mb-6 text-sm md:text-base relative z-10 whitespace-pre-wrap flex-1 overflow-hidden">
+                {testimonial.review}
               </p>
+
+              {/* Divider */}
+              <div
+                className="h-px mb-6 flex-shrink-0"
+                style={{
+                  background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
+                  opacity: '0.3',
+                }}
+              />
+
+              {/* Footer with avatar, name, and rating */}
+              <div className="flex items-center justify-between gap-4 flex-shrink-0">
+                <div className="flex items-center gap-3 min-w-0">
+                  <AvatarInitial name={testimonial.name} />
+                  <p className="font-serif text-brand-white text-sm font-semibold truncate">
+                    {testimonial.name}
+                  </p>
+                </div>
+                <StarRating rating={testimonial.rating} />
+              </div>
             </div>
-            <StarRating rating={testimonial.rating} />
           </div>
         </div>
-      </div>
+      </TiltCard>
     </ScrollAnimation>
   );
 }
 
-// Main testimonials section
 export function TestimonialsSection() {
   return (
-    <section className="relative py-24 md:py-32 bg-brand-black overflow-hidden">
-      {/* Background elements */}
+    <section className="relative py-24 md:py-32 bg-brand-dark-1 overflow-hidden">
+      {/* Background orbs */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Subtle gradient orbs - accent color */}
         <div
           className="absolute top-20 left-10 w-80 h-80 rounded-full blur-3xl"
-          style={{ backgroundColor: '#C4898A', opacity: '0.05' }}
+          style={{ backgroundColor: '#C4898A', opacity: '0.09' }}
         />
         <div
           className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl"
+          style={{ backgroundColor: '#C4898A', opacity: '0.09' }}
+        />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-3xl"
           style={{ backgroundColor: '#C4898A', opacity: '0.05' }}
         />
       </div>

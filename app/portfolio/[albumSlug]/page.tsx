@@ -109,7 +109,7 @@ export default function AlbumPage() {
             fileName: img.fileName,
             mimeType: 'image/jpeg',
             webUrl: img.url,
-            thumbUrl: img.thumbnailUrl || img.url,
+            thumbUrl: (img as any).thumbnailUrl || img.url,
             fileSize: 0,
             width: 1920,
             height: 1440,

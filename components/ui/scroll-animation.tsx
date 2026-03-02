@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { ReactNode, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { ReactNode } from 'react';
 
 interface ScrollAnimationProps {
   children: ReactNode;
@@ -14,6 +13,14 @@ interface ScrollAnimationProps {
   threshold?: number;
 }
 
+const directionOffsets = {
+  up: { y: 30 },
+  down: { y: -30 },
+  left: { x: 30 },
+  right: { x: -30 },
+  fade: {},
+};
+
 export function ScrollAnimation({
   children,
   className,
@@ -22,58 +29,43 @@ export function ScrollAnimation({
   effect = 'float',
   threshold = 0.35,
 }: ScrollAnimationProps) {
-  const { ref, inView } = useInView({
-    threshold,
-    triggerOnce: true,
-    fallbackInView: false, // Disable fallback to ensure scroll-based triggering
-    rootMargin: '0px 0px -10% 0px', // Trigger when element is 10% into viewport
-  });
-
-  const [hasEntered, setHasEntered] = useState(false);
-
-  useEffect(() => {
-    if (inView) setHasEntered(true);
-  }, [inView]);
-
-  const isMask = effect === 'mask';
   const isFloat = effect === 'float';
-  const directionClasses = {
-    up: 'translate-y-8',
-    down: '-translate-y-8',
-    left: 'translate-x-8',
-    right: '-translate-x-8',
-    fade: '',
+
+  // Prevent SSR rendering elements as invisible.
+  // On server & first client render: initial=false → element renders visible.
+  // After mount: initial switches to the hidden state so whileInView can animate.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+
+  const hidden = {
+    opacity: 0,
+    filter: isFloat ? 'blur(4px)' : 'blur(0px)',
+    scale: isFloat ? 0.98 : 1,
+    ...directionOffsets[direction],
   };
 
-  const shouldShow = hasEntered;
+  const visible = {
+    opacity: 1,
+    filter: 'blur(0px)',
+    scale: 1,
+    x: 0,
+    y: 0,
+  };
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        isMask
-          ? 'transition-[opacity,transform,clip-path] duration-700 ease-out will-change-transform'
-          : 'transition-[opacity,transform,filter] duration-700 ease-out will-change-transform',
-        shouldShow
-          ? 'opacity-100 translate-y-0 translate-x-0 scale-100 blur-0'
-          : isMask
-            ? 'opacity-0 translate-y-4'
-            : isFloat
-              ? 'opacity-0 translate-y-6 scale-[0.98] blur-[2px]'
-              : `opacity-0 ${directionClasses[direction]}`,
-        className
-      )}
-      style={{
-        transitionDelay: shouldShow ? `${delay}ms` : '0ms',
-        ...(isMask
-          ? {
-              clipPath: shouldShow ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
-              WebkitClipPath: shouldShow ? 'inset(0 0 0 0)' : 'inset(0 0 100% 0)',
-            }
-          : {}),
+    <motion.div
+      className={cn(className)}
+      initial={mounted ? hidden : false}
+      whileInView={visible}
+      viewport={{ once: true, amount: threshold }}
+      transition={{
+        type: 'spring',
+        stiffness: 100,
+        damping: 20,
+        delay: delay / 1000,
       }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
