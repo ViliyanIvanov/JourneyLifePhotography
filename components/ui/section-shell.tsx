@@ -14,6 +14,8 @@ interface SectionShellProps {
   bgImageOpacity?: number;
   /** Render gradient fades at top/bottom for smooth section transitions */
   blendEdges?: boolean;
+  /** Custom blend color for edge gradients (defaults to brand-black) */
+  blendColor?: string;
 }
 
 const paddingClasses = {
@@ -40,7 +42,9 @@ export function SectionShell({
   bgImage,
   bgImageOpacity = 80,
   blendEdges = false,
+  blendColor,
 }: SectionShellProps) {
+  const edgeColor = blendColor || '#0A0A0A';
   return (
     <section
       className={cn(
@@ -70,12 +74,18 @@ export function SectionShell({
 
       {/* Top gradient fade — blends smoothly from previous section */}
       {blendEdges && (
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-brand-black to-transparent" />
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24"
+          style={{ background: `linear-gradient(to bottom, ${edgeColor}, transparent)` }}
+        />
       )}
 
       {/* Bottom gradient fade — blends smoothly into next section */}
       {blendEdges && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-brand-black to-transparent" />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24"
+          style={{ background: `linear-gradient(to top, ${edgeColor}, transparent)` }}
+        />
       )}
 
       {/* Grain texture overlay */}

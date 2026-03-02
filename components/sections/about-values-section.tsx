@@ -40,7 +40,8 @@ const values: Value[] = [
 function ValueCard({ value }: { value: Value }) {
   const Icon = value.icon;
   return (
-    <Card className="border-2 border-brand-white/10 bg-black hover:border-brand-white/20 transition-colors">
+    <Card className="border border-brand-white/10 bg-gradient-to-b from-brand-dark-1 to-brand-black card-glow-hover hover:border-brand-white/20 transition-all duration-500 overflow-hidden">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       <CardHeader>
         <Icon className="h-8 w-8 text-brand-white mb-2" />
         <CardTitle className="font-serif text-brand-white">{value.title}</CardTitle>
@@ -54,7 +55,7 @@ function ValueCard({ value }: { value: Value }) {
 
 export function AboutValuesSection() {
   return (
-    <SectionShell padding="lg" background="black">
+    <SectionShell padding="lg" background="dark-1">
       <ScrollAnimation direction="up" delay={0}>
         <Heading as="h2" size="xl" className="text-center mb-12">
           Our Values
@@ -70,4 +71,3 @@ export function AboutValuesSection() {
     </SectionShell>
   );
 }
-

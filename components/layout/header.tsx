@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { Container } from './container';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
@@ -22,6 +23,64 @@ const navigation = [
  * - Smooth: how "springy" the float follows the anchor
  * - Deadzone: ignore tiny changes to prevent micro-jiggle
  */
+function SlidingNav({ navigation, isActive }: { navigation: { name: string; href: string }[]; isActive: (href: string) => boolean }) {
+  const navRef = useRef<HTMLElement>(null);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+  const [hasIndicator, setHasIndicator] = useState(false);
+  const pathname = usePathname();
+
+  const updateIndicator = useCallback(() => {
+    if (!navRef.current) return;
+    const activeLink = navRef.current.querySelector('[data-active="true"]') as HTMLElement;
+    if (activeLink) {
+      const navRect = navRef.current.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      setIndicator({ left: linkRect.left - navRect.left, width: linkRect.width });
+      setHasIndicator(true);
+    } else {
+      setHasIndicator(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateIndicator();
+  }, [pathname, updateIndicator]);
+
+  useEffect(() => {
+    window.addEventListener('resize', updateIndicator);
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [updateIndicator]);
+
+  return (
+    <nav ref={navRef} className="hidden md:flex items-center gap-8 relative">
+      {hasIndicator && (
+        <motion.div
+          className="absolute -bottom-2 h-px bg-brand-white"
+          animate={{ left: indicator.left, width: indicator.width }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        />
+      )}
+      {navigation.map((item) => {
+        const active = isActive(item.href);
+        return (
+          <motion.div key={item.name} whileHover={{ y: -1 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
+            <Link
+              href={item.href}
+              data-active={active}
+              className={cn(
+                'relative text-[11px] tracking-[0.28em] uppercase font-light transition-colors',
+                active ? 'text-brand-white' : 'text-brand-white/70 hover:text-brand-white'
+              )}
+            >
+              {item.name}
+            </Link>
+          </motion.div>
+        );
+      })}
+    </nav>
+  );
+}
+
 const SCROLL_THRESHOLD = 600;
 const SCROLL_UNDOCK = 500;
 
@@ -274,43 +333,16 @@ export function Header() {
                 </span>
               </Link>
 
-              {/* Desktop Nav */}
-              <nav className="hidden md:flex items-center gap-8">
-                {navigation.map((item) => {
-                  const active = isActive(item.href);
-                  return (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className={cn(
-                        'group relative text-[11px] tracking-[0.28em] uppercase font-light transition-colors',
-                        active ? 'text-brand-white' : 'text-brand-white/70 hover:text-brand-white'
-                      )}
-                    >
-                      {item.name}
-                      <span
-                        className={cn(
-                          'absolute left-0 right-0 -bottom-2 mx-auto h-px bg-brand-white transition-all duration-300',
-                          active
-                            ? 'opacity-100 scale-x-100'
-                            : 'opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'
-                        )}
-                        style={{ transformOrigin: 'center' }}
-                      />
-                    </Link>
-                  );
-                })}
-              </nav>
+              <SlidingNav navigation={navigation} isActive={isActive} />
 
               {/* Actions */}
               <div className="flex items-center gap-3">
                 <div className="hidden md:block">
-                  <Button
-                    asChild
-                    size="sm"
-                  >
-                    <Link href="/contact">Book</Link>
-                  </Button>
+                  <motion.div whileHover={{ scale: 1.04 }} transition={{ type: 'spring', stiffness: 400, damping: 15 }}>
+                    <Button asChild size="sm">
+                      <Link href="/contact">Book</Link>
+                    </Button>
+                  </motion.div>
                 </div>
 
                 <Button
@@ -349,43 +381,16 @@ export function Header() {
               </span>
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8">
-              {navigation.map((item) => {
-                const active = isActive(item.href);
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={cn(
-                      'group relative text-[11px] tracking-[0.28em] uppercase font-light transition-colors',
-                      active ? 'text-brand-white' : 'text-brand-white/70 hover:text-brand-white'
-                    )}
-                  >
-                    {item.name}
-                    <span
-                      className={cn(
-                        'absolute left-0 right-0 -bottom-2 mx-auto h-px bg-brand-white transition-all duration-300',
-                        active
-                          ? 'opacity-100 scale-x-100'
-                          : 'opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100'
-                      )}
-                      style={{ transformOrigin: 'center' }}
-                    />
-                  </Link>
-                );
-              })}
-            </nav>
+            <SlidingNav navigation={navigation} isActive={isActive} />
 
             {/* Actions */}
             <div className="flex items-center gap-3">
               <div className="hidden md:block">
-                <Button
-                  asChild
-                  size="sm"
-                >
-                  <Link href="/contact">Book</Link>
-                </Button>
+                <motion.div whileHover={{ scale: 1.04 }} transition={{ type: 'spring', stiffness: 400, damping: 15 }}>
+                  <Button asChild size="sm">
+                    <Link href="/contact">Book</Link>
+                  </Button>
+                </motion.div>
               </div>
 
               <Button

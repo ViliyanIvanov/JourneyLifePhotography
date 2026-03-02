@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { Photo } from '@/content/mock-data';
 import type { MediaAssetDto } from '@/lib/api';
 import { useInView } from 'react-intersection-observer';
@@ -43,6 +44,8 @@ export function PhotoGrid({
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [displayedCount, setDisplayedCount] = useState(initialLoadCount);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -86,7 +89,16 @@ export function PhotoGrid({
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      <motion.div
+        className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+        initial={mounted ? 'hidden' : false}
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+        variants={{
+          hidden: {},
+          visible: { transition: { staggerChildren: 0.05 } },
+        }}
+      >
         {displayedPhotos.map((photo, index) => {
           // Handle both Photo and MediaAssetDto formats
           const thumbnailUrl = 'thumbnailUrl' in photo ? photo.thumbnailUrl : photo.thumbUrl;
@@ -94,10 +106,15 @@ export function PhotoGrid({
           const isImageLoaded = loadedImages.has(photo.id);
 
           return (
-            <button
+            <motion.button
               key={photo.id}
               onClick={() => handlePhotoClick(index)}
               className="relative aspect-square overflow-hidden group focus:outline-none focus:ring-2 focus:ring-brand-white/40 focus:ring-offset-2 focus:ring-offset-brand-black"
+              variants={{
+                hidden: { opacity: 0, y: 20, scale: 0.97 },
+                visible: { opacity: 1, y: 0, scale: 1 },
+              }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
             >
               {/* Skeleton loader shown until image loads */}
               {!isImageLoaded && <PhotoSkeleton />}
@@ -115,10 +132,10 @@ export function PhotoGrid({
               />
               {/* Subtle overlay on hover */}
               <div className="absolute inset-0 bg-brand-black/0 group-hover:bg-brand-black/20 transition-colors duration-500" />
-            </button>
+            </motion.button>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* Show loading indicator when there are more photos to display */}
       {(hasMoreToShow || hasMore) && (

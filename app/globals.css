@@ -163,6 +163,15 @@
 .carousel-slide-inactive {
   transform: scale(0.88);
   opacity: 0.5;
+  filter: blur(1.5px);
+}
+
+/* Card glow on hover — dusty rose shadow */
+.card-glow-hover {
+  transition: box-shadow 0.5s ease;
+}
+.card-glow-hover:hover {
+  box-shadow: 0 8px 40px -8px rgba(196, 137, 138, 0.25);
 }
 
 /* ------------------------------------------------------------

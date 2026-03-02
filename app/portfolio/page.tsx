@@ -27,7 +27,7 @@ export default function PortfolioPage() {
             id: album.id,
             fileName: album.slug,
             mimeType: 'image/jpeg',
-            webUrl: album.coverImageFull || album.coverImage,
+            webUrl: (album as any).coverImageFull || album.coverImage,
             thumbUrl: album.coverImage,
             fileSize: 0,
             width: 1920,
