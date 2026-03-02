@@ -1,23 +1,25 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { ReactNode } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
 
 interface ScrollAnimationProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  /** Direction the element enters FROM: 'up' = from below, 'left' = from the left, etc. */
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
   effect?: 'float' | 'slide' | 'mask';
   threshold?: number;
 }
 
 const directionOffsets = {
-  up: { y: 30 },
-  down: { y: -30 },
-  left: { x: 30 },
-  right: { x: -30 },
+  up: { y: 55 },
+  down: { y: -55 },
+  left: { x: -50 },
+  right: { x: 50 },
   fade: {},
 };
 
@@ -27,26 +29,28 @@ export function ScrollAnimation({
   delay = 0,
   direction = 'up',
   effect = 'float',
-  threshold = 0.35,
+  threshold = 0.15,
 }: ScrollAnimationProps) {
+  const prefersReduced = useReducedMotion();
   const isFloat = effect === 'float';
 
-  // Prevent SSR rendering elements as invisible.
-  // On server & first client render: initial=false → element renders visible.
-  // After mount: initial switches to the hidden state so whileInView can animate.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const { ref, inView } = useInView({
+    threshold,
+    triggerOnce: true,
+  });
+
+  if (prefersReduced) {
+    return <div className={cn(className)}>{children}</div>;
+  }
 
   const hidden = {
     opacity: 0,
-    filter: isFloat ? 'blur(4px)' : 'blur(0px)',
-    scale: isFloat ? 0.98 : 1,
+    scale: isFloat ? 0.92 : 1,
     ...directionOffsets[direction],
   };
 
   const visible = {
     opacity: 1,
-    filter: 'blur(0px)',
     scale: 1,
     x: 0,
     y: 0,
@@ -54,10 +58,10 @@ export function ScrollAnimation({
 
   return (
     <motion.div
+      ref={ref}
       className={cn(className)}
-      initial={mounted ? hidden : false}
-      whileInView={visible}
-      viewport={{ once: true, amount: threshold }}
+      initial={hidden}
+      animate={inView ? visible : hidden}
       transition={{
         type: 'spring',
         stiffness: 100,
