@@ -8,6 +8,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { GlobalLoader } from '@/components/ui/global-loader';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 const ScrollProgress = dynamic(
   () => import('@/components/ui/scroll-progress').then((m) => m.ScrollProgress),
@@ -36,7 +37,9 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} ${inter.className}`}>
         <Providers>
           <ScrollProgress />
-          <GlobalLoader />
+          <Suspense fallback={null}>
+            <GlobalLoader />
+          </Suspense>
           <Header />
           {children}
           <Footer />
