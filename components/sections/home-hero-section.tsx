@@ -6,9 +6,6 @@ import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { SplitText } from '@/components/ui/split-text';
 import Link from 'next/link';
 
-const LOGO_DATA_URL =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAABcCAMAAADUMSJqAAAAaVBMVEX///8AAADq6ur6+vry8vLm5uZ3d3fv7+/39/ejo6O4uLjh4eHZ2dmysrLBwcFOTk6dnZ3T09OCgoJvb2/Nzc2NjY2srKwbGxtGRkZBQUE6OjrHx8eTk5NjY2NpaWkSEhJWVlYsLCwzMzOBQE+xAAACeUlEQVRoge2Xi67iIBCGh0sp5abQi9UWrb7/Qx5aaTWbdTfZQ5M9CX9jAMUPOswwAJCVlZWVlZX1c0U6uxu6uCDk9mGX6IQQ6veBKzTrxHeBywWOZGzipPDiCT8+WzVqUsLxEz6FasNChdUJ4fwJR6HazqU7JITDC14t9vkxcBLhfIWndPnoLbOXLPD2nBBuI1xEOEs58zd4t3jLHvAKQC8238MsLYCYy/GSEK4iPATmMJf3lDNf4VO0OUo587grohA7fk94vRucrRbaAy5W+IOkg+Nf4TeaHj5uL1Gkh183uNgFXmyxmhrO5iPMIp8e7rZ0ekoHXxN0WNC3jJcY3u0BX81i9oCbSLQbPGEqukZ4ucFZMva6nT9ggyfzc3KK8OEF14nYxR29z3YZ6TafonlZfhNtXYwfFE+2Gt0C/OR9H4bpp+9sjzHv38ZLvBER9UBv+lbWeIbPeTqZ+EV0+dulPx+utZN//PffpIa610BfmQcLhTlPmIn+f9nfmxC/XEI2/+x+ugatwIZBdEEVqEIbCw1UBhquhdIWvD4UmCqii0EY2pWgNB0EAQOFlqUEO4D5AOeuNr5xwKruXqCi7UblDINuAC+vlnUSWDlpYUffTKZvDs3Z1gYfupEiJY6XpqJs1J+2HR4O3qJqgXV9K9t+FLWiiEDXAJP94BwGxqypWbgTjfKKQ8dWEXnoZeWc6Z3yrQP0yW62PbqJXNtjZ7zS2oUH/GwtzeQR3DgAoyAaeXSjDz/4keHJCW8qplgXbKeBwcf9suXL1RsDB8rDh+ASwmKGgpLQDAsbWpyQpRtd7ulk7lFS4CEU5j6Q8LiUlZWVlZWVlfWmL0AoHblqE3RAAAAAAElFTkSuQmCC';
-
 const BACKGROUND_IMAGE_URL = '/JourneyLifePhotos/Hero.jpg';
 
 export function HomeHeroSection() {
@@ -34,22 +31,13 @@ export function HomeHeroSection() {
         {/* Centered, wide, minimal */}
         <div className="flex min-h-screen items-center justify-center pb-20 pt-28">
           <div className="w-full max-w-6xl px-4 text-center">
-            <ScrollAnimation direction="fade" delay={80}>
-              {/* Small editorial line (luxury detail, not â€œextra UIâ€) */}
-              <div className="mb-7 flex items-center justify-center gap-4 text-[11px] tracking-[0.34em] text-white/65">
-                <span className="h-px w-10 bg-white/15" />
-                <span>Events, Pets, Corporate</span>
-                <span className="h-px w-10 bg-white/15" />
-              </div>
-            </ScrollAnimation>
-
             <ScrollAnimation direction="fade" delay={140}>
               {/* Logo front-and-center */}
               <div className="flex justify-center">
                 <img
-                  src={LOGO_DATA_URL}
+                  src="/logo.png"
                   alt="Iva Dimitrov Photography"
-                  className="h-auto w-[92px] opacity-95 drop-shadow-[0_18px_55px_rgba(0,0,0,0.70)] sm:w-[110px] lg:w-[120px]"
+                  className="h-auto w-[160px] opacity-95 drop-shadow-[0_18px_55px_rgba(0,0,0,0.70)] sm:w-[200px] lg:w-[240px]"
                 />
               </div>
             </ScrollAnimation>
@@ -57,7 +45,7 @@ export function HomeHeroSection() {
             {/* Minimal modern statement */}
             <div className="mx-auto mt-8 mb-4 max-w-3xl text-balance text-white/90">
               <SplitText
-                text="A journey shaped by light."
+                text="Bespoke story-led photography"
                 delay={200}
                 className="text-[44px] leading-[1.18] tracking-[-0.04em] sm:text-[58px] lg:text-[48px]"
               />

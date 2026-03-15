@@ -23,7 +23,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-brand-white/10 bg-brand-black text-brand-white">
+    <footer className="relative z-[1] border-t border-brand-white/10 bg-transparent text-brand-white">
       <Container>
         <div className="py-12 md:py-16">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">

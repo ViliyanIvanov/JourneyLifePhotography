@@ -1,42 +1,17 @@
 import { createMetadata } from '@/lib/seo';
 import { HomeHeroSection } from '@/components/sections/home-hero-section';
-import { FeaturedAlbumsSection } from '@/components/sections/featured-albums-section';
-import { ServicesPreviewSection } from '@/components/sections/services-preview-section';
+import { ServicesSectionCompact } from '@/components/sections/services-section-compact';
+import { ServicesProcessSection } from '@/components/sections/services-process-section';
 import { TestimonialsSection } from '@/components/sections/testimonials-section';
+import { FaqSection } from '@/components/sections/faq-section';
 import { ReadyToCaptureSection } from '@/components/sections/ready-to-capture-section';
-import { mockServices } from '@/content/mock-data';
-import { albumsData, getImageUrl, getFullImageUrl } from '@/content/albums-data';
-import { CarouselAlbum } from '@/components/carousel/album-carousel';
+import { AtmosphereBackground } from '@/components/ui/atmosphere-background';
 
 export const metadata = createMetadata({
   title: 'Home',
   description:
     'Iva Dimitrov Photography — professional wedding, family, travel, architecture, and branding photography. Capturing life\'s precious moments with elegance and artistry.',
 });
-
-// Select 5 albums (1 per category) for the carousel
-const CAROUSEL_ALBUM_IDS = [
-  'wedding-1',
-  'children-family',
-  'travel',
-  'architecture-interiors',
-  'branding',
-];
-
-function getCarouselAlbums(): CarouselAlbum[] {
-  return CAROUSEL_ALBUM_IDS.map((id) => {
-    const album = albumsData.find((a) => a.id === id);
-    if (!album) throw new Error(`Album ${id} not found`);
-    return {
-      slug: album.slug,
-      title: album.title,
-      category: album.category,
-      coverImage: getImageUrl(album.coverImagePath),
-      fullImage: getFullImageUrl(album.coverImagePath),
-      imageCount: album.imageCount,
-    };
-  });
-}
 
 // JSON-LD structured data
 function JsonLd() {
@@ -59,19 +34,11 @@ function JsonLd() {
         },
         {
           '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Family & Children Photography' },
+          itemOffered: { '@type': 'Service', name: 'Family Photography' },
         },
         {
           '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Travel Photography' },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Architecture & Interiors Photography' },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: 'Branding Photography' },
+          itemOffered: { '@type': 'Service', name: 'Corporate Photography' },
         },
       ],
     },
@@ -86,17 +53,21 @@ function JsonLd() {
 }
 
 export default function HomePage() {
-  const carouselAlbums = getCarouselAlbums();
-  const featuredServices = mockServices.slice(0, 3);
-
   return (
     <main>
       <JsonLd />
-      <HomeHeroSection />
-      <FeaturedAlbumsSection albums={carouselAlbums} />
-      <ServicesPreviewSection services={featuredServices} />
-      <TestimonialsSection />
-      <ReadyToCaptureSection />
+      <AtmosphereBackground
+        photoUrl="/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
+        darkness={88}
+      />
+      <div className="relative z-[1]">
+        <HomeHeroSection />
+        <ServicesSectionCompact />
+        <ServicesProcessSection />
+        <TestimonialsSection />
+        <ReadyToCaptureSection />
+        <FaqSection />
+      </div>
     </main>
   );
 }

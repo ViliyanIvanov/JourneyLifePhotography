@@ -1,8 +1,9 @@
 'use client';
 
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
-import { Star } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SplitText } from '@/components/ui/split-text';
 
 interface Testimonial {
@@ -22,7 +23,7 @@ const testimonials: Testimonial[] = [
   {
     id: '2',
     name: 'Lizzie Paddock',
-    review: 'If you\'re looking for a photographer who is\nnot only skilled but also genuinely cares\nabout the task and clients, look no further\nthan Ivayla. I would definitely work with her\nagain and encourage anyone in need of\nphotography services to reach out!',
+    review: 'If you\'re looking for a photographer who is not only skilled but also genuinely cares about the task and clients, look no further than Ivayla. I would definitely work with her again and encourage anyone in need of photography services to reach out!',
     rating: 5,
   },
   {
@@ -56,24 +57,24 @@ function AvatarInitial({ name }: { name: string }) {
 
   return (
     <div
-      className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
+      className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
       style={{
         backgroundColor: '#C4898A',
         opacity: 0.8 + (colorIndex * 0.04),
       }}
     >
-      <span className="text-white text-lg font-semibold">{initials}</span>
+      <span className="text-white text-sm font-semibold">{initials}</span>
     </div>
   );
 }
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className={`w-4 h-4 ${
+          className={`w-3.5 h-3.5 ${
             i < rating
               ? 'fill-amber-400 text-amber-400'
               : 'text-brand-white/20'
@@ -84,94 +85,98 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function TestimonialCard({ testimonial, index }: { testimonial: Testimonial; index: number }) {
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <ScrollAnimation
-      direction="up"
-      delay={index * 150}
-      effect="float"
-    >
-      <div className="group relative">
-        {/* Card content — fixed height, CSS hover lift instead of TiltCard */}
-        <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden card-glow-hover card-lift-hover transition-[background-color,border-color,box-shadow,transform] duration-500 group-hover:bg-white/[0.10] group-hover:border-brand-accent/30 flex flex-col h-[350px]">
-          {/* Top edge highlight */}
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-accent/20 to-transparent flex-shrink-0" />
+    <div className="group relative h-full">
+      <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden transition-[background-color,border-color,box-shadow] duration-500 group-hover:bg-white/[0.10] group-hover:border-brand-accent/30 flex flex-col h-[320px]">
+        {/* Top edge highlight */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-accent/20 to-transparent flex-shrink-0" />
 
-          <div className="p-8 flex flex-col flex-1">
-            {/* Quote mark accent */}
-            <div
-              className="absolute top-6 right-6 text-6xl font-serif transition-opacity duration-500 group-hover:opacity-[0.35]"
-              style={{ color: '#C4898A', opacity: '0.2' }}
-            >
-              &quot;
+        <div className="p-6 md:p-7 flex flex-col flex-1">
+          {/* Quote mark accent */}
+          <div
+            className="absolute top-5 right-5 text-5xl font-serif transition-opacity duration-500 group-hover:opacity-[0.35]"
+            style={{ color: '#C4898A', opacity: '0.2' }}
+          >
+            &quot;
+          </div>
+
+          {/* Review text — fixed area with overflow clamp */}
+          <p className="text-brand-white/80 leading-relaxed mb-auto text-sm relative z-10 line-clamp-6">
+            {testimonial.review}
+          </p>
+
+          {/* Divider */}
+          <div
+            className="h-px my-5 flex-shrink-0"
+            style={{
+              background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
+              opacity: '0.3',
+            }}
+          />
+
+          {/* Footer with avatar, name, and rating */}
+          <div className="flex items-center justify-between gap-3 flex-shrink-0">
+            <div className="flex items-center gap-3 min-w-0">
+              <AvatarInitial name={testimonial.name} />
+              <p className="font-serif text-brand-white text-sm font-semibold truncate">
+                {testimonial.name}
+              </p>
             </div>
-
-            {/* Review text */}
-            <p className="text-brand-white/80 leading-relaxed mb-6 text-sm md:text-base relative z-10 whitespace-pre-wrap flex-1 overflow-hidden">
-              {testimonial.review}
-            </p>
-
-            {/* Divider */}
-            <div
-              className="h-px mb-6 flex-shrink-0"
-              style={{
-                background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
-                opacity: '0.3',
-              }}
-            />
-
-            {/* Footer with avatar, name, and rating */}
-            <div className="flex items-center justify-between gap-4 flex-shrink-0">
-              <div className="flex items-center gap-3 min-w-0">
-                <AvatarInitial name={testimonial.name} />
-                <p className="font-serif text-brand-white text-sm font-semibold truncate">
-                  {testimonial.name}
-                </p>
-              </div>
-              <StarRating rating={testimonial.rating} />
-            </div>
+            <StarRating rating={testimonial.rating} />
           </div>
         </div>
       </div>
-    </ScrollAnimation>
+    </div>
   );
 }
 
 export function TestimonialsSection() {
-  return (
-    <section className="relative py-24 md:py-32 bg-brand-warm-1 overflow-hidden">
-      {/* Background orbs with breathe animation */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-20 left-10 w-80 h-80 rounded-full blur-3xl animate-breathe"
-          style={{ backgroundColor: '#C4898A', opacity: '0.09' }}
-        />
-        <div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-breathe"
-          style={{ backgroundColor: '#C4898A', opacity: '0.09', animationDelay: '2s' }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-3xl animate-breathe"
-          style={{ backgroundColor: '#C4898A', opacity: '0.05', animationDelay: '1s' }}
-        />
-      </div>
+  const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const total = testimonials.length;
 
+  const goTo = useCallback((index: number) => {
+    setCurrent(((index % total) + total) % total);
+  }, [total]);
+
+  const next = useCallback(() => goTo(current + 1), [current, goTo]);
+  const prev = useCallback(() => goTo(current - 1), [current, goTo]);
+
+  // Auto-advance every 5s
+  useEffect(() => {
+    if (isPaused) return;
+    intervalRef.current = setInterval(next, 5000);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [next, isPaused]);
+
+  // Pause on user interaction, resume after 8s
+  const handleManualNav = useCallback((action: () => void) => {
+    setIsPaused(true);
+    action();
+    const timeout = setTimeout(() => setIsPaused(false), 8000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  // Get visible indices for the carousel (show 3 on desktop, 1 on mobile)
+  const getVisibleIndices = () => {
+    const indices = [];
+    for (let i = -1; i <= 1; i++) {
+      indices.push(((current + i) % total + total) % total);
+    }
+    return indices;
+  };
+
+  const visibleIndices = getVisibleIndices();
+
+  return (
+    <section className="relative py-24 md:py-32 bg-transparent overflow-hidden">
       <Container className="relative z-10">
         {/* Header */}
-        <div className="mb-16 md:mb-20 text-center max-w-3xl mx-auto">
-          <ScrollAnimation direction="fade" delay={0}>
-            <div className="mb-4 flex items-center justify-center gap-2">
-              <div className="h-px w-8" style={{ backgroundColor: '#C4898A', opacity: '0.5' }} />
-              <span
-                className="text-xs tracking-widest uppercase font-semibold"
-                style={{ color: '#C4898A', opacity: '0.7' }}
-              >
-                Testimonials
-              </span>
-              <div className="h-px w-8" style={{ backgroundColor: '#C4898A', opacity: '0.5' }} />
-            </div>
-          </ScrollAnimation>
-
+        <div className="mb-14 md:mb-16 text-center max-w-3xl mx-auto">
           <ScrollAnimation direction="up" delay={80}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-white mb-6 leading-tight">
               <SplitText
@@ -189,26 +194,69 @@ export function TestimonialsSection() {
           </ScrollAnimation>
         </div>
 
-        {/* Testimonial cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={testimonial.id}
-              testimonial={testimonial}
-              index={index}
-            />
-          ))}
-        </div>
-
-        {/* Bottom accent line */}
-        <ScrollAnimation direction="up" delay={400}>
+        {/* Carousel */}
+        <ScrollAnimation direction="up" delay={200}>
           <div
-            className="mt-16 md:mt-20 h-px"
-            style={{
-              background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
-              opacity: '0.3',
-            }}
-          />
+            className="relative"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {/* Cards row */}
+            <div className="relative overflow-hidden">
+              <div
+                className="flex transition-transform duration-500 ease-out gap-6 lg:gap-8"
+                style={{
+                  transform: `translateX(calc(-${current * (100 / 3)}% - ${current * 8}px))`,
+                }}
+              >
+                {testimonials.map((testimonial) => (
+                  <div
+                    key={testimonial.id}
+                    className="w-full md:w-[calc(33.333%-16px)] flex-shrink-0"
+                  >
+                    <TestimonialCard testimonial={testimonial} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Controls */}
+            <div className="mt-8 flex items-center justify-center gap-6">
+              {/* Prev arrow */}
+              <button
+                onClick={() => handleManualNav(prev)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/[0.1] bg-brand-white/[0.03] hover:border-brand-accent/30 hover:bg-brand-white/[0.06] transition-all duration-300"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-4 h-4 text-brand-white/60" />
+              </button>
+
+              {/* Dot indicators */}
+              <div className="flex items-center gap-2">
+                {testimonials.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleManualNav(() => goTo(i))}
+                    className={`rounded-full transition-all duration-400 ${
+                      i === current
+                        ? 'w-6 h-2 bg-brand-accent'
+                        : 'w-2 h-2 bg-brand-white/20 hover:bg-brand-white/40'
+                    }`}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Next arrow */}
+              <button
+                onClick={() => handleManualNav(next)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/[0.1] bg-brand-white/[0.03] hover:border-brand-accent/30 hover:bg-brand-white/[0.06] transition-all duration-300"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-4 h-4 text-brand-white/60" />
+              </button>
+            </div>
+          </div>
         </ScrollAnimation>
       </Container>
     </section>

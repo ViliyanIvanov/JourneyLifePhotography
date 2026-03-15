@@ -56,7 +56,7 @@ function UnlockForm({
         <Card className="border-2 border-brand-white/10 bg-brand-black">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 w-12 h-12 rounded-full bg-brand-white/10 flex items-center justify-center">
-              <Lock className="h-6 w-6 text-brand-emerald" />
+              <Lock className="h-6 w-6 text-brand-accent" />
             </div>
             <CardTitle className="text-brand-white">Private Album</CardTitle>
             <CardDescription className="text-brand-white/70">
@@ -107,7 +107,7 @@ function AlbumContent({ album }: { album: AlbumWithMediaDto }) {
   return (
     <main className="bg-brand-black min-h-screen">
       {/* Album Header */}
-      <section className="border-b border-brand-emerald/20 py-12 md:py-16">
+      <section className="border-b border-brand-accent/20 py-12 md:py-16">
         <Container>
           <Button
             variant="ghost"
@@ -237,7 +237,7 @@ export default function PrivateAlbumPage() {
       <main className="min-h-screen bg-brand-black py-16">
         <Container>
           <div className="flex items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-emerald border-t-transparent" />
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand-accent border-t-transparent" />
           </div>
         </Container>
       </main>

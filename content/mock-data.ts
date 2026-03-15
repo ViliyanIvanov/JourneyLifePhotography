@@ -35,13 +35,21 @@ export interface BlogPost {
   tags: string[];
 }
 
+export interface ServiceOption {
+  label: string;
+  values: string[];
+}
+
 export interface Service {
   id: string;
+  slug: string;
   title: string;
+  tagline: string;
   description: string;
-  price: string;
   features: string[];
   image: string;
+  heroImage: string;
+  options: ServiceOption[];
 }
 
 // =====================
@@ -191,30 +199,68 @@ export const mockBlogPosts: BlogPost[] = [
 export const mockServices: Service[] = [
   {
     id: "1",
+    slug: "wedding",
     title: "Wedding Photography",
+    tagline: "Your love story, beautifully told",
     description:
-      "Capture your special day with our comprehensive wedding photography packages.",
-    price: "Starting from £1,500",
+      "From intimate elopements to grand celebrations, I capture the emotions, details, and spontaneous moments that make your wedding day uniquely yours.",
     features: [
       "Full day coverage (8–10 hours)",
-      "Pre-wedding consultation",
+      "Pre-wedding consultation & venue visit",
       "Online gallery with high-resolution images",
+      "Second photographer available",
+      "Engagement session included",
       "USB with all edited photos",
     ],
-    image: img(DEMO_PHOTO_FILE_IDS[0], 800, 600),
+    image: "/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg",
+    heroImage: "/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg",
+    options: [
+      { label: "Guest count", values: ["Intimate (under 50)", "Medium (50–150)", "Large (150+)"] },
+      { label: "Ceremony type", values: ["Indoor", "Outdoor", "Both"] },
+    ],
   },
   {
     id: "2",
-    title: "Portrait Sessions",
+    slug: "family",
+    title: "Family Photography",
+    tagline: "Moments that grow with you",
     description:
-      "Professional portrait photography for individuals, families, and couples.",
-    price: "Starting from £250",
+      "Whether it's a newborn session, a family milestone, or simply capturing your everyday joy — I create natural, heartfelt portraits you'll treasure for years.",
     features: [
-      "1–2 hour session",
-      "Location or studio options",
-      "10–15 edited digital images",
+      "1–2 hour relaxed session",
+      "Location, studio, or home setting",
+      "15–25 edited digital images",
       "Online gallery access",
+      "Print-ready files included",
+      "Outfit & styling guidance",
     ],
-    image: img(DEMO_PHOTO_FILE_IDS[1], 800, 600),
+    image: "/JourneyLifePhotos/Children and family/Album cover kids_thumb.jpg",
+    heroImage: "/JourneyLifePhotos/Children and family/Album cover kids_thumb.jpg",
+    options: [
+      { label: "Number of people", values: ["1–3", "4–6", "7+"] },
+      { label: "Setting", values: ["Studio", "Outdoor", "Home"] },
+    ],
+  },
+  {
+    id: "3",
+    slug: "corporate",
+    title: "Corporate Photography",
+    tagline: "Professional imagery for your brand",
+    description:
+      "Elevate your brand with polished corporate photography — from team headshots and conferences to product launches and brand storytelling.",
+    features: [
+      "Professional headshots & team photos",
+      "Event & conference coverage",
+      "Product & brand photography",
+      "Quick turnaround available",
+      "Commercial usage licence included",
+      "On-location or studio setup",
+    ],
+    image: "/JourneyLifePhotos/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg",
+    heroImage: "/JourneyLifePhotos/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg",
+    options: [
+      { label: "Event type", values: ["Conference", "Headshots", "Product", "Brand"] },
+      { label: "Number of final images", values: ["10–20", "20–50", "50+"] },
+    ],
   },
 ];

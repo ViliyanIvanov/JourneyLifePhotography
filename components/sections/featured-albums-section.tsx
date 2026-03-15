@@ -1,5 +1,8 @@
+'use client';
+
+import { useState } from 'react';
 import { AlbumCarousel, CarouselAlbum } from '@/components/carousel/album-carousel';
-import { SectionShell } from '@/components/ui/section-shell';
+import { Container } from '@/components/layout/container';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
@@ -11,48 +14,79 @@ interface FeaturedAlbumsSectionProps {
 }
 
 export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
-  const bgPhoto = albums[0]?.coverImage;
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <SectionShell
-      background="warm-1"
-      bgImage={bgPhoto}
-      bgImageOpacity={82}
-      blendEdges
-      className="py-32 md:py-48"
-    >
-      {/* Ambient glow behind carousel */}
+    <section className="relative w-full overflow-hidden bg-brand-black py-24 md:py-40">
+      {/* Dynamic blurred photo atmosphere — one layer per album, crossfades on slide change */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        {albums.map((album, i) => (
+          <div
+            key={album.slug}
+            className="absolute inset-0 scale-110"
+            style={{
+              backgroundImage: `url(${album.coverImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'blur(40px)',
+              opacity: i === activeIndex ? 1 : 0,
+              transition: 'opacity 900ms ease',
+            }}
+          />
+        ))}
+        {/* Dark overlay — keeps section close to brand-black */}
+        <div className="absolute inset-0 bg-brand-black/88" />
+      </div>
+
+      {/* Top edge — blends seamlessly with the section above */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-64 md:h-96 bg-gradient-to-b from-brand-black via-brand-black/90 via-50% to-transparent" />
+
+      {/* Bottom edge — blends seamlessly with the section below */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-64 md:h-96 bg-gradient-to-t from-brand-black via-brand-black/90 via-50% to-transparent" />
+
+      {/* Grain texture */}
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-[600px] h-[400px] rounded-full blur-3xl animate-breathe"
+        className="pointer-events-none absolute inset-0 z-[1] opacity-[0.02]"
+        style={{
+          backgroundImage:
+            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' result=\'noise\'/%3E%3CfeColorMatrix in=\'noise\' type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'400\' height=\'400\' fill=\'white\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
+          backgroundSize: '400px 400px',
+        }}
+      />
+
+      {/* Ambient accent glow */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-[600px] h-[400px] rounded-full blur-3xl animate-breathe z-[1]"
         style={{ backgroundColor: 'rgba(196, 137, 138, 0.06)' }}
       />
 
-      <ScrollAnimation direction="fade">
-        <div className="mb-16 max-w-4xl">
-          {/* Decorative line — draw-line animation on scroll */}
-          <div className="mb-6 h-px w-16 origin-left animate-draw-line bg-brand-accent" />
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-white mb-6 leading-tight tracking-tight">
-            <SplitText text="Featured Albums" delay={80} className="inline" />
-          </h2>
-          <Text size="lg" className="text-brand-white/70 leading-relaxed">
-            Explore our latest work and see how we capture special moments with precision and emotion.
-          </Text>
-        </div>
-      </ScrollAnimation>
+      <Container className="relative z-[2]">
+        <ScrollAnimation direction="fade">
+          <div className="mb-16 max-w-4xl">
+            <div className="mb-6 h-px w-16 origin-left animate-draw-line bg-brand-accent" />
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-white mb-6 leading-tight tracking-tight">
+              <SplitText text="Featured Albums" delay={80} className="inline" />
+            </h2>
+            <Text size="lg" className="text-brand-white/70 leading-relaxed">
+              Explore our latest work and see how we capture special moments with precision and emotion.
+            </Text>
+          </div>
+        </ScrollAnimation>
 
-      <ScrollAnimation direction="up" delay={100}>
-        <div className="mb-20">
-          <AlbumCarousel albums={albums} />
-        </div>
-      </ScrollAnimation>
+        <ScrollAnimation direction="up" delay={100}>
+          <div className="mb-20">
+            <AlbumCarousel albums={albums} onSlideChange={setActiveIndex} />
+          </div>
+        </ScrollAnimation>
 
-      <ScrollAnimation direction="up" delay={300} effect="float">
-        <div className="flex justify-center">
-          <Button asChild variant="secondary" size="lg">
-            <Link href="/portfolio">View All Albums</Link>
-          </Button>
-        </div>
-      </ScrollAnimation>
-    </SectionShell>
+        <ScrollAnimation direction="up" delay={300} effect="float">
+          <div className="flex justify-center">
+            <Button asChild variant="secondary" size="lg">
+              <Link href="/portfolio">View All Albums</Link>
+            </Button>
+          </div>
+        </ScrollAnimation>
+      </Container>
+    </section>
   );
 }
