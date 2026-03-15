@@ -124,7 +124,7 @@ export default function BlogPostPage({ params }: PageProps) {
 
           {/* Content */}
           <div
-            className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-brand-white prose-p:text-brand-white/90 prose-a:text-brand-emerald prose-strong:text-brand-white prose-li:text-brand-white/90"
+            className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-brand-white prose-p:text-brand-white/90 prose-a:text-brand-accent prose-strong:text-brand-white prose-li:text-brand-white/90"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </Container>

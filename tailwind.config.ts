@@ -22,8 +22,7 @@ const config: Config = {
           black: '#0A0A0A',
           white: '#FFFFFF',
           accent: '#C4898A',
-          emerald: '#C4898A', // Legacy alias → now maps to accent
-          'dark-1': '#111111',
+'dark-1': '#111111',
           'dark-2': '#141414',
           'dark-3': '#1A1A1A',
           'warm-1': '#141210',

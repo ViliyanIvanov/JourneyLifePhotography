@@ -1,7 +1,6 @@
 'use client';
 
 import { Container } from '@/components/layout/container';
-import { Overlay } from '@/components/ui/overlay';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Button } from '@/components/ui/button';
@@ -18,38 +17,15 @@ const STATS = [
 
 export function ReadyToCaptureSection() {
   return (
-    <Overlay
-      imageUrl="/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
-      gradient="subtle"
-      className="min-h-[80vh] py-40 md:py-56 flex items-center"
-    >
-      {/* Floating decorations — more prominent */}
-      <div className="pointer-events-none absolute inset-0 z-[5]">
-        <div
-          className="deco-line animate-float"
-          style={{ top: '15%', right: '10%', height: '90px', animationDelay: '0s' }}
-        />
-        <div
-          className="deco-dot animate-pulse-glow"
-          style={{ top: '65%', left: '8%', animationDelay: '1.5s', width: '6px', height: '6px', opacity: '0.6' }}
-        />
-        <div
-          className="deco-line animate-float-slow"
-          style={{ top: '45%', left: '5%', height: '70px', animationDelay: '0.8s' }}
-        />
-        <div
-          className="deco-line animate-drift"
-          style={{ top: '30%', left: '15%', height: '50px', animationDelay: '1.2s' }}
-        />
-        <div
-          className="deco-dot animate-breathe"
-          style={{ top: '25%', right: '20%', animationDelay: '0.5s', width: '5px', height: '5px' }}
-        />
-        <div
-          className="deco-line animate-float"
-          style={{ bottom: '20%', right: '6%', height: '60px', animationDelay: '2s' }}
-        />
-      </div>
+    <section className="relative py-24 md:py-32 bg-transparent">
+      {/* Top divider */}
+      <div
+        className="absolute inset-x-0 top-0 h-px"
+        style={{
+          background: 'linear-gradient(to right, transparent, #C4898A 50%, transparent)',
+          opacity: '0.2',
+        }}
+      />
 
       <Container>
         <div className="max-w-3xl mx-auto text-center">
@@ -90,6 +66,6 @@ export function ReadyToCaptureSection() {
           </ScrollAnimation>
         </div>
       </Container>
-    </Overlay>
+    </section>
   );
 }

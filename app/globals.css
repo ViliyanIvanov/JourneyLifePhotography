@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   :root {
     /* Design System: Black #0A0A0A, White #FFFFFF, Emerald #0F3D2E */
@@ -124,6 +134,15 @@
   }
 }
 
+/* Carousel card text entrance animations */
+@keyframes card-text-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card-text-enter        { animation: card-text-in 500ms cubic-bezier(0.22,1,0.36,1) both; }
+.card-text-enter-delay1 { animation: card-text-in 500ms cubic-bezier(0.22,1,0.36,1) 80ms both; }
+.card-text-enter-delay2 { animation: card-text-in 500ms cubic-bezier(0.22,1,0.36,1) 160ms both; }
+
 /* Card glow on hover — dusty rose shadow */
 .card-glow-hover {
   transition: box-shadow 0.5s ease;
@@ -164,4 +183,21 @@
   border-radius: 50%;
   background: rgba(196, 137, 138, 0.4);
   pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   Film grain — slow drift animation
+   ------------------------------------------------------------ */
+
+@keyframes grain-drift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -3%); }
+  30% { transform: translate(3%, 2%); }
+  50% { transform: translate(-1%, 4%); }
+  70% { transform: translate(2%, -2%); }
+  90% { transform: translate(-3%, 1%); }
+}
+
+.animate-grain {
+  animation: grain-drift 8s steps(10) infinite;
 }
