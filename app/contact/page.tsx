@@ -1,6 +1,6 @@
 import { createMetadata } from '@/lib/seo';
-import { PageHeader } from '@/components/layout/page-header';
-import { ContactInfoSection } from '@/components/sections/contact-info-section';
+import { AtmosphereBackground } from '@/components/ui/atmosphere-background';
+import { ContactPageContent } from '@/components/sections/contact-page-content';
 
 export const metadata = createMetadata({
   title: 'Contact',
@@ -8,17 +8,18 @@ export const metadata = createMetadata({
     'Get in touch with Iva Dimitrov Photography to discuss your photography needs.',
 });
 
+const ATMOSPHERE_PHOTO =
+  '/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg';
+
 export default function ContactPage() {
   return (
     <>
-      <PageHeader
-        title="Contact Us"
-        description="We'd love to hear from you. Send us a message and we'll respond as soon as possible."
-      />
-      <main>
-        <ContactInfoSection />
-      </main>
+      <AtmosphereBackground photoUrl={ATMOSPHERE_PHOTO} darkness={88} />
+      <div className="relative z-[1]">
+        <main>
+          <ContactPageContent />
+        </main>
+      </div>
     </>
   );
 }
-

@@ -77,28 +77,6 @@
   }
 }
 
-/* ------------------------------------------------------------
-   Floating Navbar Anchor Support
-   ------------------------------------------------------------ */
-
-/*
-  The NavAnchor component sets CSS variables:
-  --nav-anchor-vh          (mobile)
-  --nav-anchor-vh-desktop  (desktop)
-
-  This rule switches the anchor position at md breakpoint
-  WITHOUT duplicating the element or ID.
-*/
-
-#nav-anchor {
-  top: calc(var(--nav-anchor-vh) * 1vh);
-}
-
-@media (min-width: 768px) {
-  #nav-anchor {
-    top: calc(var(--nav-anchor-vh-desktop) * 1vh);
-  }
-}
 
 @layer utilities {
   @keyframes loader-pulse {
@@ -200,4 +178,13 @@
 
 .animate-grain {
   animation: grain-drift 8s steps(10) infinite;
+}
+
+/* ------------------------------------------------------------
+   Testimonial carousel — progress indicator fill
+   ------------------------------------------------------------ */
+
+@keyframes indicator-fill {
+  0% { width: 0%; }
+  100% { width: 100%; }
 }

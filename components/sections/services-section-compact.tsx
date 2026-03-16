@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { mockServices, type Service } from '@/content/mock-data';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
@@ -11,99 +11,227 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
-  const [modalOpen, setModalOpen] = useState(false);
+const AUTO_PLAY_MS = 5000;
 
-  return (
-    <>
-      <ScrollAnimation direction="up" delay={index * 120}>
-        <div className="group relative rounded-2xl overflow-hidden cursor-pointer h-[420px] md:h-[480px]">
-          {/* Background image */}
-          <Image
-            src={service.image}
-            alt={service.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, 33vw"
-          />
-
-          {/* Dimming overlay — darkens more on hover */}
-          <div className="absolute inset-0 bg-brand-black/50 transition-all duration-500 group-hover:bg-brand-black/70" />
-
-          {/* Glass border overlay */}
-          <div className="absolute inset-0 rounded-2xl border border-brand-white/[0.06] transition-all duration-500 group-hover:border-brand-accent/30 group-hover:shadow-[0_0_24px_rgba(196,137,138,0.3)]" />
-
-          {/* Content container */}
-          <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-            {/* Title + tagline — always visible */}
-            <div className="relative z-10">
-              <h3 className="font-serif text-2xl md:text-3xl font-bold text-brand-white tracking-tight mb-2 transition-transform duration-500 group-hover:-translate-y-2">
-                {service.title}
-              </h3>
-              <p className="text-brand-accent/80 text-sm font-medium uppercase tracking-widest mb-1 transition-transform duration-500 group-hover:-translate-y-2">
-                {service.tagline}
-              </p>
-            </div>
-
-            {/* Reveal content — features + CTA */}
-            <div className="relative z-10 max-h-0 overflow-hidden opacity-0 transition-all duration-500 ease-out group-hover:max-h-[200px] group-hover:opacity-100 group-hover:mt-4">
-              <div className="h-px w-full bg-gradient-to-r from-brand-accent/30 via-brand-accent/10 to-transparent mb-4" />
-
-              <ul className="space-y-1.5 mb-5">
-                {service.features.slice(0, 3).map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-brand-white/70">
-                    <span className="text-brand-accent/60 shrink-0 mt-0.5">—</span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <Button
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setModalOpen(true);
-                }}
-              >
-                Get a Quote
-              </Button>
-            </div>
-          </div>
-        </div>
-      </ScrollAnimation>
-
-      <QuoteRequestModal
-        service={service}
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-      />
-    </>
-  );
-}
+/** Short labels for mobile tabs */
+const TAB_LABELS: Record<string, string> = {
+  'Wedding Photography': 'Wedding',
+  'Family Photography': 'Family',
+  'Corporate Photography': 'Corporate',
+};
 
 export function ServicesSectionCompact() {
   const services = mockServices.slice(0, 3);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Direction: 1 = forward, -1 = backward (for slide direction)
+  const [direction, setDirection] = useState(1);
+  // Unique key that changes every switch to re-trigger mount animations
+  const [transitionKey, setTransitionKey] = useState(0);
+  // Progress for the timer bar (0–100)
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef<number | null>(null);
+  const startTimeRef = useRef(Date.now());
+
+  const activeService = services[activeIndex];
+
+  const goTo = useCallback(
+    (next: number, dir?: number) => {
+      if (next === activeIndex) return;
+      setDirection(dir ?? (next > activeIndex ? 1 : -1));
+      setActiveIndex(next);
+      setTransitionKey((k) => k + 1);
+      setProgress(0);
+      startTimeRef.current = Date.now();
+    },
+    [activeIndex],
+  );
+
+  // Auto-rotate
+  useEffect(() => {
+    if (isPaused || modalOpen) return;
+
+    startTimeRef.current = Date.now();
+    setProgress(0);
+
+    // Progress animation frame loop
+    const tick = () => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const pct = Math.min((elapsed / AUTO_PLAY_MS) * 100, 100);
+      setProgress(pct);
+      if (pct < 100) {
+        progressRef.current = requestAnimationFrame(tick);
+      }
+    };
+    progressRef.current = requestAnimationFrame(tick);
+
+    const timer = setTimeout(() => {
+      const next = (activeIndex + 1) % services.length;
+      goTo(next, 1);
+    }, AUTO_PLAY_MS);
+
+    return () => {
+      clearTimeout(timer);
+      if (progressRef.current) cancelAnimationFrame(progressRef.current);
+    };
+  }, [activeIndex, isPaused, modalOpen, services.length, goTo]);
+
+  const handleTabClick = (i: number) => {
+    goTo(i);
+  };
+
+  // Slide transform based on direction
+  const slideFrom = direction > 0 ? 'translate-x-[60px]' : 'translate-x-[-60px]';
 
   return (
-    <section className="relative py-24 md:py-32 bg-transparent overflow-hidden">
+    <section
+      className="relative py-24 md:py-32 bg-transparent overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <Container>
-        {/* Header */}
+        {/* Header — centered */}
         <ScrollAnimation direction="fade">
-          <div className="mb-14 md:mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-14 md:mb-16">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-white mb-5 leading-tight tracking-tight">
               <SplitText text="What We Offer" delay={60} className="inline" />
             </h2>
-            <p className="text-brand-white/55 text-lg max-w-xl leading-relaxed">
-              Every project is unique. Tell me about yours and I&apos;ll craft a personalised quote tailored to your vision.
+            <p className="text-brand-white/55 text-lg leading-relaxed">
+              Every project is unique. Tell me about yours and I&apos;ll craft a
+              personalised quote tailored to your vision.
             </p>
           </div>
         </ScrollAnimation>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-12">
-          {services.map((service, i) => (
-            <ServiceCard key={service.id} service={service} index={i} />
-          ))}
+        {/* Tab bar */}
+        <ScrollAnimation direction="up" delay={100}>
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex gap-1 rounded-xl bg-brand-white/[0.04] backdrop-blur-sm border border-brand-white/[0.06] p-1.5">
+              {services.map((service, i) => (
+                <button
+                  key={service.id}
+                  onClick={() => handleTabClick(i)}
+                  className={`relative px-3 md:px-4 py-2.5 font-medium tracking-wide transition-colors duration-300 rounded-lg whitespace-nowrap ${
+                    i === activeIndex
+                      ? 'text-brand-white'
+                      : 'text-brand-white/40 hover:text-brand-white/60'
+                  }`}
+                >
+                  {/* Mobile: short label / Desktop: full title */}
+                  <span className="relative z-10 text-xs md:text-sm md:hidden">
+                    {TAB_LABELS[service.title] ?? service.title}
+                  </span>
+                  <span className="relative z-10 text-sm hidden md:inline">
+                    {service.title}
+                  </span>
+
+                  {/* Active indicator — progress bar that fills over 5s */}
+                  {i === activeIndex && (
+                    <span className="absolute inset-x-2 bottom-0.5 h-0.5 rounded-full bg-brand-white/10 overflow-hidden">
+                      <span
+                        className="absolute inset-y-0 left-0 bg-brand-accent rounded-full transition-none"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </ScrollAnimation>
+
+        {/* Active service card */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <div
+            key={transitionKey}
+            className="will-change-transform"
+            style={{
+              animation: `svc-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
+            }}
+          >
+            <div className="rounded-2xl border border-brand-white/[0.06] bg-brand-white/[0.03] backdrop-blur-sm overflow-hidden">
+              <div className="flex flex-col md:flex-row">
+                {/* Image with reveal */}
+                <div
+                  className="relative w-full md:w-[40%] aspect-[4/3] md:aspect-auto md:min-h-[360px] shrink-0 overflow-hidden"
+                  style={{
+                    animation: `svc-img-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both`,
+                  }}
+                >
+                  <Image
+                    src={activeService.image}
+                    alt={activeService.title}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                    style={{
+                      animation: `svc-img-zoom 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both`,
+                    }}
+                  />
+                  {/* Accent glow on image edge */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-black/40 hidden md:block" />
+                </div>
+
+                {/* Text content with staggered entrance */}
+                <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12 flex-1">
+                  <h3
+                    className="font-serif text-2xl md:text-3xl font-bold text-brand-white tracking-tight mb-2"
+                    style={{
+                      animation: `svc-text-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both`,
+                    }}
+                  >
+                    {activeService.title}
+                  </h3>
+                  <p
+                    className="text-brand-accent/80 text-sm font-medium uppercase tracking-widest mb-4"
+                    style={{
+                      animation: `svc-text-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both`,
+                    }}
+                  >
+                    {activeService.tagline}
+                  </p>
+
+                  {/* Divider — draws in */}
+                  <div
+                    className="h-px w-full bg-gradient-to-r from-brand-accent/30 via-brand-accent/10 to-transparent mb-5 origin-left"
+                    style={{
+                      animation: `svc-line-draw 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both`,
+                    }}
+                  />
+
+                  {/* Features — staggered */}
+                  <ul className="space-y-2 mb-6">
+                    {activeService.features.slice(0, 4).map((feature, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start gap-2.5 text-sm text-brand-white/70"
+                        style={{
+                          animation: `svc-text-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) ${0.32 + i * 0.06}s both`,
+                        }}
+                      >
+                        <span className="text-brand-accent/60 shrink-0 mt-0.5">
+                          —
+                        </span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div
+                    style={{
+                      animation: `svc-text-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both`,
+                    }}
+                  >
+                    <Button size="sm" onClick={() => setModalOpen(true)}>
+                      Get a Quote
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Footer link */}
@@ -119,6 +247,62 @@ export function ServicesSectionCompact() {
           </div>
         </ScrollAnimation>
       </Container>
+
+      <QuoteRequestModal
+        service={activeService}
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+      />
+
+      {/* Keyframe animations — injected once */}
+      <style jsx global>{`
+        @keyframes svc-card-in {
+          from {
+            opacity: 0;
+            transform: ${slideFrom} scale(0.97);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+          }
+        }
+        @keyframes svc-img-reveal {
+          from {
+            clip-path: inset(0 100% 0 0);
+          }
+          to {
+            clip-path: inset(0 0% 0 0);
+          }
+        }
+        @keyframes svc-img-zoom {
+          from {
+            transform: scale(1.15);
+          }
+          to {
+            transform: scale(1);
+          }
+        }
+        @keyframes svc-text-in {
+          from {
+            opacity: 0;
+            transform: translateY(16px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes svc-line-draw {
+          from {
+            transform: scaleX(0);
+            opacity: 0;
+          }
+          to {
+            transform: scaleX(1);
+            opacity: 1;
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -196,7 +196,7 @@ export function GlobalLoader() {
         <img
           src="/logo.png"
           alt="Iva Dimitrov Photography"
-          className="h-48 w-48 rounded-full animate-loader-pulse opacity-100"
+          className="h-64 w-64 rounded-full animate-loader-pulse opacity-100"
         />
       </div>
     </div>
