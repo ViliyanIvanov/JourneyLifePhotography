@@ -1,30 +1,35 @@
 import { createMetadata } from '@/lib/seo';
 import { PageHeader } from '@/components/layout/page-header';
-import { AboutIntroSection } from '@/components/sections/about-intro-section';
-import { AboutValuesSection } from '@/components/sections/about-values-section';
-import { AboutEquipmentSection } from '@/components/sections/about-equipment-section';
-import { AboutCtaSection } from '@/components/sections/about-cta-section';
+import { AtmosphereBackground } from '@/components/ui/atmosphere-background';
+import { AboutMeetSection } from '@/components/sections/about-meet-section';
+import { AboutBehindLensSection } from '@/components/sections/about-behind-lens-section';
+import { AboutBookCtaSection } from '@/components/sections/about-book-cta-section';
 
 export const metadata = createMetadata({
   title: 'About',
   description:
-    'Learn about Iva Dimitrov Photography and our passion for capturing life\'s precious moments.',
+    'The story behind the lens — and the heart that guides every frame.',
 });
+
+const ATMOSPHERE_PHOTO =
+  '/JourneyLifePhotos/Headshot/DSC07273 done finished_thumb.jpg';
 
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
-        title="About Us"
-        description="Driven by artistry and dedication, we transform fleeting moments into timeless visual narratives. Every frame is crafted with intention, passion, and an unwavering commitment to excellence."
-      />
-      <main>
-        <AboutIntroSection />
-        <AboutValuesSection />
-        <AboutEquipmentSection />
-        <AboutCtaSection />
-      </main>
+      <AtmosphereBackground photoUrl={ATMOSPHERE_PHOTO} />
+      <div className="relative z-[1]">
+        <PageHeader
+          title="About"
+          description="The story behind the lens — and the heart that guides every frame."
+          className="bg-transparent"
+        />
+        <main>
+          <AboutMeetSection />
+          <AboutBehindLensSection />
+          <AboutBookCtaSection />
+        </main>
+      </div>
     </>
   );
 }
-

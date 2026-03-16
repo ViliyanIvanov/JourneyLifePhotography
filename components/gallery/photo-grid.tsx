@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Photo } from '@/content/mock-data';
@@ -32,24 +32,31 @@ interface PhotoGridProps {
   loadMoreCount?: number;
 }
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+};
+
+const springTransition = { type: 'spring' as const, stiffness: 100, damping: 20 };
+
 export function PhotoGrid({
   photos,
   onLoadMore,
   hasMore = false,
   isLoading = false,
-  initialLoadCount = 8,
-  loadMoreCount = 8,
+  initialLoadCount = 20,
+  loadMoreCount = 16,
 }: PhotoGridProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [displayedCount, setDisplayedCount] = useState(initialLoadCount);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
 
+  // Sentinel that resets when it leaves view, allowing re-trigger
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: false,
+    rootMargin: '200px',
   });
 
   const handlePhotoClick = useCallback((index: number) => {
@@ -61,21 +68,17 @@ export function PhotoGrid({
     setLoadedImages(prev => new Set([...prev, photoId]));
   }, []);
 
-  // Infinite loading: load more when scrolling to bottom
+  // Infinite loading: load more when sentinel is in view
   useEffect(() => {
-    if (inView && displayedCount < photos.length && !isLoading) {
-      setDisplayedCount(prev => Math.min(prev + loadMoreCount, photos.length));
+    if (inView && !isLoading) {
+      if (displayedCount < photos.length) {
+        setDisplayedCount(prev => Math.min(prev + loadMoreCount, photos.length));
+      } else if (hasMore && onLoadMore) {
+        onLoadMore();
+      }
     }
-  }, [inView, displayedCount, photos.length, isLoading, loadMoreCount]);
+  }, [inView, displayedCount, photos.length, isLoading, loadMoreCount, hasMore, onLoadMore]);
 
-  // External load more (if provided)
-  useEffect(() => {
-    if (inView && hasMore && !isLoading && onLoadMore) {
-      onLoadMore();
-    }
-  }, [inView, hasMore, isLoading, onLoadMore]);
-
-  // Get only the photos to display
   const displayedPhotos = photos.slice(0, displayedCount);
   const hasMoreToShow = displayedCount < photos.length;
 
@@ -89,18 +92,8 @@ export function PhotoGrid({
 
   return (
     <>
-      <motion.div
-        className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
-        initial={mounted ? 'hidden' : false}
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.05 }}
-        variants={{
-          hidden: {},
-          visible: { transition: { staggerChildren: 0.05 } },
-        }}
-      >
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {displayedPhotos.map((photo, index) => {
-          // Handle both Photo and MediaAssetDto formats
           const thumbnailUrl = 'thumbnailUrl' in photo ? photo.thumbnailUrl : photo.thumbUrl;
           const alt = 'alt' in photo ? photo.alt : (photo.altText || 'Photo');
           const isImageLoaded = loadedImages.has(photo.id);
@@ -110,13 +103,12 @@ export function PhotoGrid({
               key={photo.id}
               onClick={() => handlePhotoClick(index)}
               className="relative aspect-square overflow-hidden group focus:outline-none focus:ring-2 focus:ring-brand-white/40 focus:ring-offset-2 focus:ring-offset-brand-black"
-              variants={{
-                hidden: { opacity: 0, y: 20, scale: 0.97 },
-                visible: { opacity: 1, y: 0, scale: 1 },
-              }}
-              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+              variants={itemVariants}
+              transition={{ ...springTransition, delay: (index % loadMoreCount) * 0.03 }}
             >
-              {/* Skeleton loader shown until image loads */}
               {!isImageLoaded && <PhotoSkeleton />}
 
               <Image
@@ -130,17 +122,16 @@ export function PhotoGrid({
                 loading={index < initialLoadCount ? 'eager' : 'lazy'}
                 onLoad={() => handleImageLoad(photo.id)}
               />
-              {/* Subtle overlay on hover */}
               <div className="absolute inset-0 bg-brand-black/0 group-hover:bg-brand-black/20 transition-colors duration-500" />
             </motion.button>
           );
         })}
-      </motion.div>
+      </div>
 
-      {/* Show loading indicator when there are more photos to display */}
+      {/* Sentinel — triggers loading the next batch */}
       {(hasMoreToShow || hasMore) && (
         <div ref={ref} className="mt-8 text-center">
-          <p className="text-brand-white/70">
+          <p className="text-brand-white/50 text-sm">
             {isLoading ? 'Loading more photos...' : `Showing ${displayedCount} of ${photos.length} photos`}
           </p>
         </div>
@@ -157,4 +148,3 @@ export function PhotoGrid({
     </>
   );
 }
-

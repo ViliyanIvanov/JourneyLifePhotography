@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -46,6 +46,8 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+const TOTAL = testimonials.length;
+
 function AvatarInitial({ name }: { name: string }) {
   const initials = name
     .split(' ')
@@ -87,7 +89,7 @@ function StarRating({ rating }: { rating: number }) {
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <div className="group relative h-full">
+    <div className="group relative h-full px-3 lg:px-4">
       <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden transition-[background-color,border-color,box-shadow] duration-500 group-hover:bg-white/[0.10] group-hover:border-brand-accent/30 flex flex-col h-[320px]">
         {/* Top edge highlight */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-accent/20 to-transparent flex-shrink-0" />
@@ -101,7 +103,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
             &quot;
           </div>
 
-          {/* Review text — fixed area with overflow clamp */}
+          {/* Review text */}
           <p className="text-brand-white/80 leading-relaxed mb-auto text-sm relative z-10 line-clamp-6">
             {testimonial.review}
           </p>
@@ -131,46 +133,79 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   );
 }
 
-export function TestimonialsSection() {
-  const [current, setCurrent] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const total = testimonials.length;
+/* ─── Responsive visible count ─── */
 
-  const goTo = useCallback((index: number) => {
-    setCurrent(((index % total) + total) % total);
-  }, [total]);
-
-  const next = useCallback(() => goTo(current + 1), [current, goTo]);
-  const prev = useCallback(() => goTo(current - 1), [current, goTo]);
-
-  // Auto-advance every 5s
+function useVisibleCount() {
+  const [count, setCount] = useState(3);
   useEffect(() => {
-    if (isPaused) return;
-    intervalRef.current = setInterval(next, 5000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [next, isPaused]);
-
-  // Pause on user interaction, resume after 8s
-  const handleManualNav = useCallback((action: () => void) => {
-    setIsPaused(true);
-    action();
-    const timeout = setTimeout(() => setIsPaused(false), 8000);
-    return () => clearTimeout(timeout);
+    const update = () => setCount(window.innerWidth >= 768 ? 3 : 1);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
   }, []);
+  return count;
+}
 
-  // Get visible indices for the carousel (show 3 on desktop, 1 on mobile)
-  const getVisibleIndices = () => {
-    const indices = [];
-    for (let i = -1; i <= 1; i++) {
-      indices.push(((current + i) % total + total) % total);
+/* ─── Infinite carousel ─── */
+
+export function TestimonialsSection() {
+  const visibleCount = useVisibleCount();
+  const [offset, setOffset] = useState(TOTAL); // start in the "real" middle set
+  const [animate, setAnimate] = useState(true);
+  // progressKey resets the CSS fill animation whenever the slide changes
+  const [progressKey, setProgressKey] = useState(0);
+
+  const extended = [...testimonials, ...testimonials, ...testimonials];
+
+  const realIndex = ((offset % TOTAL) + TOTAL) % TOTAL;
+
+  // After each animated transition, snap back to real range if in clone zone
+  const handleTransitionEnd = useCallback(() => {
+    if (offset < TOTAL) {
+      setAnimate(false);
+      setOffset(offset + TOTAL);
+    } else if (offset >= TOTAL * 2) {
+      setAnimate(false);
+      setOffset(offset - TOTAL);
     }
-    return indices;
-  };
+  }, [offset]);
 
-  const visibleIndices = getVisibleIndices();
+  // Re-enable animation after snap
+  useEffect(() => {
+    if (!animate) {
+      let id: number;
+      const reEnable = () => {
+        id = requestAnimationFrame(() => {
+          setAnimate(true);
+        });
+      };
+      const outer = requestAnimationFrame(reEnable);
+      return () => {
+        cancelAnimationFrame(outer);
+        cancelAnimationFrame(id);
+      };
+    }
+  }, [animate]);
+
+  const goNext = useCallback(() => setOffset((o) => o + 1), []);
+  const goPrev = useCallback(() => setOffset((o) => o - 1), []);
+
+  const goToReal = useCallback(
+    (i: number) => {
+      setOffset(TOTAL + i);
+    },
+    []
+  );
+
+  // Reset progress bar whenever the slide changes
+  useEffect(() => {
+    setProgressKey((k) => k + 1);
+  }, [offset]);
+
+  // When the progress bar finishes filling, advance to next slide
+  const handleProgressEnd = useCallback(() => {
+    goNext();
+  }, [goNext]);
 
   return (
     <section className="relative py-24 md:py-32 bg-transparent overflow-hidden">
@@ -196,23 +231,23 @@ export function TestimonialsSection() {
 
         {/* Carousel */}
         <ScrollAnimation direction="up" delay={200}>
-          <div
-            className="relative"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            {/* Cards row */}
-            <div className="relative overflow-hidden">
+          <div className="relative">
+            {/* Track */}
+            <div className="overflow-hidden -mx-3 lg:-mx-4">
               <div
-                className="flex transition-transform duration-500 ease-out gap-6 lg:gap-8"
+                className={animate ? 'transition-transform duration-500 ease-out' : ''}
                 style={{
-                  transform: `translateX(calc(-${current * (100 / 3)}% - ${current * 8}px))`,
+                  display: 'flex',
+                  width: `${(extended.length / visibleCount) * 100}%`,
+                  transform: `translateX(-${offset * (100 / extended.length)}%)`,
                 }}
+                onTransitionEnd={handleTransitionEnd}
               >
-                {testimonials.map((testimonial) => (
+                {extended.map((testimonial, i) => (
                   <div
-                    key={testimonial.id}
-                    className="w-full md:w-[calc(33.333%-16px)] flex-shrink-0"
+                    key={`${testimonial.id}-${i}`}
+                    style={{ width: `${100 / extended.length}%` }}
+                    className="flex-shrink-0"
                   >
                     <TestimonialCard testimonial={testimonial} />
                   </div>
@@ -222,34 +257,40 @@ export function TestimonialsSection() {
 
             {/* Controls */}
             <div className="mt-8 flex items-center justify-center gap-6">
-              {/* Prev arrow */}
               <button
-                onClick={() => handleManualNav(prev)}
+                onClick={goPrev}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/[0.1] bg-brand-white/[0.03] hover:border-brand-accent/30 hover:bg-brand-white/[0.06] transition-all duration-300"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-4 h-4 text-brand-white/60" />
               </button>
 
-              {/* Dot indicators */}
+              {/* Progress-bar indicators */}
               <div className="flex items-center gap-2">
                 {testimonials.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => handleManualNav(() => goTo(i))}
-                    className={`rounded-full transition-all duration-400 ${
-                      i === current
-                        ? 'w-6 h-2 bg-brand-accent'
-                        : 'w-2 h-2 bg-brand-white/20 hover:bg-brand-white/40'
-                    }`}
+                    onClick={() => goToReal(i)}
+                    className="relative h-1.5 rounded-full overflow-hidden transition-all duration-300 bg-brand-white/10"
+                    style={{ width: i === realIndex ? 32 : 8 }}
                     aria-label={`Go to testimonial ${i + 1}`}
-                  />
+                  >
+                    {i === realIndex && (
+                      <div
+                        key={progressKey}
+                        className="absolute inset-y-0 left-0 rounded-full bg-brand-accent"
+                        style={{
+                          animation: 'indicator-fill 5s linear forwards',
+                        }}
+                        onAnimationEnd={handleProgressEnd}
+                      />
+                    )}
+                  </button>
                 ))}
               </div>
 
-              {/* Next arrow */}
               <button
-                onClick={() => handleManualNav(next)}
+                onClick={goNext}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/[0.1] bg-brand-white/[0.03] hover:border-brand-accent/30 hover:bg-brand-white/[0.06] transition-all duration-300"
                 aria-label="Next testimonial"
               >

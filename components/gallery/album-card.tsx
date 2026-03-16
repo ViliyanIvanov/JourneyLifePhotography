@@ -18,13 +18,13 @@ export function AlbumCard({ album, index = 0 }: AlbumCardProps) {
   return (
     <ScrollAnimation direction="up" delay={index * 100} effect="float">
       <Link href={album.isPrivate ? `/private/${album.slug || album.id}` : `/portfolio/${album.slug || album.id}`}>
-        <div className="group relative overflow-hidden bg-brand-black card-glow-hover card-lift-hover rounded-lg transition-all duration-500 hover:scale-[1.02]">
+        <div className="group relative overflow-hidden bg-brand-black card-glow-hover card-lift-hover rounded-2xl transition-all duration-500 hover:scale-[1.02]">
           <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden">
             <Image
               src={coverImageUrl}
               alt={album.title}
               fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+              className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-brand-black/0 group-hover:bg-brand-black/30 transition-colors duration-500" />

@@ -2,10 +2,11 @@ import { createMetadata } from '@/lib/seo';
 import { HomeHeroSection } from '@/components/sections/home-hero-section';
 import { ServicesSectionCompact } from '@/components/sections/services-section-compact';
 import { ServicesProcessSection } from '@/components/sections/services-process-section';
+import { PortfolioShowcaseSection } from '@/components/sections/portfolio-showcase-section';
 import { TestimonialsSection } from '@/components/sections/testimonials-section';
 import { FaqSection } from '@/components/sections/faq-section';
 import { ReadyToCaptureSection } from '@/components/sections/ready-to-capture-section';
-import { AtmosphereBackground } from '@/components/ui/atmosphere-background';
+
 
 export const metadata = createMetadata({
   title: 'Home',
@@ -56,17 +57,44 @@ export default function HomePage() {
   return (
     <main>
       <JsonLd />
-      <AtmosphereBackground
-        photoUrl="/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
-        darkness={88}
-      />
+
+      {/* Hero — sticky, stays in place while content scrolls over it */}
+      <HomeHeroSection />
+
+      {/* Content — slides up over the sticky hero */}
       <div className="relative z-[1]">
-        <HomeHeroSection />
-        <ServicesSectionCompact />
-        <ServicesProcessSection />
-        <TestimonialsSection />
-        <ReadyToCaptureSection />
-        <FaqSection />
+        {/* Atmosphere — absolute, scoped to content area only (not covering hero) */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
+          <div
+            className="absolute inset-0 scale-125 blur-[60px] saturate-50"
+            style={{
+              backgroundImage: `url("${encodeURI('/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg')}")`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: 'rgba(10, 10, 10, 0.88)' }}
+          />
+          <div
+            className="absolute inset-[-20%] animate-grain opacity-[0.04]"
+            style={{
+              backgroundImage:
+                'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'512\' height=\'512\' filter=\'url(%23g)\' opacity=\'1\'/%3E%3C/svg%3E")',
+              backgroundSize: '256px 256px',
+            }}
+          />
+        </div>
+
+        <div className="relative z-[1]">
+          <ServicesSectionCompact />
+          <ServicesProcessSection />
+          <PortfolioShowcaseSection />
+          <TestimonialsSection />
+          <ReadyToCaptureSection />
+          <FaqSection />
+        </div>
       </div>
     </main>
   );

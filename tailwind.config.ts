@@ -139,6 +139,10 @@ const config: Config = {
           '0%, 100%': { transform: 'translateX(0) translateY(0)' },
           '50%': { transform: 'translateX(15px) translateY(-8px)' },
         },
+        'indicator-fill': {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
