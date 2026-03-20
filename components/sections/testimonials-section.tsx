@@ -286,7 +286,7 @@ export function TestimonialsSection() {
                     {i === realIndex && (
                       <div
                         key={progressKey}
-                        className="absolute inset-y-0 left-0 rounded-full bg-brand-accent"
+                        className="absolute inset-y-0 left-0 w-full origin-left rounded-full bg-brand-accent"
                         style={{
                           animation: 'indicator-fill 5s linear forwards',
                         }}

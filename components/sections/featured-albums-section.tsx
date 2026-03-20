@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { AlbumCarousel, CarouselAlbum } from '@/components/carousel/album-carousel';
 import { Container } from '@/components/layout/container';
 import { Text } from '@/components/ui/text';
@@ -14,28 +13,11 @@ interface FeaturedAlbumsSectionProps {
 }
 
 export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-
   return (
     <section className="relative w-full overflow-hidden bg-brand-black py-24 md:py-40">
-      {/* Dynamic blurred photo atmosphere — one layer per album, crossfades on slide change */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        {albums.map((album, i) => (
-          <div
-            key={album.slug}
-            className="absolute inset-0 scale-110"
-            style={{
-              backgroundImage: `url(${album.coverImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'blur(40px)',
-              opacity: i === activeIndex ? 1 : 0,
-              transition: 'opacity 900ms ease',
-            }}
-          />
-        ))}
-        {/* Dark overlay — keeps section close to brand-black */}
-        <div className="absolute inset-0 bg-brand-black/88" />
+      {/* Atmospheric background — CSS gradients only, no GPU filter cost */}
+      <div className="pointer-events-none absolute inset-0 z-0 bg-brand-black">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_30%,rgba(196,137,138,0.05)_0%,transparent_70%)]" />
       </div>
 
       {/* Top edge — blends seamlessly with the section above */}
@@ -72,7 +54,7 @@ export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
 
         <ScrollAnimation direction="up" delay={100}>
           <div className="mb-20">
-            <AlbumCarousel albums={albums} onSlideChange={setActiveIndex} />
+            <AlbumCarousel albums={albums} />
           </div>
         </ScrollAnimation>
 

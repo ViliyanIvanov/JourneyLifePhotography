@@ -112,7 +112,7 @@ export function ServicesSectionCompact() {
                     <span className="absolute inset-x-2 bottom-0.5 h-0.5 rounded-full bg-brand-white/10 overflow-hidden">
                       <span
                         key={progressKey}
-                        className="absolute inset-y-0 left-0 bg-brand-accent rounded-full"
+                        className="absolute inset-y-0 left-0 w-full origin-left bg-brand-accent rounded-full"
                         style={{
                           animation: isPaused || modalOpen ? 'none' : `indicator-fill ${AUTO_PLAY_MS}ms linear forwards`,
                         }}

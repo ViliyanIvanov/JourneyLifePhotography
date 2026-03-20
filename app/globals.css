@@ -185,6 +185,7 @@
    ------------------------------------------------------------ */
 
 @keyframes indicator-fill {
-  0% { width: 0%; }
-  100% { width: 100%; }
+  /* Use scaleX instead of width to avoid layout reflow on every frame */
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
 }
