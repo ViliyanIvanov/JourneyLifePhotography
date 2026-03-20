@@ -37,7 +37,6 @@ const buttonVariants = cva(
         secondary: [
           'bg-brand-white/5 text-brand-white',
           'border-2 border-brand-white/20',
-          'backdrop-blur-sm',
           'shadow-[0_4px_16px_-4px_rgba(0,0,0,0.3)]',
           'hover:bg-brand-white/10 hover:border-brand-white/30',
         ].join(' '),

@@ -46,7 +46,6 @@ export function TiltCard({ children, className, maxTilt = 8 }: TiltCardProps) {
           rotateX: springRotateX,
           rotateY: springRotateY,
           transformStyle: 'preserve-3d',
-          willChange: 'transform',
         }}
       >
         {children}

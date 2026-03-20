@@ -97,6 +97,7 @@ export function Header() {
   /**
    * On home page: slide navbar from bottom of viewport to top.
    * Mutates DOM directly to stay in sync with native scroll (no React render delay).
+   * Uses rAF to batch updates and avoid layout thrashing.
    */
   useEffect(() => {
     if (!isHome || !headerRef.current) {
@@ -106,6 +107,7 @@ export function Header() {
     }
 
     const el = headerRef.current;
+    let rafId = 0;
 
     const update = () => {
       const navHeight = el.offsetHeight;
@@ -114,13 +116,22 @@ export function Header() {
       el.style.transform = `translateY(${offset}px)`;
     };
 
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        update();
+        rafId = 0;
+      });
+    };
+
     update();
     setIsReady(true);
-    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', update);
     return () => {
-      window.removeEventListener('scroll', update);
+      window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', update);
+      cancelAnimationFrame(rafId);
     };
   }, [isHome]);
 
@@ -159,7 +170,7 @@ export function Header() {
           'transition-opacity duration-300',
           !isReady && 'opacity-0'
         )}
-        style={{ willChange: isHome ? 'transform' : undefined }}
+        style={undefined}
       >
         <div
           className={cn(
@@ -245,7 +256,7 @@ export function Header() {
             </div>
 
             {/* Drawer */}
-            <div className="mt-5 rounded-2xl border border-brand-white/10 bg-brand-black/55 backdrop-blur-md shadow-[0_20px_60px_rgba(0,0,0,0.55)] overflow-hidden">
+            <div className="mt-5 rounded-2xl border border-brand-white/10 bg-brand-black/95 shadow-[0_20px_60px_rgba(0,0,0,0.55)] overflow-hidden">
               <nav className="flex flex-col">
                 {navigation.map((item, i) => {
                   const active = isActive(item.href);

@@ -44,19 +44,19 @@ export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
       {/* Bottom edge — blends seamlessly with the section below */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-64 md:h-96 bg-gradient-to-t from-brand-black via-brand-black/90 via-50% to-transparent" />
 
-      {/* Grain texture */}
+      {/* Grain texture — static, reduced SVG complexity */}
       <div
         className="pointer-events-none absolute inset-0 z-[1] opacity-[0.02]"
         style={{
           backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' result=\'noise\'/%3E%3CfeColorMatrix in=\'noise\' type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'400\' height=\'400\' fill=\'white\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
-          backgroundSize: '400px 400px',
+            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'200\' height=\'200\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+          backgroundSize: '200px 200px',
         }}
       />
 
       {/* Ambient accent glow */}
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-[600px] h-[400px] rounded-full blur-3xl animate-breathe z-[1]"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-[600px] h-[400px] rounded-full blur-3xl z-[1]"
         style={{ backgroundColor: 'rgba(196, 137, 138, 0.06)' }}
       />
 

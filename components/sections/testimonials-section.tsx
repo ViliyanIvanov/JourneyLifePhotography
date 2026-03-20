@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -87,10 +87,10 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+const TestimonialCard = memo(function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <div className="group relative h-full px-3 lg:px-4">
-      <div className="relative backdrop-blur-sm bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden transition-[background-color,border-color,box-shadow] duration-500 group-hover:bg-white/[0.10] group-hover:border-brand-accent/30 flex flex-col h-[320px]">
+      <div className="relative bg-white/[0.07] border border-white/[0.15] rounded-2xl overflow-hidden transition-[background-color,border-color,box-shadow] duration-500 group-hover:bg-white/[0.10] group-hover:border-brand-accent/30 flex flex-col h-[320px]">
         {/* Top edge highlight */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-accent/20 to-transparent flex-shrink-0" />
 
@@ -131,7 +131,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
       </div>
     </div>
   );
-}
+});
 
 /* ─── Responsive visible count ─── */
 
@@ -140,8 +140,16 @@ function useVisibleCount() {
   useEffect(() => {
     const update = () => setCount(window.innerWidth >= 768 ? 3 : 1);
     update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    let rafId = 0;
+    const onResize = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
   return count;
 }
@@ -155,7 +163,7 @@ export function TestimonialsSection() {
   // progressKey resets the CSS fill animation whenever the slide changes
   const [progressKey, setProgressKey] = useState(0);
 
-  const extended = [...testimonials, ...testimonials, ...testimonials];
+  const extended = useMemo(() => [...testimonials, ...testimonials, ...testimonials], []);
 
   const realIndex = ((offset % TOTAL) + TOTAL) % TOTAL;
 

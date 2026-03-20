@@ -62,7 +62,7 @@ export default function HomePage() {
       <HomeHeroSection />
 
       {/* Content — slides up over the sticky hero */}
-      <div className="relative z-[1]">
+      <div className="relative z-[1] bg-brand-black" style={{ transform: 'translateZ(0)' }}>
         {/* Atmosphere — absolute, scoped to content area only (not covering hero) */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
           <div
@@ -78,7 +78,7 @@ export default function HomePage() {
             style={{ backgroundColor: 'rgba(10, 10, 10, 0.88)' }}
           />
           <div
-            className="absolute inset-[-20%] animate-grain opacity-[0.04]"
+            className="absolute inset-0 opacity-[0.04]"
             style={{
               backgroundImage:
                 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'512\' height=\'512\' filter=\'url(%23g)\' opacity=\'1\'/%3E%3C/svg%3E")',

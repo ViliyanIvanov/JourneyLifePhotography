@@ -150,7 +150,7 @@ function DesktopContent({
     <div className="relative max-w-2xl mx-auto">
       <div
         key={step.title}
-        className="rounded-2xl border border-brand-white/[0.06] bg-brand-white/[0.03] backdrop-blur-sm p-8 md:p-10 animate-in fade-in slide-in-from-bottom-2 duration-400"
+        className="rounded-2xl border border-brand-white/[0.06] bg-brand-white/[0.03] p-8 md:p-10 animate-in fade-in slide-in-from-bottom-2 duration-400"
       >
         <div className="flex items-start gap-5">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-accent/10 border border-brand-accent/20">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { mockServices, type Service } from '@/content/mock-data';
 import { Container } from '@/components/layout/container';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
@@ -30,10 +30,8 @@ export function ServicesSectionCompact() {
   const [direction, setDirection] = useState(1);
   // Unique key that changes every switch to re-trigger mount animations
   const [transitionKey, setTransitionKey] = useState(0);
-  // Progress for the timer bar (0–100)
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef<number | null>(null);
-  const startTimeRef = useRef(Date.now());
+  // progressKey resets the CSS fill animation whenever the slide changes
+  const [progressKey, setProgressKey] = useState(0);
 
   const activeService = services[activeIndex];
 
@@ -43,40 +41,22 @@ export function ServicesSectionCompact() {
       setDirection(dir ?? (next > activeIndex ? 1 : -1));
       setActiveIndex(next);
       setTransitionKey((k) => k + 1);
-      setProgress(0);
-      startTimeRef.current = Date.now();
+      setProgressKey((k) => k + 1);
     },
     [activeIndex],
   );
 
-  // Auto-rotate
-  useEffect(() => {
+  // Auto-rotate via CSS animation end callback (no rAF loop)
+  const handleProgressEnd = useCallback(() => {
     if (isPaused || modalOpen) return;
-
-    startTimeRef.current = Date.now();
-    setProgress(0);
-
-    // Progress animation frame loop
-    const tick = () => {
-      const elapsed = Date.now() - startTimeRef.current;
-      const pct = Math.min((elapsed / AUTO_PLAY_MS) * 100, 100);
-      setProgress(pct);
-      if (pct < 100) {
-        progressRef.current = requestAnimationFrame(tick);
-      }
-    };
-    progressRef.current = requestAnimationFrame(tick);
-
-    const timer = setTimeout(() => {
-      const next = (activeIndex + 1) % services.length;
-      goTo(next, 1);
-    }, AUTO_PLAY_MS);
-
-    return () => {
-      clearTimeout(timer);
-      if (progressRef.current) cancelAnimationFrame(progressRef.current);
-    };
+    const next = (activeIndex + 1) % services.length;
+    goTo(next, 1);
   }, [activeIndex, isPaused, modalOpen, services.length, goTo]);
+
+  // Reset progress bar when paused/unpaused
+  useEffect(() => {
+    setProgressKey((k) => k + 1);
+  }, [isPaused, modalOpen]);
 
   const handleTabClick = (i: number) => {
     goTo(i);
@@ -108,7 +88,7 @@ export function ServicesSectionCompact() {
         {/* Tab bar */}
         <ScrollAnimation direction="up" delay={100}>
           <div className="flex justify-center mb-8">
-            <div className="inline-flex gap-1 rounded-xl bg-brand-white/[0.04] backdrop-blur-sm border border-brand-white/[0.06] p-1.5">
+            <div className="inline-flex gap-1 rounded-xl bg-brand-white/[0.04] border border-brand-white/[0.06] p-1.5">
               {services.map((service, i) => (
                 <button
                   key={service.id}
@@ -127,12 +107,16 @@ export function ServicesSectionCompact() {
                     {service.title}
                   </span>
 
-                  {/* Active indicator — progress bar that fills over 5s */}
+                  {/* Active indicator — progress bar that fills over 5s via CSS animation */}
                   {i === activeIndex && (
                     <span className="absolute inset-x-2 bottom-0.5 h-0.5 rounded-full bg-brand-white/10 overflow-hidden">
                       <span
-                        className="absolute inset-y-0 left-0 bg-brand-accent rounded-full transition-none"
-                        style={{ width: `${progress}%` }}
+                        key={progressKey}
+                        className="absolute inset-y-0 left-0 bg-brand-accent rounded-full"
+                        style={{
+                          animation: isPaused || modalOpen ? 'none' : `indicator-fill ${AUTO_PLAY_MS}ms linear forwards`,
+                        }}
+                        onAnimationEnd={handleProgressEnd}
                       />
                     </span>
                   )}
@@ -146,12 +130,12 @@ export function ServicesSectionCompact() {
         <div className="max-w-4xl mx-auto mb-12">
           <div
             key={transitionKey}
-            className="will-change-transform"
+            className=""
             style={{
               animation: `svc-card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both`,
             }}
           >
-            <div className="rounded-2xl border border-brand-white/[0.06] bg-brand-white/[0.03] backdrop-blur-sm overflow-hidden">
+            <div className="rounded-2xl border border-brand-white/[0.06] bg-brand-white/[0.03] overflow-hidden">
               <div className="flex flex-col md:flex-row">
                 {/* Image with reveal */}
                 <div

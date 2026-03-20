@@ -4,15 +4,21 @@ import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { SplitText } from '@/components/ui/split-text';
 import Link from 'next/link';
 
-const BACKGROUND_IMAGE_URL = '/JourneyLifePhotos/Hero.jpg';
+const HERO_DESKTOP = '/JourneyLifePhotos/Hero.jpg';
+const HERO_MOBILE = '/JourneyLifePhotos/Hero_mobile.jpg';
 
 export function HomeHeroSection() {
   return (
     <section className="sticky top-0 h-screen overflow-hidden">
-      {/* Background image */}
+      {/* Background image — mobile */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${BACKGROUND_IMAGE_URL})` }}
+        className="absolute inset-0 bg-cover bg-center md:hidden"
+        style={{ backgroundImage: `url(${HERO_MOBILE})` }}
+      />
+      {/* Background image — desktop */}
+      <div
+        className="absolute inset-0 bg-cover bg-center hidden md:block"
+        style={{ backgroundImage: `url(${HERO_DESKTOP})` }}
       />
 
       {/* Luxury tint/legibility overlays */}
@@ -23,12 +29,12 @@ export function HomeHeroSection() {
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       </div>
 
-      {/* Grain texture */}
+      {/* Grain texture — static, reduced SVG complexity */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' result=\'noise\'/%3E%3CfeColorMatrix in=\'noise\' type=\'saturate\' values=\'0\'/%3E%3C/filter%3E%3Crect width=\'400\' height=\'400\' fill=\'white\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
-          backgroundSize: '400px 400px',
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'200\' height=\'200\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+          backgroundSize: '200px 200px',
         }}
       />
 
