@@ -219,7 +219,7 @@ export function ServicesSectionCompact() {
         </div>
 
         {/* Footer link */}
-        <ScrollAnimation direction="up" delay={300}>
+        <ScrollAnimation direction="fade" effect="float" delay={300}>
           <div className="text-center">
             <Link
               href="/services"

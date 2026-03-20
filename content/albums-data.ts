@@ -121,8 +121,8 @@ export const albumsData: AlbumConfig[] = [
     createdAt: '2024-01-25',
   },
   {
-    id: 'travel',
-    slug: 'travel',
+    id: 'travel-photography',
+    slug: 'travel-photography',
     title: 'Travel Photography',
     description: 'Travel and adventure photography from around the world',
     category: 'Travel',

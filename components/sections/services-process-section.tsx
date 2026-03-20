@@ -287,12 +287,12 @@ export function ServicesProcessSection() {
         </ScrollAnimation>
 
         {/* Desktop stepper */}
-        <ScrollAnimation direction="up">
+        <ScrollAnimation direction="left">
           <DesktopStepper active={active} onSelect={setActive} />
         </ScrollAnimation>
 
         {/* Mobile stepper */}
-        <ScrollAnimation direction="up">
+        <ScrollAnimation direction="right">
           <MobileStepper
             active={active}
             onSelect={setActive}

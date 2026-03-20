@@ -220,7 +220,7 @@ export function TestimonialsSection() {
       <Container className="relative z-10">
         {/* Header */}
         <div className="mb-14 md:mb-16 text-center max-w-3xl mx-auto">
-          <ScrollAnimation direction="up" delay={80}>
+          <ScrollAnimation direction="fade" effect="blur" delay={80}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-white mb-6 leading-tight">
               <SplitText
                 text="What Clients Say"
@@ -238,7 +238,7 @@ export function TestimonialsSection() {
         </div>
 
         {/* Carousel */}
-        <ScrollAnimation direction="up" delay={200}>
+        <ScrollAnimation direction="right" delay={200}>
           <div className="relative">
             {/* Track */}
             <div className="overflow-hidden -mx-3 lg:-mx-4">

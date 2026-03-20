@@ -1,6 +1,8 @@
 import { createMetadata } from '@/lib/seo';
-import { PageHeader } from '@/components/layout/page-header';
 import { AtmosphereBackground } from '@/components/ui/atmosphere-background';
+import { Container } from '@/components/layout/container';
+import { SplitText } from '@/components/ui/split-text';
+import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { ServicesQuickNav } from '@/app/services/services-quick-nav';
 import { ServicesShowcase } from '@/app/services/services-showcase';
 import { ServicesProcessSection } from '@/components/sections/services-process-section';
@@ -19,11 +21,24 @@ export default function ServicesPage() {
     <>
       <AtmosphereBackground photoUrl={ATMOSPHERE_PHOTO} />
       <div className="relative z-[1]">
-        <PageHeader
-          title="Our Services"
-          description="Every story deserves to be told beautifully. Explore our photography services and request a personalised quote — no fixed prices, just a package tailored to you."
-          className="bg-transparent"
-        />
+        <section className="pt-32 md:pt-40 pb-8 md:pb-12">
+          <Container className="text-center">
+            <SplitText
+              text="Our Services"
+              className="text-5xl md:text-6xl lg:text-7xl font-serif text-brand-white"
+              delay={120}
+            />
+            <ScrollAnimation direction="up" delay={200}>
+              <p className="mt-4 text-brand-white/60 text-base md:text-lg max-w-xl mx-auto font-light">
+                Every story deserves to be told beautifully. Explore our
+                photography services and request a personalised quote.
+              </p>
+            </ScrollAnimation>
+            <ScrollAnimation direction="fade" delay={400}>
+              <div className="mt-6 mx-auto h-px w-24 bg-gradient-to-r from-transparent via-brand-accent to-transparent" />
+            </ScrollAnimation>
+          </Container>
+        </section>
         <main>
           <ServicesQuickNav />
           <ServicesShowcase />
