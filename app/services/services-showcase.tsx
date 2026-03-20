@@ -18,7 +18,7 @@ function ServiceShowcaseBlock({ service, index }: { service: Service; index: num
 
   return (
     <>
-      <ScrollAnimation direction="up" delay={100}>
+      <ScrollAnimation direction={isReversed ? 'right' : 'left'} delay={100}>
         <div
           id={service.slug}
           className={`scroll-mt-24 flex flex-col gap-10 md:gap-14 lg:gap-20 items-center ${

@@ -40,7 +40,7 @@ export function SplitText({
           >
             <span
               className={cn(
-                'inline-block will-change-transform transition-[transform,opacity] duration-500 ease-out',
+                'inline-block transition-[transform,opacity] duration-500 ease-out',
                 inView
                   ? 'translate-y-0 opacity-100 scale-100'
                   : scale

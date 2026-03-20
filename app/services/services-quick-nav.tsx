@@ -19,7 +19,7 @@ export function ServicesQuickNav() {
         {/* Mobile: horizontal scroll strip / Desktop: 3-col grid */}
         <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
           {mockServices.map((service, index) => (
-            <ScrollAnimation key={service.id} direction="up" delay={index * 80}>
+            <ScrollAnimation key={service.id} direction={index === 0 ? 'left' : index === 2 ? 'right' : 'up'} delay={index * 80}>
               <button
                 onClick={() => handleClick(service.slug)}
                 className="group relative min-w-[280px] snap-start overflow-hidden rounded-xl text-left md:min-w-0 md:w-full"

@@ -83,7 +83,7 @@ export default function PortfolioPage() {
                   {publicAlbums.map((album, index) => (
                       <ScrollAnimation
                         key={album.id}
-                        direction="up"
+                        direction={index % 3 === 0 ? 'left' : index % 3 === 2 ? 'right' : 'up'}
                         effect="float"
                         delay={index * 80}
                       >

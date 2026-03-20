@@ -11,15 +11,15 @@ interface ScrollAnimationProps {
   delay?: number;
   /** Direction the element enters FROM: 'up' = from below, 'left' = from the left, etc. */
   direction?: 'up' | 'down' | 'left' | 'right' | 'fade';
-  effect?: 'float' | 'slide' | 'mask';
+  effect?: 'float' | 'slide' | 'mask' | 'blur';
   threshold?: number;
 }
 
 const directionOffsets = {
   up: { y: 55 },
   down: { y: -55 },
-  left: { x: -50 },
-  right: { x: 50 },
+  left: { x: -80 },
+  right: { x: 80 },
   fade: {},
 };
 
@@ -33,6 +33,7 @@ export function ScrollAnimation({
 }: ScrollAnimationProps) {
   const prefersReduced = useReducedMotion();
   const isFloat = effect === 'float';
+  const isBlur = effect === 'blur';
 
   const { ref, inView } = useInView({
     threshold,
@@ -45,7 +46,8 @@ export function ScrollAnimation({
 
   const hidden = {
     opacity: 0,
-    scale: isFloat ? 0.92 : 1,
+    scale: isFloat ? 0.92 : isBlur ? 0.97 : 1,
+    filter: isBlur ? 'blur(8px)' : 'blur(0px)',
     ...directionOffsets[direction],
   };
 
@@ -54,6 +56,7 @@ export function ScrollAnimation({
     scale: 1,
     x: 0,
     y: 0,
+    filter: 'blur(0px)',
   };
 
   return (

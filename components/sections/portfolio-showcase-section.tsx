@@ -21,7 +21,7 @@ const FEATURED_SLUGS = [
   'wedding-1',
   'architecture-interiors',
   'children-family',
-  'travel',
+  'travel-photography',
 ];
 
 const featuredAlbums = FEATURED_SLUGS.map(
@@ -142,7 +142,7 @@ export function PortfolioShowcaseSection() {
       <Container className="relative z-10">
         {/* Header */}
         <div className="mb-14 md:mb-16 text-center max-w-3xl mx-auto">
-          <ScrollAnimation direction="up" delay={80}>
+          <ScrollAnimation direction="fade" effect="blur" delay={80}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-brand-white mb-6 leading-tight">
               <SplitText
                 text="Our Portfolio"
@@ -210,7 +210,7 @@ export function PortfolioShowcaseSection() {
             {featuredAlbums.map((album, i) => (
               <ScrollAnimation
                 key={album.slug}
-                direction="up"
+                direction={i % 2 === 0 ? 'left' : 'right'}
                 delay={120 + i * 100}
               >
                 <Link
@@ -246,7 +246,7 @@ export function PortfolioShowcaseSection() {
         </div>
 
         {/* CTA */}
-        <ScrollAnimation direction="up" delay={300}>
+        <ScrollAnimation direction="fade" effect="float" delay={300}>
           <div className="text-center mt-8 lg:mt-4">
             <Button variant="secondary" asChild>
               <Link href="/portfolio">View All Albums</Link>

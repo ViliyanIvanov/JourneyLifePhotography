@@ -84,7 +84,7 @@ export function AlbumCarousel({ albums, onSlideChange }: AlbumCarouselProps) {
     >
       {/* Track — each slide is min-w-full, transform shifts by 100% per slide */}
       <div
-        className="flex h-[260px] sm:h-[380px] md:h-[500px] lg:h-[580px] will-change-transform cursor-grab active:cursor-grabbing"
+        className="flex h-[260px] sm:h-[380px] md:h-[500px] lg:h-[580px] cursor-grab active:cursor-grabbing"
         style={{
           transform: `translateX(-${active * 100}%)`,
           transition: 'transform 520ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -118,7 +118,7 @@ export function AlbumCarousel({ albums, onSlideChange }: AlbumCarouselProps) {
 
             {/* Slide text */}
             <div className="absolute bottom-6 left-6 right-16 md:bottom-10 md:left-10 md:right-20 pointer-events-none">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-black/50 backdrop-blur-sm px-3 py-1 text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-white/90 mb-3 md:mb-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1 text-[10px] font-sans font-semibold uppercase tracking-[0.2em] text-white/90 mb-3 md:mb-4">
                 <span className="inline-block h-1 w-1 rounded-full bg-brand-accent" />
                 {album.category}
               </span>
@@ -137,7 +137,7 @@ export function AlbumCarousel({ albums, onSlideChange }: AlbumCarouselProps) {
       <button
         onClick={(e) => { e.stopPropagation(); prev(); }}
         aria-label="Previous album"
-        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/60"
+        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/50 flex items-center justify-center transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/60"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <polyline points="15 18 9 12 15 6" />
@@ -148,7 +148,7 @@ export function AlbumCarousel({ albums, onSlideChange }: AlbumCarouselProps) {
       <button
         onClick={(e) => { e.stopPropagation(); next(); }}
         aria-label="Next album"
-        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/60"
+        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-black/50 flex items-center justify-center transition-colors hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent/60"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
           <polyline points="9 18 15 12 9 6" />
