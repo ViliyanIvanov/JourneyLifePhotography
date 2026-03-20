@@ -134,10 +134,8 @@ export function PortfolioShowcaseSection() {
       ref={sectionRef}
       className="relative py-24 md:py-32 bg-transparent overflow-hidden"
     >
-      {/* Ambient accent glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-brand-accent/[0.04] blur-[120px]" />
-      </div>
+      {/* Ambient accent glow — CSS radial gradient replaces the expensive blur filter */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_60%_40%_at_50%_50%,rgba(196,137,138,0.05)_0%,transparent_70%)]" />
 
       <Container className="relative z-10">
         {/* Header */}

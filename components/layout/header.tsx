@@ -191,9 +191,14 @@ export function Header() {
 
     const el = headerRef.current;
     let rafId = 0;
+    // Cache navHeight — reading offsetHeight forces a layout; only re-read on resize
+    let navHeight = el.offsetHeight;
+
+    // Promote element to its own GPU compositing layer so translateY changes
+    // don't trigger a full repaint of the blurred background underneath
+    el.style.willChange = 'transform';
 
     const update = () => {
-      const navHeight = el.offsetHeight;
       const maxOffset = window.innerHeight - navHeight;
       const offset = Math.max(0, maxOffset - window.scrollY);
       el.style.transform = `translateY(${offset}px)`;
@@ -207,14 +212,20 @@ export function Header() {
       });
     };
 
+    const onResize = () => {
+      navHeight = el.offsetHeight; // only re-read on actual resize
+      update();
+    };
+
     update();
     setIsReady(true);
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', update);
+    window.addEventListener('resize', onResize);
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', update);
+      window.removeEventListener('resize', onResize);
       cancelAnimationFrame(rafId);
+      el.style.willChange = '';
     };
   }, [isHome]);
 
@@ -260,7 +271,7 @@ export function Header() {
         <div
           className={cn(
             'relative w-full',
-            'border-b border-brand-white/[0.06] bg-brand-black/70 backdrop-blur-xl',
+            'border-b border-brand-white/[0.06] bg-brand-black/80 backdrop-blur-md',
             'px-5 sm:px-8 lg:px-12 py-3',
           )}
         >
@@ -340,12 +351,12 @@ export function Header() {
               className={cn(
                 'fixed top-0 left-0 right-0 z-[60] md:hidden',
                 'border-b border-brand-white/[0.06]',
-                'bg-brand-black/95 backdrop-blur-xl',
+                'bg-brand-black/97 backdrop-blur-md',
                 'shadow-[0_20px_60px_rgba(0,0,0,0.5)]',
               )}
             >
               {/* Ambient accent glow */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-brand-accent/[0.04] blur-[100px] pointer-events-none" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[1px] bg-brand-accent/20 pointer-events-none" />
 
               {/* Close button — accent X lines matching the burger */}
               <div className="flex items-center justify-end px-5 pt-4">

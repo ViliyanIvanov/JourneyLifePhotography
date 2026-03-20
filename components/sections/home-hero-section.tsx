@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Container } from '@/components/layout/container';
 import { Button } from '@/components/ui/button';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
@@ -10,22 +11,39 @@ const HERO_MOBILE = '/JourneyLifePhotos/Hero_mobile.jpg';
 export function HomeHeroSection() {
   return (
     <section className="sticky top-0 h-screen overflow-hidden">
-      {/* Background image — mobile */}
-      <div
-        className="absolute inset-0 bg-cover bg-center md:hidden"
-        style={{ backgroundImage: `url(${HERO_MOBILE})` }}
-      />
-      {/* Background image — desktop */}
-      <div
-        className="absolute inset-0 bg-cover bg-center hidden md:block"
-        style={{ backgroundImage: `url(${HERO_DESKTOP})` }}
-      />
+      {/* Background images via next/image — gets WebP/AVIF conversion, correct
+          sizing per viewport, and a preload <link> injected into <head> */}
+      {/* Mobile */}
+      <div className="absolute inset-0 md:hidden">
+        <Image
+          src={HERO_MOBILE}
+          alt=""
+          fill
+          priority
+          quality={85}
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </div>
+      {/* Desktop */}
+      <div className="absolute inset-0 hidden md:block">
+        <Image
+          src={HERO_DESKTOP}
+          alt=""
+          fill
+          priority
+          quality={85}
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </div>
 
-      {/* Luxury tint/legibility overlays */}
+      {/* Tint/legibility overlays */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05)_0%,rgba(0,0,0,0.30)_58%,rgba(0,0,0,0.60)_100%)]" />
-        <div className="absolute left-1/2 top-1/2 h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-3xl" />
+        {/* Replaced blur-3xl circle with a subtle radial gradient — same effect, zero GPU cost */}
+        <div className="absolute left-1/2 top-1/2 h-[780px] w-[780px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.04)_0%,transparent_70%)]" />
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       </div>
 

@@ -54,11 +54,8 @@ export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
         }}
       />
 
-      {/* Ambient accent glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-[600px] h-[400px] rounded-full blur-3xl z-[1]"
-        style={{ backgroundColor: 'rgba(196, 137, 138, 0.06)' }}
-      />
+      {/* Ambient accent glow — radial gradient replaces blur-3xl */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_60%_40%_at_50%_40%,rgba(196,137,138,0.06)_0%,transparent_70%)]" />
 
       <Container className="relative z-[2]">
         <ScrollAnimation direction="fade">

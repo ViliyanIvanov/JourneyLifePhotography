@@ -63,25 +63,18 @@ export default function HomePage() {
 
       {/* Content — slides up over the sticky hero */}
       <div className="relative z-[1] bg-brand-black" style={{ transform: 'translateZ(0)' }}>
-        {/* Atmosphere — absolute, scoped to content area only (not covering hero) */}
+        {/* Atmosphere — pure CSS gradient, zero GPU filter cost */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden>
+          {/* Subtle warm tonal variation using radial gradients only — replaces the
+              blur-[60px]+scale-125 image which was the biggest paint bottleneck */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(196,137,138,0.04)_0%,transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_60%,rgba(196,137,138,0.025)_0%,transparent_60%)]" />
+          {/* Fine grain texture — smaller tile is cheaper to repeat */}
           <div
-            className="absolute inset-0 scale-125 blur-[60px] saturate-50"
-            style={{
-              backgroundImage: `url("${encodeURI('/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg')}")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: 'rgba(10, 10, 10, 0.88)' }}
-          />
-          <div
-            className="absolute inset-0 opacity-[0.04]"
+            className="absolute inset-0 opacity-[0.03]"
             style={{
               backgroundImage:
-                'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'512\' height=\'512\' filter=\'url(%23g)\' opacity=\'1\'/%3E%3C/svg%3E")',
+                'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'256\' height=\'256\' filter=\'url(%23g)\'/%3E%3C/svg%3E")',
               backgroundSize: '256px 256px',
             }}
           />

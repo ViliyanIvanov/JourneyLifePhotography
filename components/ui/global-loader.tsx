@@ -40,41 +40,11 @@ function useDelayedVisibility(isActive: boolean, delayMs: number) {
 }
 
 function useInitialLoadBlocking() {
-  const [isBlocking, setIsBlocking] = useState(true);
-
-  useEffect(() => {
-    if (typeof document === 'undefined') {
-      return;
-    }
-
-    let resolved = false;
-
-    const finish = () => {
-      if (resolved) return;
-      resolved = true;
-      setIsBlocking(false);
-    };
-
-    const handleLoad = () => {
-      setTimeout(finish, 200);
-    };
-
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad, { once: true });
-    }
-
-    const safety = setTimeout(finish, 1500);
-
-    return () => {
-      resolved = true;
-      clearTimeout(safety);
-      window.removeEventListener('load', handleLoad);
-    };
-  }, []);
-
-  return isBlocking;
+  // Do NOT block the initial render. Next.js SSR already delivers a fully
+  // painted HTML page. Waiting for window.load on a photo-heavy site means
+  // 1–3+ seconds of a black overlay — the #1 cause of perceived slowness.
+  // Route-change loading is still handled by useRouteNavigation below.
+  return false;
 }
 
 function useRouteNavigation() {
