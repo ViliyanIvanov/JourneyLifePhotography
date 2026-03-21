@@ -7,11 +7,21 @@ export interface SEOProps {
   image?: string;
   noindex?: boolean;
   nofollow?: boolean;
+  canonical?: string;
+  path?: string;
+  type?: 'website' | 'article';
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    authors?: string[];
+  };
 }
 
 const defaultTitle = 'Iva Dimitrov Photography';
 const defaultDescription =
   "Professional photography services capturing life's precious moments. Specializing in weddings, portraits, pets, and corporate photography.";
+
+export const siteUrl = env.NEXT_PUBLIC_SITE_URL;
 
 export function createMetadata({
   title,
@@ -19,16 +29,23 @@ export function createMetadata({
   image,
   noindex = false,
   nofollow = false,
+  canonical,
+  path,
+  type = 'website',
+  article,
 }: SEOProps = {}): Metadata {
   const fullTitle = title ? `${title} | ${defaultTitle}` : defaultTitle;
   const metaDescription = description || defaultDescription;
-  const siteUrl = env.NEXT_PUBLIC_SITE_URL;
   const ogImage = image || `${siteUrl}/og-image.jpg`;
+  const pageUrl = `${siteUrl}${path || ''}`;
 
   return {
     title: fullTitle,
     description: metaDescription,
     metadataBase: new URL(siteUrl),
+    alternates: {
+      canonical: canonical || pageUrl,
+    },
     icons: {
       icon: [
         { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
@@ -53,11 +70,10 @@ export function createMetadata({
       'msapplication-TileColor': '#0A0A0A',
       'msapplication-TileImage': '/ms-icon-144x144.png',
     },
-    themeColor: '#0A0A0A',
     openGraph: {
       title: fullTitle,
       description: metaDescription,
-      url: siteUrl,
+      url: pageUrl,
       siteName: defaultTitle,
       images: [
         {
@@ -68,7 +84,16 @@ export function createMetadata({
         },
       ],
       locale: 'en_US',
-      type: 'website',
+      type,
+      ...(type === 'article' && article
+        ? {
+            article: {
+              publishedTime: article.publishedTime,
+              modifiedTime: article.modifiedTime,
+              authors: article.authors,
+            },
+          }
+        : {}),
     },
     twitter: {
       card: 'summary_large_image',

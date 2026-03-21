@@ -1,4 +1,4 @@
-import { createMetadata } from '@/lib/seo';
+import { createMetadata, siteUrl } from '@/lib/seo';
 import { HomeHeroSection } from '@/components/sections/home-hero-section';
 import { ServicesSectionCompact } from '@/components/sections/services-section-compact';
 import { ServicesProcessSection } from '@/components/sections/services-process-section';
@@ -12,6 +12,7 @@ export const metadata = createMetadata({
   title: 'Home',
   description:
     'Iva Dimitrov Photography — professional wedding, family, travel, architecture, and branding photography. Capturing life\'s precious moments with elegance and artistry.',
+  path: '/',
 });
 
 // JSON-LD structured data
@@ -23,7 +24,7 @@ function JsonLd() {
     description:
       'Professional photography services specializing in weddings, family portraits, travel, architecture, and branding photography.',
     url: process.env.NEXT_PUBLIC_SITE_URL || 'https://journeylifephotography.com',
-    image: '/JourneyLifePhotos/Hero.jpg',
+    image: `${siteUrl}/JourneyLifePhotos/Hero.jpg`,
     priceRange: '$$',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',

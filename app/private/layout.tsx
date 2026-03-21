@@ -1,16 +1,16 @@
 import { createMetadata } from '@/lib/seo';
-import AdminLayoutClient from './admin-layout-client';
 
 export const metadata = createMetadata({
-  title: 'Admin',
+  title: 'Private Albums',
+  description: 'Access your private photo albums with an access key.',
   noindex: true,
   nofollow: true,
 });
 
-export default function AdminLayout({
+export default function PrivateLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <AdminLayoutClient>{children}</AdminLayoutClient>;
+  return children;
 }

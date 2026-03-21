@@ -1,14 +1,6 @@
-import { createMetadata } from '@/lib/seo';
 import { Container } from '@/components/layout/container';
 import { NavAnchor } from '@/components/layout/nav-anchor';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PrivateAlbumAccess } from '@/components/private/private-album-access';
-
-export const metadata = createMetadata({
-  title: 'Private Albums',
-  description: 'Access your private photo albums with an access key.',
-  noindex: true,
-});
 
 export default function PrivateAlbumsPage() {
   return (
