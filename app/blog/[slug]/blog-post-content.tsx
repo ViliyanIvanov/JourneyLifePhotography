@@ -23,7 +23,7 @@ function PostSkeleton() {
   return (
     <>
       <AtmosphereBackground
-        photoUrl="/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
+        photoUrl="/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
         darkness={88}
       />
       <div className="relative z-10 min-h-screen">
@@ -73,7 +73,7 @@ export default function BlogPostContent({ params }: PageProps) {
     return (
       <>
         <AtmosphereBackground
-          photoUrl="/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
+          photoUrl="/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg"
           darkness={88}
         />
         <div className="relative z-10 min-h-screen flex items-center justify-center">

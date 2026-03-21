@@ -23,8 +23,8 @@ function JsonLd() {
     name: 'Iva Dimitrov Photography',
     description:
       'Professional photography services specializing in weddings, family portraits, travel, architecture, and branding photography.',
-    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://journeylifephotography.com',
-    image: `${siteUrl}/JourneyLifePhotos/Hero.jpg`,
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ivadimitrovphotography.com',
+    image: `${siteUrl}/IvaDimitrovPhotos/Hero.jpg`,
     priceRange: '$$',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -69,7 +69,7 @@ export default function HomePage() {
           <div
             className="absolute inset-0 scale-125 blur-[60px] saturate-50"
             style={{
-              backgroundImage: `url("${encodeURI('/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg')}")`,
+              backgroundImage: `url("${encodeURI('/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg')}")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}

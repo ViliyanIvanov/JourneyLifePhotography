@@ -64,8 +64,9 @@ function AlbumNotFound() {
 }
 
 export default function AlbumPageContent() {
-  const params = useParams<{ albumSlug: string }>();
+  const params = useParams<{ categorySlug: string; albumSlug: string }>();
   const albumSlug = params?.albumSlug;
+  const categorySlug = params?.categorySlug;
 
   const [album, setAlbum] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,7 +77,7 @@ export default function AlbumPageContent() {
       if (!albumSlug) return;
 
       try {
-        const { getAlbumBySlug, getAlbumImages, getImageUrl } = await import(
+        const { getAlbumBySlug, getAlbumImages, getImageUrl, categoryToSlug } = await import(
           '@/content/albums-data-full'
         );
         const albumData = getAlbumBySlug(albumSlug as string);
@@ -91,7 +92,7 @@ export default function AlbumPageContent() {
 
         // Build full-size base URL from env (backend serves originals)
         const fullImageBase =
-          process.env.NEXT_PUBLIC_FULL_IMAGE_BASE_URL || '/JourneyLifePhotos';
+          process.env.NEXT_PUBLIC_FULL_IMAGE_BASE_URL || '/IvaDimitrovPhotos';
 
         const converted = {
           id: albumData.id,
@@ -99,6 +100,7 @@ export default function AlbumPageContent() {
           description: albumData.description,
           slug: albumData.slug,
           category: albumData.category,
+          categorySlug: categoryToSlug(albumData.category),
           isPrivate: albumData.isPrivate,
           coverImage: albumData.coverImagePath
             ? getImageUrl(albumData.coverImagePath)
@@ -180,7 +182,8 @@ export default function AlbumPageContent() {
                 items={[
                   { name: 'Home', href: '/' },
                   { name: 'Portfolio', href: '/portfolio' },
-                  { name: album.title, href: `/portfolio/${album.slug}` },
+                  { name: album.category, href: `/portfolio/${album.categorySlug}` },
+                  { name: album.title, href: `/portfolio/${album.categorySlug}/${album.slug}` },
                 ]}
               />
             </ScrollAnimation>

@@ -26,7 +26,7 @@ export interface AlbumConfig {
 
 // Get the image URL based on environment
 export function getImageUrl(path: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/JourneyLifePhotos';
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/IvaDimitrovPhotos';
   return `${baseUrl}${path.startsWith('/') ? path : '/' + path}`;
 }
 
@@ -472,7 +472,7 @@ export const albumsData: AlbumConfig[] = [
     title: 'Architecture & Interiors',
     description: 'Professional architectural and interior design photography',
     category: 'Architecture',
-    coverImagePath: '/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg',
+    coverImagePath: '/Architecture and Interiors small/DSC00293_thumb.jpg',
     imageCount: 31,
     images: [
       {
@@ -1873,4 +1873,61 @@ export function getAlbumImages(albumId: string) {
     ...img,
     url: getImageUrl(img.path),
   }));
+}
+
+// ─── Category helpers ───
+
+export function categoryToSlug(category: string): string {
+  return category.toLowerCase().replace(/\s+/g, '-');
+}
+
+export function slugToCategory(slug: string): string | undefined {
+  const categories = getCategories();
+  return categories.find(c => categoryToSlug(c) === slug);
+}
+
+export interface CategoryInfo {
+  name: string;
+  slug: string;
+  albumCount: number;
+  totalPhotos: number;
+  coverImage: string;
+  albums: ReturnType<typeof getAllAlbums>;
+}
+
+export function getCategories(): string[] {
+  const cats = new Set<string>();
+  albumsData.filter(a => !a.isPrivate).forEach(a => cats.add(a.category));
+  return Array.from(cats);
+}
+
+export function getCategoryInfo(): CategoryInfo[] {
+  const allAlbums = getAllAlbums().filter(a => !a.isPrivate);
+  const categoryMap = new Map<string, CategoryInfo>();
+
+  for (const album of allAlbums) {
+    const existing = categoryMap.get(album.category);
+    if (existing) {
+      existing.albumCount++;
+      existing.totalPhotos += album.imageCount;
+      existing.albums.push(album);
+    } else {
+      categoryMap.set(album.category, {
+        name: album.category,
+        slug: categoryToSlug(album.category),
+        albumCount: 1,
+        totalPhotos: album.imageCount,
+        coverImage: album.coverImage,
+        albums: [album],
+      });
+    }
+  }
+
+  return Array.from(categoryMap.values());
+}
+
+export function getAlbumsByCategory(categorySlug: string) {
+  const category = slugToCategory(categorySlug);
+  if (!category) return [];
+  return getAllAlbums().filter(a => !a.isPrivate && a.category === category);
 }

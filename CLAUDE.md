@@ -18,7 +18,7 @@ npm run format           # Format code with Prettier
 npm run format:check     # Check code formatting without writing
 
 # Album Management
-npm run generate:albums  # Generate albums-data-full.ts from /public/JourneyLifePhotos folder structure
+npm run generate:albums  # Generate albums-data-full.ts from /public/IvaDimitrovPhotos folder structure
 ```
 
 ## Architecture
@@ -28,7 +28,7 @@ npm run generate:albums  # Generate albums-data-full.ts from /public/JourneyLife
 The app uses a **dual-source architecture** for image optimization:
 
 1. **Thumbnails** (7.9 MB total)
-   - Located in `/public/JourneyLifePhotos/*_thumb.jpg`
+   - Located in `/public/IvaDimitrovPhotos/*_thumb.jpg`
    - Served directly from the frontend
    - Used for: Grid views, album covers, initial page loads
    - Always use thumbnails for gallery grids and listings
@@ -40,7 +40,7 @@ The app uses a **dual-source architecture** for image optimization:
    - Backend expected to serve from `/static/photos/<album>/<photo>.jpg`
 
 **Image path pattern:**
-- Thumbnails: `/JourneyLifePhotos/<album>/<photo>_thumb.jpg`
+- Thumbnails: `/IvaDimitrovPhotos/<album>/<photo>_thumb.jpg`
 - Full images: `${NEXT_PUBLIC_FULL_IMAGE_BASE_URL}/<album>/<photo>.jpg`
 
 This architecture keeps the frontend bundle small while providing high-quality images on demand.
@@ -71,13 +71,13 @@ const { data: albums } = useAlbums({ category: 'weddings' });
 
 Albums are generated from the filesystem using `scripts/generate-albums-data.js`:
 
-1. Scans `/public/JourneyLifePhotos/` directory structure
+1. Scans `/public/IvaDimitrovPhotos/` directory structure
 2. Reads album metadata from hardcoded `albumMetadata` object in the script
 3. Generates `content/albums-data-full.ts` with all photos
 4. Also maintains `content/albums-data.ts` for production (limited selection)
 
 **To add new albums:**
-1. Add photos to `/public/JourneyLifePhotos/<AlbumName>/`
+1. Add photos to `/public/IvaDimitrovPhotos/<AlbumName>/`
 2. Update `albumMetadata` in `scripts/generate-albums-data.js`
 3. Run `npm run generate:albums`
 
@@ -95,7 +95,7 @@ Albums are generated from the filesystem using `scripts/generate-albums-data.js`
 
 - **shadcn/ui components**: `/components/ui/` (Radix UI primitives)
 - **Custom components**: Domain-specific (gallery, admin, forms, layout, sections)
-- **Design system**: Black (#0A0A0A), White (#FFFFFF), Accent Dusty Rose (#C4898A) - see `tailwind.config.ts`
+- **Design system**: Black (#0A0A0A), White (#FFFFFF), Accent (#b0ccd1) - see `tailwind.config.ts`
 - **Animations**: Custom scroll animations via `scroll-animation.tsx` and `split-text.tsx`
 
 ### Form Handling

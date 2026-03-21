@@ -94,7 +94,7 @@ function DesktopStepper({
               <div
                 className={`flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-400 ${
                   isActive
-                    ? 'border-brand-accent bg-brand-accent/15 shadow-[0_0_24px_rgba(196,137,138,0.3)]'
+                    ? 'border-brand-accent bg-brand-accent/15 shadow-[0_0_24px_rgba(176,204,209,0.3)]'
                     : isPast
                       ? 'border-brand-accent/50 bg-brand-accent/10'
                       : 'border-brand-white/15 bg-brand-black hover:border-brand-white/30'
@@ -207,7 +207,7 @@ function MobileStepper({
                 onClick={() => onSelect(i)}
                 className={`absolute left-[-45px] flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-400 ${
                   isActive
-                    ? 'border-brand-accent bg-brand-accent/15 shadow-[0_0_20px_rgba(196,137,138,0.25)]'
+                    ? 'border-brand-accent bg-brand-accent/15 shadow-[0_0_20px_rgba(176,204,209,0.25)]'
                     : isPast
                       ? 'border-brand-accent/40 bg-brand-accent/10'
                       : 'border-brand-white/15 bg-brand-black'

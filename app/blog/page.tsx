@@ -205,7 +205,7 @@ function MobileBlogCard({
   return (
     <ScrollAnimation direction="up" delay={index * 80}>
       <Link href={`/blog/${post.slug}`} className="group block">
-        <div className="flex items-center gap-4 p-2 rounded-xl border border-brand-white/[0.06] bg-brand-white/[0.03] transition-all duration-300 active:shadow-[0_0_24px_rgba(196,137,138,0.15)]">
+        <div className="flex items-center gap-4 p-2 rounded-xl border border-brand-white/[0.06] bg-brand-white/[0.03] transition-all duration-300 active:shadow-[0_0_24px_rgba(176,204,209,0.15)]">
           {/* Thumbnail */}
           <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
             <Image
@@ -293,7 +293,7 @@ export default function BlogPage() {
   const { data, isLoading, error } = useBlogPosts({ page, pageSize: 12 });
 
   const atmosphereImage =
-    '/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg';
+    '/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg';
 
   return (
     <>

@@ -5,7 +5,7 @@
  * - Black: #0A0A0A (default background)
  * - Dark tones: #111111, #141414, #1A1A1A (section rhythm)
  * - White: #FFFFFF (primary text)
- * - Brand Accent (Dusty Rose): #C4898A (used sparingly)
+ * - Brand Accent: #b0ccd1 (used sparingly)
  *
  * Opacity variations are allowed (e.g. rgba/hex alpha).
  */
@@ -15,7 +15,7 @@ export const theme = {
     // Primary colors
     black: '#0A0A0A',
     white: '#FFFFFF',
-    accent: '#C4898A',
+    accent: '#b0ccd1',
 
     // Dark tones for section rhythm
     'dark-1': '#111111',
@@ -38,14 +38,14 @@ export const theme = {
       heavy: 'rgba(255, 255, 255, 0.30)',
     },
     accentOverlay: {
-      light: 'rgba(196, 137, 138, 0.10)',
-      medium: 'rgba(196, 137, 138, 0.20)',
-      heavy: 'rgba(196, 137, 138, 0.30)',
+      light: 'rgba(176, 204, 209, 0.10)',
+      medium: 'rgba(176, 204, 209, 0.20)',
+      heavy: 'rgba(176, 204, 209, 0.30)',
     },
 
     // Border colors
     border: 'rgba(255, 255, 255, 0.10)',
-    borderAccent: 'rgba(196, 137, 138, 0.20)',
+    borderAccent: 'rgba(176, 204, 209, 0.20)',
   },
 
   typography: {

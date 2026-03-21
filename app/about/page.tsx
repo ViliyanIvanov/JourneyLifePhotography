@@ -15,7 +15,7 @@ export const metadata = createMetadata({
 });
 
 const ATMOSPHERE_PHOTO =
-  '/JourneyLifePhotos/Headshot/DSC07273 done finished_thumb.jpg';
+  '/IvaDimitrovPhotos/Headshot/DSC07273 done finished_thumb.jpg';
 
 export default function AboutPage() {
   return (
@@ -27,6 +27,7 @@ export default function AboutPage() {
           title="About"
           description="The story behind the lens — and the heart that guides every frame."
           className="bg-transparent"
+          align="center"
         />
         <main>
           <AboutMeetSection />

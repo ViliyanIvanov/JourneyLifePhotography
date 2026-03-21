@@ -128,7 +128,7 @@ export function QuoteRequestForm({ service, onSuccess }: QuoteRequestFormProps) 
           id="quote-phone"
           type="tel"
           {...register('phone')}
-          placeholder="+44 (0) 123 456 7890"
+          placeholder="Your phone number"
         />
       </div>
 

@@ -78,7 +78,7 @@ function FaqAccordionItem({ item, index, isOpen, onToggle }: {
       <div
         className={`border rounded-xl transition-all duration-400 ${
           isOpen
-            ? 'border-brand-accent/30 bg-brand-white/[0.05] shadow-[0_0_24px_rgba(196,137,138,0.1)]'
+            ? 'border-brand-accent/30 bg-brand-white/[0.05] shadow-[0_0_24px_rgba(176,204,209,0.1)]'
             : 'border-brand-white/[0.06] bg-brand-white/[0.02] hover:border-brand-white/[0.12]'
         }`}
       >

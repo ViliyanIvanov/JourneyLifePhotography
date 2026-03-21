@@ -5,9 +5,10 @@ interface PageHeaderProps {
   title: string;
   description?: string;
   className?: string;
+  align?: 'left' | 'center';
 }
 
-export function PageHeader({ title, description, className }: PageHeaderProps) {
+export function PageHeader({ title, description, className, align = 'left' }: PageHeaderProps) {
   const isTransparent = className?.includes('bg-transparent');
 
   return (
@@ -36,7 +37,7 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
       )}
 
       <Container className="relative z-10">
-        <div className="max-w-3xl">
+        <div className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center')}>
           <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
             {title}
           </h1>

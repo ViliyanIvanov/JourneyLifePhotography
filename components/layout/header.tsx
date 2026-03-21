@@ -93,7 +93,7 @@ function SplitNav({
         <img
           src="/logo.png"
           alt="Iva Dimitrov Photography Logo"
-          className="relative h-12 w-12 rounded-full object-cover ring-1 ring-brand-white/[0.08] transition-all duration-500 group-hover:ring-brand-accent/30 group-hover:shadow-[0_0_30px_rgba(196,137,138,0.15)]"
+          className="relative h-12 w-12 rounded-full object-cover ring-1 ring-brand-white/[0.08] transition-all duration-500 group-hover:ring-brand-accent/30 group-hover:shadow-[0_0_30px_rgba(176,204,209,0.15)]"
         />
       </Link>
 

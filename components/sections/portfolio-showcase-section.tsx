@@ -15,6 +15,7 @@ import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { SplitText } from '@/components/ui/split-text';
 import { Button } from '@/components/ui/button';
 import { albumsData, getImageUrl } from '@/content/albums-data';
+import { categoryToSlug } from '@/content/albums-data-full';
 
 /* ─── Featured albums: hand-picked for variety ─── */
 const FEATURED_SLUGS = [
@@ -78,8 +79,8 @@ function FanCard({
       }}
     >
       <Link
-        href={`/portfolio/${album.slug}`}
-        className="group block w-[250px] h-[350px] rounded-2xl overflow-hidden border border-brand-white/[0.06] relative cursor-pointer transition-shadow duration-500 hover:shadow-[0_0_24px_rgba(196,137,138,0.3)]"
+        href={`/portfolio/${categoryToSlug(album.category)}/${album.slug}`}
+        className="group block w-[250px] h-[350px] rounded-2xl overflow-hidden border border-brand-white/[0.06] relative cursor-pointer transition-shadow duration-500 hover:shadow-[0_0_24px_rgba(176,204,209,0.3)]"
       >
         <Image
           src={getImageUrl(album.coverImagePath)}
@@ -171,8 +172,8 @@ export function PortfolioShowcaseSection() {
                     style={{ transform: `rotate(${FAN_CONFIGS[i].rotate}deg)` }}
                   >
                     <Link
-                      href={`/portfolio/${album.slug}`}
-                      className="group block w-[250px] h-[350px] rounded-2xl overflow-hidden border border-brand-white/[0.06] relative cursor-pointer transition-shadow duration-500 hover:shadow-[0_0_24px_rgba(196,137,138,0.3)]"
+                      href={`/portfolio/${categoryToSlug(album.category)}/${album.slug}`}
+                      className="group block w-[250px] h-[350px] rounded-2xl overflow-hidden border border-brand-white/[0.06] relative cursor-pointer transition-shadow duration-500 hover:shadow-[0_0_24px_rgba(176,204,209,0.3)]"
                     >
                       <Image
                         src={getImageUrl(album.coverImagePath)}
@@ -214,14 +215,14 @@ export function PortfolioShowcaseSection() {
                 delay={120 + i * 100}
               >
                 <Link
-                  href={`/portfolio/${album.slug}`}
+                  href={`/portfolio/${categoryToSlug(album.category)}/${album.slug}`}
                   className="group block relative"
                   style={{
                     transform: `rotate(${MOBILE_FAN[i].rotate}deg) translateX(${MOBILE_FAN[i].x}px)`,
                     zIndex: featuredAlbums.length - i,
                   }}
                 >
-                  <div className="w-[280px] h-[160px] rounded-2xl overflow-hidden border border-brand-white/[0.06] relative transition-all duration-500 active:scale-[1.03] active:shadow-[0_0_24px_rgba(196,137,138,0.3)]">
+                  <div className="w-[280px] h-[160px] rounded-2xl overflow-hidden border border-brand-white/[0.06] relative transition-all duration-500 active:scale-[1.03] active:shadow-[0_0_24px_rgba(176,204,209,0.3)]">
                     <Image
                       src={getImageUrl(album.coverImagePath)}
                       alt={album.title}

@@ -26,18 +26,18 @@ const services = mockServices.slice(0, 3);
 /** Distinct, evocative photos — not album covers — to encourage selection. */
 const SERVICE_IMAGES: Record<string, string> = {
   'Wedding Photography':
-    '/JourneyLifePhotos/Weddings/Engagement/DSC07010-Edit_thumb.jpg',
+    '/IvaDimitrovPhotos/Weddings/Engagement/DSC07010-Edit_thumb.jpg',
   'Family Photography':
-    '/JourneyLifePhotos/Children and family/boy-with-daisies-spring-family-photoshoots-nottingham_thumb.jpg',
+    '/IvaDimitrovPhotos/Children and family/boy-with-daisies-spring-family-photoshoots-nottingham_thumb.jpg',
   'Corporate Photography':
-    '/JourneyLifePhotos/Corporate small/DSC03799-Edit-3_thumb.jpg',
+    '/IvaDimitrovPhotos/Corporate small/DSC03799-Edit-3_thumb.jpg',
 };
 
 /** Three photos that bleed behind the hero heading — mood, not detail. */
 const HERO_PHOTOS = [
-  '/JourneyLifePhotos/Weddings/Wedding 2/DSC05107-Edit-3_thumb.jpg',
-  '/JourneyLifePhotos/Children and family/kid-portrait-bluebell-forest-nottingham-journey-life-photography-woods-flowers_thumb.jpg',
-  '/JourneyLifePhotos/Branding small/DSC05042_thumb.jpg',
+  '/IvaDimitrovPhotos/Weddings/Wedding 2/DSC05107-Edit-3_thumb.jpg',
+  '/IvaDimitrovPhotos/Children and family/kid-portrait-bluebell-forest-nottingham-journey-life-photography-woods-flowers_thumb.jpg',
+  '/IvaDimitrovPhotos/Branding small/DSC05042_thumb.jpg',
 ];
 
 const SERVICE_ICONS = [Heart, Camera, Building2] as const;
@@ -45,13 +45,13 @@ const SERVICE_ICONS = [Heart, Camera, Building2] as const;
 const contactDetails = [
   {
     icon: Mail,
-    label: 'info@journeylifephotography.com',
-    href: 'mailto:info@journeylifephotography.com',
+    label: 'info@ivadimitrovphotography.com',
+    href: 'mailto:info@ivadimitrovphotography.com',
   },
   {
     icon: Phone,
-    label: '+44 (0) 123 456 7890',
-    href: 'tel:+441234567890',
+    label: '+44 7907 977441',
+    href: 'tel:+447907977441',
   },
   {
     icon: MapPin,
@@ -376,7 +376,7 @@ export function ContactPageContent() {
                       <Input
                         type="tel"
                         {...register('phone')}
-                        placeholder="+44 (0) 123 456 7890"
+                        placeholder="Your phone number"
                         disabled={contactSubmit.isPending}
                         className="bg-brand-white/[0.04] border-brand-white/[0.08] focus-visible:border-brand-accent/40 focus-visible:ring-brand-accent/20"
                       />
@@ -543,7 +543,7 @@ function ServiceCard({
         mobile ? 'flex-shrink-0 min-w-[260px] snap-start' : ''
       } ${
         isActive
-          ? 'border-2 border-brand-accent/40 shadow-[0_0_30px_rgba(196,137,138,0.12)]'
+          ? 'border-2 border-brand-accent/40 shadow-[0_0_30px_rgba(176,204,209,0.12)]'
           : 'border-2 border-brand-white/[0.06] hover:border-brand-white/[0.12]'
       }`}
     >

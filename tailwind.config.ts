@@ -17,18 +17,18 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Design system: Black tones, White, Accent (Dusty Rose)
+        // Design system: Black tones, White, Accent (#b0ccd1)
         brand: {
           black: '#0A0A0A',
           white: '#FFFFFF',
-          accent: '#C4898A',
+          accent: '#b0ccd1',
 'dark-1': '#111111',
           'dark-2': '#141414',
           'dark-3': '#1A1A1A',
           'warm-1': '#141210',
           'warm-2': '#1E1C1A',
           'warm-3': '#282523',
-          'accent-light': '#D4A5A6',
+          'accent-light': '#c5dce0',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import { Container } from './container';
-import { Facebook, Instagram, Twitter } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 
 const socialLinks = [
-  { name: 'Facebook', icon: Facebook, href: '#' },
-  { name: 'Instagram', icon: Instagram, href: '#' },
-  { name: 'Twitter', icon: Twitter, href: '#' },
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/ivayladimitrov/' },
 ];
 
 const footerLinks = {
@@ -78,8 +76,8 @@ export function Footer() {
                     Get in Touch
                   </Link>
                 </li>
-                <li>Email: info@journeylifephotography.com</li>
-                <li>Phone: +44 (0) 123 456 7890</li>
+                <li>Email: info@ivadimitrovphotography.com</li>
+                <li>Phone: +44 7907 977441</li>
               </ul>
             </div>
 

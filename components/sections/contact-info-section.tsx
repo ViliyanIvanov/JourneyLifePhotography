@@ -40,7 +40,7 @@ export function ContactInfoSection() {
                   onClick={() => handleCardClick(service.title)}
                   className={`group relative rounded-xl overflow-hidden h-[200px] transition-all duration-500 border-2 text-left ${
                     isActive
-                      ? 'border-brand-accent/50 shadow-[0_0_24px_rgba(196,137,138,0.15)]'
+                      ? 'border-brand-accent/50 shadow-[0_0_24px_rgba(176,204,209,0.15)]'
                       : 'border-white/10 hover:border-white/20'
                   }`}
                 >
@@ -90,7 +90,7 @@ export function ContactInfoSection() {
                   onClick={() => handleCardClick(service.title)}
                   className={`group relative flex-shrink-0 min-w-[280px] snap-start rounded-xl overflow-hidden h-[180px] transition-all duration-500 border-2 text-left ${
                     isActive
-                      ? 'border-brand-accent/50 shadow-[0_0_24px_rgba(196,137,138,0.15)]'
+                      ? 'border-brand-accent/50 shadow-[0_0_24px_rgba(176,204,209,0.15)]'
                       : 'border-white/10'
                   }`}
                 >
@@ -154,18 +154,18 @@ export function ContactInfoSection() {
       <SectionShell padding="sm" background="black">
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-brand-white/50 text-sm">
           <a
-            href="mailto:info@journeylifephotography.com"
+            href="mailto:info@ivadimitrovphotography.com"
             className="flex items-center gap-2 hover:text-brand-accent transition-colors duration-300"
           >
             <Mail className="w-4 h-4" />
-            info@journeylifephotography.com
+            info@ivadimitrovphotography.com
           </a>
           <a
-            href="tel:+441234567890"
+            href="tel:+447907977441"
             className="flex items-center gap-2 hover:text-brand-accent transition-colors duration-300"
           >
             <Phone className="w-4 h-4" />
-            +44 (0) 123 456 7890
+            +44 7907 977441
           </a>
           <span className="flex items-center gap-2">
             <MapPin className="w-4 h-4" />
