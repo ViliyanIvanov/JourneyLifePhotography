@@ -37,7 +37,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, scale: 1 },
 };
 
-const springTransition = { type: 'spring' as const, stiffness: 100, damping: 20 };
+const enterTransition = { type: 'tween' as const, duration: 0.4, ease: [0.22, 1, 0.36, 1] as const };
 
 export function PhotoGrid({
   photos,
@@ -107,7 +107,7 @@ export function PhotoGrid({
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
               variants={itemVariants}
-              transition={{ ...springTransition, delay: (index % loadMoreCount) * 0.03 }}
+              transition={{ ...enterTransition, delay: (index % loadMoreCount) * 0.03 }}
             >
               {!isImageLoaded && <PhotoSkeleton />}
 
