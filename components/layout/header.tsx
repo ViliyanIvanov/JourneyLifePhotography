@@ -190,11 +190,17 @@ export function Header() {
     }
 
     const el = headerRef.current;
+    const MD_BREAKPOINT = 768;
     let rafId = 0;
     // Cache offsetHeight to avoid forcing layout recalc on every scroll frame
     let cachedNavHeight = el.offsetHeight;
 
     const update = () => {
+      // On mobile, keep header fixed at top (no slide-from-bottom effect)
+      if (window.innerWidth < MD_BREAKPOINT) {
+        el.style.transform = '';
+        return;
+      }
       const maxOffset = window.innerHeight - cachedNavHeight;
       const offset = Math.max(0, maxOffset - window.scrollY);
       el.style.transform = `translateY(${offset}px)`;
