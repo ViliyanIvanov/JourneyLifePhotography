@@ -51,13 +51,13 @@ export function HomeHeroSection() {
               </div>
             </ScrollAnimation>
 
-            <div className="mx-auto mt-8 mb-4 max-w-3xl text-balance text-white/90">
+            <h1 className="mx-auto mt-8 mb-4 max-w-3xl text-balance text-white/90">
               <SplitText
                 text="Bespoke story-led photography"
                 delay={200}
                 className="text-[44px] leading-[1.18] tracking-[-0.04em] sm:text-[58px] lg:text-[48px]"
               />
-            </div>
+            </h1>
 
             <ScrollAnimation direction="up" delay={260}>
               <div className="mt-10 flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">

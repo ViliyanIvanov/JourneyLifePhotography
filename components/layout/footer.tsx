@@ -43,6 +43,7 @@ export function Footer() {
                       href={social.href}
                       className="text-brand-white/70 hover:text-brand-white transition-colors"
                       aria-label={social.name}
+                      {...(social.href === '#' ? { rel: 'nofollow', tabIndex: -1 } : { target: '_blank', rel: 'noopener noreferrer' })}
                     >
                       <Icon className="h-5 w-5" />
                     </Link>
