@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getAllAlbums } from '@/content/albums-data-full';
+import { getAllAlbums, categoryToSlug } from '@/content/albums-data-full';
 import { serverFetch } from '@/lib/api/server';
 import { siteUrl } from '@/lib/seo';
 import type { PagedResponse, BlogPostSummaryDto } from '@/lib/api/types';
@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Dynamic album pages (exclude private albums)
   const albums = getAllAlbums().filter((a) => !a.isPrivate);
   const albumPages: MetadataRoute.Sitemap = albums.map((album) => ({
-    url: `${siteUrl}/portfolio/${album.slug}`,
+    url: `${siteUrl}/portfolio/${categoryToSlug(album.category)}/${album.slug}`,
     lastModified: album.createdAt || now,
     changeFrequency: 'monthly' as const,
     priority: 0.6,

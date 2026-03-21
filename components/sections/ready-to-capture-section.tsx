@@ -17,7 +17,7 @@ export function ReadyToCaptureSection() {
       <div
         className="absolute inset-x-0 top-0 h-px"
         style={{
-          background: 'linear-gradient(to right, transparent, #C4898A 50%, transparent)',
+          background: 'linear-gradient(to right, transparent, #b0ccd1 50%, transparent)',
           opacity: '0.2',
         }}
       />

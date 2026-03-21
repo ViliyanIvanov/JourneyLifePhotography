@@ -7,36 +7,27 @@ import { Container } from '@/components/layout/container';
 import { AtmosphereBackground } from '@/components/ui/atmosphere-background';
 import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { SplitText } from '@/components/ui/split-text';
-import { Lock } from 'lucide-react';
-import type { AlbumConfig } from '@/content/albums-data-full';
-
-interface AlbumWithCover extends AlbumConfig {
-  coverImage: string;
-}
+import type { CategoryInfo } from '@/content/albums-data-full';
 
 export default function PortfolioPage() {
-  const [albums, setAlbums] = useState<AlbumWithCover[]>([]);
+  const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function loadAlbums() {
+    async function loadCategories() {
       try {
-        const { getAllAlbums } = await import('@/content/albums-data-full');
-        const data = getAllAlbums() as AlbumWithCover[];
-        setAlbums(data);
+        const { getCategoryInfo } = await import('@/content/albums-data-full');
+        setCategories(getCategoryInfo());
       } catch {
         // silently fail — empty grid
       } finally {
         setIsLoading(false);
       }
     }
-    loadAlbums();
+    loadCategories();
   }, []);
 
-  const publicAlbums = albums.filter((a) => !a.isPrivate);
-
-  // Use the first album cover as atmosphere background
-  const atmosphereImage = publicAlbums[0]?.coverImage || '/placeholder-album.jpg';
+  const atmosphereImage = categories[0]?.coverImage || '/placeholder-album.jpg';
 
   return (
     <>
@@ -78,84 +69,63 @@ export default function PortfolioPage() {
               </div>
             ) : (
               <>
-                {/* Desktop: 3-column aligned grid, capped at 380px height */}
+                {/* Desktop: 3-column grid */}
                 <div className="hidden lg:grid grid-cols-3 gap-5">
-                  {publicAlbums.map((album, index) => (
-                      <ScrollAnimation
-                        key={album.id}
-                        direction={index % 3 === 0 ? 'left' : index % 3 === 2 ? 'right' : 'up'}
-                        effect="float"
-                        delay={index * 80}
-                      >
-                        <Link
-                          href={
-                            album.isPrivate
-                              ? `/private/${album.slug}`
-                              : `/portfolio/${album.slug}`
-                          }
-                        >
-                          <div className="group relative overflow-hidden rounded-2xl border border-brand-white/[0.06] card-glow-hover transition-all duration-500 hover:-translate-y-1.5">
-                            <div className="relative h-[340px] overflow-hidden">
-                              <Image
-                                src={album.coverImage}
-                                alt={album.title}
-                                fill
-                                className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                                sizes="(max-width: 1400px) 33vw, 380px"
-                              />
-                              {/* Gradient overlay */}
-                              <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/20 to-transparent" />
+                  {categories.map((cat, index) => (
+                    <ScrollAnimation
+                      key={cat.slug}
+                      direction={index % 3 === 0 ? 'left' : index % 3 === 2 ? 'right' : 'up'}
+                      effect="float"
+                      delay={index * 80}
+                    >
+                      <Link href={cat.albumCount === 1 ? `/portfolio/${cat.slug}/${cat.albums[0].slug}` : `/portfolio/${cat.slug}`}>
+                        <div className="group relative overflow-hidden rounded-2xl border border-brand-white/[0.06] card-glow-hover transition-all duration-500 hover:-translate-y-1.5">
+                          <div className="relative h-[340px] overflow-hidden">
+                            <Image
+                              src={cat.coverImage}
+                              alt={cat.name}
+                              fill
+                              className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                              sizes="(max-width: 1400px) 33vw, 380px"
+                            />
+                            {/* Gradient overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/20 to-transparent" />
 
-                              {album.isPrivate && (
-                                <div className="absolute top-4 right-4 bg-brand-black/70 backdrop-blur-sm rounded-full p-2">
-                                  <Lock className="h-4 w-4 text-brand-white" />
-                                </div>
-                              )}
-
-                              {/* Card info */}
-                              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-                                <div className="flex items-center gap-3 mb-2">
-                                  <span className="text-[11px] uppercase tracking-[0.15em] text-brand-accent/80 font-medium">
-                                    {album.category}
-                                  </span>
-                                  <span className="text-brand-white/30 text-[11px]">
-                                    {album.imageCount} photos
-                                  </span>
-                                </div>
-                                <h3 className="text-xl lg:text-2xl font-serif text-brand-white font-light">
-                                  {album.title}
-                                </h3>
-                                <div className="h-0.5 w-0 bg-brand-accent group-hover:w-full transition-all duration-500 ease-out mt-3" />
+                            {/* Card info */}
+                            <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+                              <div className="flex items-center gap-3 mb-2">
+                                <span className="text-brand-white/30 text-[11px]">
+                                  {cat.albumCount} album{cat.albumCount !== 1 ? 's' : ''} &middot; {cat.totalPhotos} photos
+                                </span>
                               </div>
+                              <h3 className="text-xl lg:text-2xl font-serif text-brand-white font-light">
+                                {cat.name}
+                              </h3>
+                              <div className="h-0.5 w-0 bg-brand-accent group-hover:w-full transition-all duration-500 ease-out mt-3" />
                             </div>
                           </div>
-                        </Link>
-                      </ScrollAnimation>
+                        </div>
+                      </Link>
+                    </ScrollAnimation>
                   ))}
                 </div>
 
                 {/* Mobile: compact list rows */}
                 <div className="flex flex-col gap-3 lg:hidden">
-                  {publicAlbums.map((album, index) => (
+                  {categories.map((cat, index) => (
                     <ScrollAnimation
-                      key={album.id}
+                      key={cat.slug}
                       direction="up"
                       effect="float"
                       delay={index * 80}
                     >
-                      <Link
-                        href={
-                          album.isPrivate
-                            ? `/private/${album.slug}`
-                            : `/portfolio/${album.slug}`
-                        }
-                      >
-                        <div className="group flex items-center gap-4 p-2 rounded-xl border border-brand-white/[0.06] bg-brand-white/[0.03] transition-all duration-300 active:shadow-[0_0_24px_rgba(196,137,138,0.15)]">
+                      <Link href={cat.albumCount === 1 ? `/portfolio/${cat.slug}/${cat.albums[0].slug}` : `/portfolio/${cat.slug}`}>
+                        <div className="group flex items-center gap-4 p-2 rounded-xl border border-brand-white/[0.06] bg-brand-white/[0.03] transition-all duration-300 active:shadow-[0_0_24px_rgba(176,204,209,0.15)]">
                           {/* Thumbnail */}
                           <div className="relative w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden">
                             <Image
-                              src={album.coverImage}
-                              alt={album.title}
+                              src={cat.coverImage}
+                              alt={cat.name}
                               fill
                               className="object-cover object-top"
                               sizes="80px"
@@ -164,18 +134,12 @@ export default function PortfolioPage() {
                           {/* Info */}
                           <div className="flex-1 min-w-0">
                             <h3 className="font-serif text-base text-brand-white truncate">
-                              {album.title}
+                              {cat.name}
                             </h3>
-                            <p className="text-xs text-brand-accent/80 mt-0.5">
-                              {album.category}
-                            </p>
                             <p className="text-xs text-brand-white/40 mt-0.5">
-                              {album.imageCount} photos
+                              {cat.albumCount} album{cat.albumCount !== 1 ? 's' : ''} &middot; {cat.totalPhotos} photos
                             </p>
                           </div>
-                          {album.isPrivate && (
-                            <Lock className="h-4 w-4 text-brand-white/40 flex-shrink-0 mr-2" />
-                          )}
                         </div>
                       </Link>
                     </ScrollAnimation>

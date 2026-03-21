@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { categoryToSlug } from '@/content/albums-data-full';
 
 export interface CarouselAlbum {
   slug: string;
@@ -93,7 +94,7 @@ export function AlbumCarousel({ albums, onSlideChange }: AlbumCarouselProps) {
         {albums.map((album, i) => (
           <Link
             key={album.slug}
-            href={`/portfolio/${album.slug}`}
+            href={`/portfolio/${categoryToSlug(album.category)}/${album.slug}`}
             className="relative min-w-full h-full block"
             draggable={false}
             tabIndex={i === active ? 0 : -1}

@@ -16,7 +16,7 @@ const path = require('path');
 // Configuration
 const THUMBNAIL_SIZE = 400; // 400x400 thumbnails
 const QUALITY = 80; // JPEG quality
-const SOURCE_DIR = path.join(__dirname, '../public/JourneyLifePhotos');
+const SOURCE_DIR = path.join(__dirname, '../public/IvaDimitrovPhotos');
 const THUMB_SUFFIX = '_thumb'; // e.g., photo_thumb.jpg
 
 async function generateThumbnail(filePath, outputPath) {

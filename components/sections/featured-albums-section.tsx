@@ -57,7 +57,7 @@ export function FeaturedAlbumsSection({ albums }: FeaturedAlbumsSectionProps) {
       {/* Ambient accent glow */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/3 w-[600px] h-[400px] rounded-full blur-3xl z-[1]"
-        style={{ backgroundColor: 'rgba(196, 137, 138, 0.06)' }}
+        style={{ backgroundColor: 'rgba(176, 204, 209, 0.06)' }}
       />
 
       <Container className="relative z-[2]">

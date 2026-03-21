@@ -25,7 +25,7 @@ export default function TermsPage() {
             <Section title="1. Introduction">
               <p>
                 These terms and conditions govern your use of the Iva Dimitrov
-                Photography website (journeylifephotography.com) and the photography
+                Photography website (ivadimitrovphotography.com) and the photography
                 services we offer. By using our website or booking a session, you
                 agree to these terms.
               </p>
@@ -162,10 +162,10 @@ export default function TermsPage() {
               <p>
                 If you have any questions about these terms, please contact us at{' '}
                 <a
-                  href="mailto:info@journeylifephotography.com"
+                  href="mailto:info@ivadimitrovphotography.com"
                   className="text-brand-accent hover:text-brand-accent/80 transition-colors"
                 >
-                  info@journeylifephotography.com
+                  info@ivadimitrovphotography.com
                 </a>
                 .
               </p>

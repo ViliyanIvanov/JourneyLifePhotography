@@ -76,7 +76,7 @@ function AccordionItem({
       <div
         className={`rounded-2xl border transition-all duration-500 ${
           isOpen
-            ? 'border-brand-accent/30 bg-brand-white/[0.04] shadow-[0_0_30px_rgba(196,137,138,0.08)]'
+            ? 'border-brand-accent/30 bg-brand-white/[0.04] shadow-[0_0_30px_rgba(176,204,209,0.08)]'
             : 'border-brand-white/[0.06] bg-brand-white/[0.02] hover:border-brand-white/[0.12]'
         }`}
       >

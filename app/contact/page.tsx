@@ -9,7 +9,7 @@ export const metadata = createMetadata({
 });
 
 const ATMOSPHERE_PHOTO =
-  '/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg';
+  '/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg';
 
 export default function ContactPage() {
   return (

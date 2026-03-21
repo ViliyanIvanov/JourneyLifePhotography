@@ -4,8 +4,8 @@ import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import { SplitText } from '@/components/ui/split-text';
 import Link from 'next/link';
 
-const HERO_DESKTOP = '/JourneyLifePhotos/Hero.jpg';
-const HERO_MOBILE = '/JourneyLifePhotos/Hero_mobile.jpg';
+const HERO_DESKTOP = '/IvaDimitrovPhotos/Hero.jpg';
+const HERO_MOBILE = '/IvaDimitrovPhotos/Hero_mobile.jpg';
 
 export function HomeHeroSection() {
   return (

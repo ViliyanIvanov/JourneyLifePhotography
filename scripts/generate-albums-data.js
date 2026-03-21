@@ -8,7 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const PUBLIC_PHOTOS_DIR = path.join(__dirname, '../public/JourneyLifePhotos');
+const PUBLIC_PHOTOS_DIR = path.join(__dirname, '../public/IvaDimitrovPhotos');
 const OUTPUT_FILE = path.join(__dirname, '../content/albums-data-full.ts');
 
 // Album metadata
@@ -232,7 +232,7 @@ export interface AlbumConfig {
 
 // Get the image URL based on environment
 export function getImageUrl(path: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/JourneyLifePhotos';
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/IvaDimitrovPhotos';
   return \`\${baseUrl}\${path.startsWith('/') ? path : '/' + path}\`;
 }
 

@@ -85,7 +85,7 @@ export function ServicesPreviewSection({ services }: ServicesPreviewSectionProps
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 100% 0%, rgba(196,137,138,0.07) 0%, transparent 70%)',
+            'radial-gradient(ellipse 80% 60% at 100% 0%, rgba(176,204,209,0.07) 0%, transparent 70%)',
         }}
       />
 

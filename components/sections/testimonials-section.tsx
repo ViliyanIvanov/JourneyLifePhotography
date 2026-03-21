@@ -61,7 +61,7 @@ function AvatarInitial({ name }: { name: string }) {
     <div
       className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg"
       style={{
-        backgroundColor: '#C4898A',
+        backgroundColor: '#b0ccd1',
         opacity: 0.8 + (colorIndex * 0.04),
       }}
     >
@@ -98,7 +98,7 @@ const TestimonialCard = memo(function TestimonialCard({ testimonial }: { testimo
           {/* Quote mark accent */}
           <div
             className="absolute top-5 right-5 text-5xl font-serif transition-opacity duration-500 group-hover:opacity-[0.35]"
-            style={{ color: '#C4898A', opacity: '0.2' }}
+            style={{ color: '#b0ccd1', opacity: '0.2' }}
           >
             &quot;
           </div>
@@ -112,7 +112,7 @@ const TestimonialCard = memo(function TestimonialCard({ testimonial }: { testimo
           <div
             className="h-px my-5 flex-shrink-0"
             style={{
-              background: `linear-gradient(to right, transparent, #C4898A 50%, transparent)`,
+              background: `linear-gradient(to right, transparent, #b0ccd1 50%, transparent)`,
               opacity: '0.3',
             }}
           />

@@ -25,7 +25,7 @@ export default function PrivacyPage() {
             <Section title="1. Who We Are">
               <p>
                 Iva Dimitrov Photography (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) operates
-                the website journeylifephotography.com. This policy explains how we
+                the website ivadimitrovphotography.com. This policy explains how we
                 handle your personal data when you visit our site, enquire about our
                 services, or book a session.
               </p>
@@ -101,10 +101,10 @@ export default function PrivacyPage() {
               <p className="mt-3">
                 To exercise any of these rights, please contact us at{' '}
                 <a
-                  href="mailto:info@journeylifephotography.com"
+                  href="mailto:info@ivadimitrovphotography.com"
                   className="text-brand-accent hover:text-brand-accent/80 transition-colors"
                 >
-                  info@journeylifephotography.com
+                  info@ivadimitrovphotography.com
                 </a>
                 .
               </p>
@@ -130,10 +130,10 @@ export default function PrivacyPage() {
                 If you have any questions about this privacy policy, please contact us
                 at{' '}
                 <a
-                  href="mailto:info@journeylifephotography.com"
+                  href="mailto:info@ivadimitrovphotography.com"
                   className="text-brand-accent hover:text-brand-accent/80 transition-colors"
                 >
-                  info@journeylifephotography.com
+                  info@ivadimitrovphotography.com
                 </a>
                 .
               </p>

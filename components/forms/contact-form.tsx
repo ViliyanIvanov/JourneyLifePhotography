@@ -134,7 +134,7 @@ export function ContactForm({ selectedService }: ContactFormProps) {
               id="phone"
               type="tel"
               {...register('phone')}
-              placeholder="+44 (0) 123 456 7890"
+              placeholder="Your phone number"
               disabled={contactSubmit.isPending}
             />
           </div>

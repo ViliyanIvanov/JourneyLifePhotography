@@ -1,5 +1,5 @@
 // ============================================================================
-// JourneyLifePhotography API - Barrel Export
+// Iva Dimitrov Photography API - Barrel Export
 // ============================================================================
 
 // Types

@@ -289,7 +289,7 @@ export default function PrivateAlbumPage() {
             </CardHeader>
             <CardContent>
               <Button
-                onClick={() => window.location.href = `/portfolio/${album.slug || album.id}`}
+                onClick={() => window.location.href = `/portfolio`}
                 className="w-full"
               >
                 View in Portfolio

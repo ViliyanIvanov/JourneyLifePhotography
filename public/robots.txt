@@ -6,7 +6,7 @@ Disallow: /private/
 Disallow: /api/
 
 # Host
-Host: https://journeylifephotography.com
+Host: https://ivadimitrovphotography.com
 
 # Sitemaps
-Sitemap: https://journeylifephotography.com/sitemap.xml
+Sitemap: https://ivadimitrovphotography.com/sitemap.xml

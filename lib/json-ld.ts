@@ -19,7 +19,7 @@ export function createOrganizationSchema() {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',
-      email: 'info@journeylifephotography.com',
+      email: 'info@ivadimitrovphotography.com',
     },
   };
 }

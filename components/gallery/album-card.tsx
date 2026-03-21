@@ -4,6 +4,7 @@ import { ScrollAnimation } from '@/components/ui/scroll-animation';
 import type { AlbumDto } from '@/lib/api';
 import type { Album } from '@/content/mock-data';
 import { Lock } from 'lucide-react';
+import { categoryToSlug } from '@/content/albums-data-full';
 
 interface AlbumCardProps {
   album: AlbumDto | Album;
@@ -17,7 +18,7 @@ export function AlbumCard({ album, index = 0 }: AlbumCardProps) {
 
   return (
     <ScrollAnimation direction="up" delay={index * 100} effect="float">
-      <Link href={album.isPrivate ? `/private/${album.slug || album.id}` : `/portfolio/${album.slug || album.id}`}>
+      <Link href={album.isPrivate ? `/private/${album.slug || album.id}` : `/portfolio/${'category' in album && album.category ? `${categoryToSlug(album.category)}/` : ''}${album.slug || album.id}`}>
         <div className="group relative overflow-hidden bg-brand-black card-glow-hover card-lift-hover rounded-2xl transition-all duration-500 hover:scale-[1.02]">
           <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden">
             <Image

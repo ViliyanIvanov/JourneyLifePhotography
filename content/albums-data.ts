@@ -1,6 +1,6 @@
 // =====================
 // Album Configuration
-// Supports both local images (/JourneyLifePhotos/*) and S3 URLs for production
+// Supports both local images (/IvaDimitrovPhotos/*) and S3 URLs for production
 // =====================
 
 export interface AlbumConfig {
@@ -15,16 +15,16 @@ export interface AlbumConfig {
   createdAt: string;
 }
 
-// Thumbnail URL — served from frontend /public/JourneyLifePhotos/
+// Thumbnail URL — served from frontend /public/IvaDimitrovPhotos/
 export function getImageUrl(path: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/JourneyLifePhotos';
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || '/IvaDimitrovPhotos';
   return `${baseUrl}${path.startsWith('/') ? path : '/' + path}`;
 }
 
 // Full-size image URL — served from backend (higher quality)
 // Strips _thumb suffix and uses NEXT_PUBLIC_FULL_IMAGE_BASE_URL
 export function getFullImageUrl(path: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_FULL_IMAGE_BASE_URL || '/JourneyLifePhotos';
+  const baseUrl = process.env.NEXT_PUBLIC_FULL_IMAGE_BASE_URL || '/IvaDimitrovPhotos';
   const fullPath = path.replace(/_thumb\.jpg$/, '.jpg');
   return `${baseUrl}${fullPath.startsWith('/') ? fullPath : '/' + fullPath}`;
 }
@@ -82,7 +82,7 @@ export const albumsData: AlbumConfig[] = [
     title: 'Architecture & Interiors',
     description: 'Professional architectural and interior design photography',
     category: 'Architecture',
-    coverImagePath: '/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg',
+    coverImagePath: '/Architecture and Interiors small/DSC00293_thumb.jpg',
     imageCount: 24,
     isPrivate: false,
     createdAt: '2024-01-10',

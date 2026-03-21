@@ -15,9 +15,9 @@ export function AboutMeetSection() {
         <div className="md:col-span-5">
           <ScrollAnimation direction="left">
             <TiltCard maxTilt={4}>
-              <div className="relative rounded-xl overflow-hidden border border-brand-white/[0.08] shadow-[0_0_60px_rgba(196,137,138,0.12)]">
+              <div className="relative rounded-xl overflow-hidden border border-brand-white/[0.08] shadow-[0_0_60px_rgba(176,204,209,0.12)]">
                 <Image
-                  src="/JourneyLifePhotos/Headshot/DSC07273 done finished_thumb.jpg"
+                  src="/IvaDimitrovPhotos/Headshot/DSC07273 done finished_thumb.jpg"
                   alt="Iva Dimitrov — photographer"
                   width={600}
                   height={800}

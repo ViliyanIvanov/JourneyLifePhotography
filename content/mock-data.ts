@@ -212,8 +212,8 @@ export const mockServices: Service[] = [
       "Engagement session included",
       "USB with all edited photos",
     ],
-    image: "/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg",
-    heroImage: "/JourneyLifePhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg",
+    image: "/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg",
+    heroImage: "/IvaDimitrovPhotos/Weddings/Wedding 1/small size/Album cover_thumb.jpg",
     options: [
       { label: "Guest count", values: ["Intimate (under 50)", "Medium (50–150)", "Large (150+)"] },
       { label: "Ceremony type", values: ["Indoor", "Outdoor", "Both"] },
@@ -234,8 +234,8 @@ export const mockServices: Service[] = [
       "Print-ready files included",
       "Outfit & styling guidance",
     ],
-    image: "/JourneyLifePhotos/Children and family/Album cover kids_thumb.jpg",
-    heroImage: "/JourneyLifePhotos/Children and family/Album cover kids_thumb.jpg",
+    image: "/IvaDimitrovPhotos/Children and family/Album cover kids_thumb.jpg",
+    heroImage: "/IvaDimitrovPhotos/Children and family/Album cover kids_thumb.jpg",
     options: [
       { label: "Number of people", values: ["1–3", "4–6", "7+"] },
       { label: "Setting", values: ["Studio", "Outdoor", "Home"] },
@@ -256,8 +256,8 @@ export const mockServices: Service[] = [
       "Commercial usage licence included",
       "On-location or studio setup",
     ],
-    image: "/JourneyLifePhotos/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg",
-    heroImage: "/JourneyLifePhotos/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg",
+    image: "/IvaDimitrovPhotos/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg",
+    heroImage: "/IvaDimitrovPhotos/Architecture and Interiors small/album Architecture and interiors cover_thumb.jpg",
     options: [
       { label: "Event type", values: ["Conference", "Headshots", "Product", "Brand"] },
       { label: "Number of final images", values: ["10–20", "20–50", "50+"] },

@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://journeylifephotography.com',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://ivadimitrovphotography.com',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: ['/admin/*', '/private/*', '/api/*'],
