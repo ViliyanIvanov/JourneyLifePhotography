@@ -30,7 +30,7 @@ export function AtmosphereBackground({ photoUrl, darkness = 82 }: AtmosphereBack
     >
       {/* Layer 1: photo atmosphere — the organic colour base */}
       <div
-        className="absolute inset-0 scale-125 blur-[60px] saturate-50"
+        className="absolute inset-0 scale-125 blur-[60px] saturate-50 will-change-transform"
         style={{
           backgroundImage: `url("${encodedUrl}")`,
           backgroundSize: 'cover',
@@ -48,7 +48,7 @@ export function AtmosphereBackground({ photoUrl, darkness = 82 }: AtmosphereBack
         className="absolute inset-0 opacity-[0.04]"
         style={{
           backgroundImage:
-            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'512\' height=\'512\' filter=\'url(%23g)\' opacity=\'1\'/%3E%3C/svg%3E")',
+            'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'g\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.75\' numOctaves=\'2\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'512\' height=\'512\' filter=\'url(%23g)\' opacity=\'1\'/%3E%3C/svg%3E")',
           backgroundSize: '256px 256px',
         }}
       />

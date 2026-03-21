@@ -135,9 +135,9 @@ export function PortfolioShowcaseSection() {
       ref={sectionRef}
       className="relative py-24 md:py-32 bg-transparent overflow-hidden"
     >
-      {/* Ambient accent glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-brand-accent/[0.04] blur-[120px]" />
+      {/* Ambient accent glow — hidden on mobile (invisible at 4% opacity + 120px blur, but expensive for mobile GPU) */}
+      <div className="absolute inset-0 pointer-events-none hidden md:block">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-brand-accent/[0.04] blur-[120px] will-change-transform" />
       </div>
 
       <Container className="relative z-10">
