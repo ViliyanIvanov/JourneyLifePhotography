@@ -80,12 +80,13 @@ export default function PortfolioPage() {
                     >
                       <Link href={cat.albumCount === 1 ? `/portfolio/${cat.slug}/${cat.albums[0].slug}` : `/portfolio/${cat.slug}`}>
                         <div className="group relative overflow-hidden rounded-2xl border border-brand-white/[0.06] card-glow-hover transition-all duration-500 hover:-translate-y-1.5">
-                          <div className="relative h-[340px] overflow-hidden">
+                          <div className="relative aspect-[3/4] overflow-hidden">
                             <Image
                               src={cat.coverImage}
                               alt={cat.name}
                               fill
-                              className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                              style={{ objectPosition: cat.coverObjectPosition || 'top' }}
                               sizes="(max-width: 1400px) 33vw, 380px"
                             />
                             {/* Gradient overlay */}
@@ -127,7 +128,8 @@ export default function PortfolioPage() {
                               src={cat.coverImage}
                               alt={cat.name}
                               fill
-                              className="object-cover object-top"
+                              className="object-cover"
+                              style={{ objectPosition: cat.coverObjectPosition || 'top' }}
                               sizes="80px"
                             />
                           </div>

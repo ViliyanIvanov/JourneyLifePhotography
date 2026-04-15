@@ -39,7 +39,7 @@ export function HomeHeroSection() {
       />
 
       <Container className="relative z-10 h-full">
-        <div className="flex h-full items-center justify-center pb-20 pt-28">
+        <div className="flex h-full items-center justify-center pb-24 pt-28 lg:pb-20">
           <div className="w-full max-w-6xl px-4 text-center">
             <ScrollAnimation direction="fade" delay={140}>
               <div className="flex justify-center">
@@ -51,7 +51,7 @@ export function HomeHeroSection() {
               </div>
             </ScrollAnimation>
 
-            <h1 className="mx-auto mt-8 mb-4 max-w-3xl text-balance text-white/90">
+            <h1 className="mx-auto mt-6 mb-4 max-w-3xl text-balance text-white/90 lg:mt-8">
               <SplitText
                 text="Bespoke story-led photography"
                 delay={200}
@@ -60,7 +60,7 @@ export function HomeHeroSection() {
             </h1>
 
             <ScrollAnimation direction="up" delay={260}>
-              <div className="mt-10 flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4">
+              <div className="mt-8 flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 lg:mt-10">
                 <Button asChild size="lg">
                   <Link href="/portfolio">Portfolio</Link>
                 </Button>

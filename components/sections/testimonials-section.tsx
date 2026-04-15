@@ -35,7 +35,7 @@ const testimonials: Testimonial[] = [
   {
     id: '4',
     name: 'Mari Marline',
-    review: 'Amazing person, you could tell Iva was doing her job with passion and love. She was there for us all the time. Captured all the happiness, amazing moments and laughter during the day. Very patient, organised and professional. I am so grateful I found her and she was there for us in this special day. Thank you and you are now part of our life story forever.',
+    review: 'Amazing person, you could tell Iva was doing her job with passion and love. She was there for us all the time. Captured all the happiness, amazing moments and laughter during the day. Very patient, organised and professional.',
     rating: 5,
   },
   {
@@ -216,7 +216,7 @@ export function TestimonialsSection() {
   }, [goNext]);
 
   return (
-    <section className="relative py-24 md:py-32 bg-transparent overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-transparent overflow-hidden">
       <Container className="relative z-10">
         {/* Header */}
         <div className="mb-14 md:mb-16 text-center max-w-3xl mx-auto">
@@ -243,7 +243,7 @@ export function TestimonialsSection() {
             {/* Track */}
             <div className="overflow-hidden -mx-3 lg:-mx-4">
               <div
-                className={animate ? 'transition-transform duration-500 ease-out' : ''}
+                className={animate ? 'transition-transform duration-700 ease-out' : ''}
                 style={{
                   display: 'flex',
                   width: `${(extended.length / visibleCount) * 100}%`,
@@ -288,7 +288,7 @@ export function TestimonialsSection() {
                         key={progressKey}
                         className="absolute inset-y-0 left-0 rounded-full bg-brand-accent"
                         style={{
-                          animation: 'indicator-fill 5s linear forwards',
+                          animation: 'indicator-fill 15s linear forwards',
                         }}
                         onAnimationEnd={handleProgressEnd}
                       />

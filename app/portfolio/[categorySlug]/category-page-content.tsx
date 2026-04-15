@@ -196,7 +196,8 @@ export default function CategoryPageContent() {
                           src={album.coverImage}
                           alt={album.title}
                           fill
-                          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          style={{ objectPosition: album.coverObjectPosition || 'top' }}
                           sizes="(max-width: 1400px) 33vw, 380px"
                         />
                         {/* Gradient overlay */}
@@ -238,7 +239,8 @@ export default function CategoryPageContent() {
                           src={album.coverImage}
                           alt={album.title}
                           fill
-                          className="object-cover object-top"
+                          className="object-cover"
+                          style={{ objectPosition: album.coverObjectPosition || 'top' }}
                           sizes="80px"
                         />
                       </div>

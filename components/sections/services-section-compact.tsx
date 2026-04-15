@@ -13,15 +13,22 @@ import { ArrowRight } from 'lucide-react';
 
 const AUTO_PLAY_MS = 5000;
 
+/** Per-service image positioning tweaks */
+const IMAGE_POSITION: Record<string, string> = {
+  'wedding': 'center 30%',
+  'family': 'center 40%',
+};
+
 /** Short labels for mobile tabs */
 const TAB_LABELS: Record<string, string> = {
   'Wedding Photography': 'Wedding',
   'Family Photography': 'Family',
   'Corporate Photography': 'Corporate',
+  'Sporting Events': 'Sports',
 };
 
 export function ServicesSectionCompact() {
-  const services = mockServices.slice(0, 3);
+  const services = mockServices;
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -67,7 +74,7 @@ export function ServicesSectionCompact() {
 
   return (
     <section
-      className="relative py-24 md:py-32 bg-transparent overflow-hidden"
+      className="relative py-16 md:py-24 bg-transparent overflow-hidden"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -148,9 +155,10 @@ export function ServicesSectionCompact() {
                     src={activeService.image}
                     alt={activeService.title}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover"
                     sizes="(max-width: 768px) 100vw, 40vw"
                     style={{
+                      objectPosition: IMAGE_POSITION[activeService.slug] ?? 'center top',
                       animation: `svc-img-zoom 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both`,
                     }}
                   />
@@ -187,7 +195,7 @@ export function ServicesSectionCompact() {
 
                   {/* Features — staggered */}
                   <ul className="space-y-2 mb-6">
-                    {activeService.features.slice(0, 4).map((feature, i) => (
+                    {activeService.features.slice(0, 5).map((feature, i) => (
                       <li
                         key={i}
                         className="flex items-start gap-2.5 text-sm text-brand-white/70"
@@ -260,7 +268,7 @@ export function ServicesSectionCompact() {
         }
         @keyframes svc-img-zoom {
           from {
-            transform: scale(1.15);
+            transform: scale(1.08);
           }
           to {
             transform: scale(1);

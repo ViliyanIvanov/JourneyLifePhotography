@@ -29,17 +29,17 @@ const steps: Step[] = [
   },
   {
     icon: Coffee,
-    label: '1–2 weeks before',
-    title: 'Planning session',
+    label: 'Prior to your shoot',
+    title: 'Planning your session',
     description:
-      'We meet over coffee or a video call to walk through locations, shot list, timeline, and any special requests.',
+      'We meet over coffee or a video call to walk through locations, images list, timeline, and any special requests.',
   },
   {
     icon: Camera,
-    label: 'The day',
+    label: 'On the day',
     title: 'The session',
     description:
-      'Relaxed, directed, and thorough. I focus on real moments — candid emotions, beautiful light, and the details that make your story yours.',
+      'Relaxed, directed, and thorough. I focus on real moments — candid emotions, beautiful light, and the details that make your story yours.\n\nIt is your day — feel it, enjoy it, remember it!',
   },
   {
     icon: Palette,
@@ -163,7 +163,7 @@ function DesktopContent({
             <h3 className="font-serif text-2xl md:text-3xl font-bold text-brand-white tracking-tight mb-3">
               {step.title}
             </h3>
-            <p className="text-brand-white/55 text-[15px] leading-relaxed">
+            <p className="text-brand-white/55 text-[15px] leading-relaxed whitespace-pre-line">
               {step.description}
             </p>
           </div>
@@ -250,7 +250,7 @@ function MobileStepper({
                   <h3 className="font-serif text-xl font-bold text-brand-white tracking-tight mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-sm text-brand-white/50 leading-relaxed">
+                  <p className="text-sm text-brand-white/50 leading-relaxed whitespace-pre-line">
                     {step.description}
                   </p>
                 </div>
@@ -270,7 +270,7 @@ export function ServicesProcessSection() {
   const [active, setActive] = useState(0);
 
   return (
-    <div className="py-24 md:py-32">
+    <div className="py-16 md:py-24">
       <Container>
         {/* Header */}
         <ScrollAnimation direction="fade">
