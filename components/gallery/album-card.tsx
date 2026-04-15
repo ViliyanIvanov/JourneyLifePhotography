@@ -20,7 +20,7 @@ export function AlbumCard({ album, index = 0 }: AlbumCardProps) {
     <ScrollAnimation direction="up" delay={index * 100} effect="float">
       <Link href={album.isPrivate ? `/private/${album.slug || album.id}` : `/portfolio/${'category' in album && album.category ? `${categoryToSlug(album.category)}/` : ''}${album.slug || album.id}`}>
         <div className="group relative overflow-hidden bg-brand-black card-glow-hover card-lift-hover rounded-2xl transition-all duration-500 hover:scale-[1.02]">
-          <div className="relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden">
+          <div className="relative aspect-[4/3] sm:aspect-[3/4] overflow-hidden">
             <Image
               src={coverImageUrl}
               alt={album.title}

@@ -18,6 +18,7 @@ export interface AlbumConfig {
   description: string;
   category: string;
   coverImagePath: string | null;
+  coverObjectPosition?: string;
   imageCount: number;
   images: AlbumImage[];
   isPrivate: boolean;
@@ -48,10 +49,10 @@ export const albumsData: AlbumConfig[] = [
   {
     id: 'wedding-1',
     slug: 'wedding-1',
-    title: 'Wedding 1',
-    description: 'A beautiful wedding celebration captured in detail',
+    title: 'M&M Wedding',
+    description: 'An elegant wedding ceremony and reception',
     category: 'Weddings',
-    coverImagePath: '/Weddings/Wedding 1/small size/Album cover_thumb.jpg',
+    coverImagePath: '/acrossPages/portfolio_wedding_MM_doors.png',
     imageCount: 31,
     images: [
       {
@@ -217,10 +218,10 @@ export const albumsData: AlbumConfig[] = [
   {
     id: 'wedding-2',
     slug: 'wedding-2',
-    title: 'Wedding 2',
-    description: 'An elegant wedding ceremony and reception',
+    title: 'N&V Wedding',
+    description: 'A romantic wedding captured throughout the day',
     category: 'Weddings',
-    coverImagePath: '/Weddings/Wedding 2/Album cover 2_thumb.jpg',
+    coverImagePath: '/acrossPages/portfolio_wedding_NV_bw_bride.png',
     imageCount: 19,
     images: [
       {
@@ -326,10 +327,10 @@ export const albumsData: AlbumConfig[] = [
   {
     id: 'wedding-3',
     slug: 'wedding-3',
-    title: 'Wedding 3',
-    description: 'A romantic wedding captured throughout the day',
+    title: 'G&T Wedding',
+    description: 'A beautiful wedding celebration captured in detail',
     category: 'Weddings',
-    coverImagePath: '/Weddings/Wedding 3/Untitled Export/Album cover 3_thumb.jpg',
+    coverImagePath: '/acrossPages/portfolio_wedding_last_greenery.png',
     imageCount: 14,
     images: [
       {
@@ -410,10 +411,11 @@ export const albumsData: AlbumConfig[] = [
   {
     id: 'engagement-session',
     slug: 'engagement-session',
-    title: 'Engagement Session',
+    title: 'S&S Engagement Session',
     description: 'Pre-wedding engagement photo session',
     category: 'Weddings',
     coverImagePath: '/Weddings/Engagement/Album cover eng_thumb.jpg',
+    coverObjectPosition: '35% center',
     imageCount: 9,
     images: [
       {
@@ -641,7 +643,7 @@ export const albumsData: AlbumConfig[] = [
     title: 'Branding',
     description: 'Corporate branding and product photography',
     category: 'Branding',
-    coverImagePath: '/Branding small/album Branding cover_thumb.jpg',
+    coverImagePath: '/acrossPages/portfolio_branding_graffiti_child.png',
     imageCount: 30,
     images: [
       {
@@ -805,7 +807,7 @@ export const albumsData: AlbumConfig[] = [
     title: 'Children & Family',
     description: 'Heartwarming family and children photography',
     category: 'Family',
-    coverImagePath: '/Children and family/Album cover kids_thumb.jpg',
+    coverImagePath: '/acrossPages/portfolio_family_baby_overhead.png',
     imageCount: 100,
     images: [
       {
@@ -1418,7 +1420,7 @@ export const albumsData: AlbumConfig[] = [
     title: 'Travel Photography',
     description: 'Travel and adventure photography from around the world',
     category: 'Travel',
-    coverImagePath: '/Travel small/Albu cover travel_thumb.jpg',
+    coverImagePath: '/acrossPages/portfolio_travel_tunnel_child.png',
     imageCount: 57,
     images: [
       {
@@ -1718,6 +1720,7 @@ export const albumsData: AlbumConfig[] = [
     description: 'Dynamic sports and action photography',
     category: 'Sports',
     coverImagePath: '/Sports/Album cover1_thumb.jpg',
+    coverObjectPosition: 'center 30%',
     imageCount: 25,
     images: [
       {
@@ -1892,6 +1895,7 @@ export interface CategoryInfo {
   albumCount: number;
   totalPhotos: number;
   coverImage: string;
+  coverObjectPosition?: string;
   albums: ReturnType<typeof getAllAlbums>;
 }
 
@@ -1918,6 +1922,7 @@ export function getCategoryInfo(): CategoryInfo[] {
         albumCount: 1,
         totalPhotos: album.imageCount,
         coverImage: album.coverImage,
+        coverObjectPosition: album.coverObjectPosition,
         albums: [album],
       });
     }

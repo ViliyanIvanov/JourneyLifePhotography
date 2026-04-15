@@ -122,7 +122,7 @@ export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative py-24 md:py-32 bg-transparent overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-transparent overflow-hidden">
       <FaqJsonLd />
       <Container>
         {/* Header */}

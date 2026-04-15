@@ -47,22 +47,23 @@ export function AboutMeetSection() {
 
           <ScrollAnimation direction="up" delay={200}>
             <Text size="lg" muted className="mb-5">
-              I&apos;m Iva — a photographer based in Bulgaria with a deep love for natural light,
-              honest emotion, and the quiet moments that tell the biggest stories.
+              I am Iva - a photographer with a deep love for natural light, honest emotion,
+              and the quiet moments that tell the biggest stories.
             </Text>
           </ScrollAnimation>
 
           <ScrollAnimation direction="up" delay={300}>
             <Text size="lg" muted className="mb-5">
               Photography found me long before I called it a career. What started as curiosity
-              with a borrowed camera became a lifelong passion for preserving the feelings
-              people carry in their most meaningful moments — a glance, a laugh, the way light
-              falls across a room.
+              with a borrowed camera and desire to capture the precious, fleeing moments of my
+              little boy&apos;s life, became a lifelong passion for preserving the feelings people
+              carry in their most meaningful moments — a glance, a laugh, the way light falls
+              across a room.
             </Text>
           </ScrollAnimation>
 
           <ScrollAnimation direction="up" delay={400}>
-            <Text size="lg" muted className="mb-8">
+            <Text size="lg" muted className="mb-5">
               My approach is calm, intentional, and always centred on you. I believe the best
               images happen when people feel comfortable being themselves — so every session
               begins with connection, not posing.
@@ -70,6 +71,17 @@ export function AboutMeetSection() {
           </ScrollAnimation>
 
           <ScrollAnimation direction="up" delay={500}>
+            <Text size="lg" muted className="mb-8">
+              When I am not behind the lens, I embrace the beautiful chaos of family life and
+              motherhood. My background as a trained civil engineer gives me a practical,
+              structured perspective, balancing creativity with precision. In my free time, I
+              push my limits by participating in endurance events, while travelling gives me the
+              chance to discover new places, immerse myself in diverse cultures, and gather
+              experiences that shape both my work and my perspective on life.
+            </Text>
+          </ScrollAnimation>
+
+          <ScrollAnimation direction="up" delay={600}>
             <p className="font-serif text-xl italic text-brand-white/60">
               — Iva
             </p>

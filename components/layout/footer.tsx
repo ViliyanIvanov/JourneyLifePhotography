@@ -23,7 +23,7 @@ export function Footer() {
   return (
     <footer className="relative z-[1] border-t border-brand-white/10 bg-transparent text-brand-white">
       <Container>
-        <div className="py-12 md:py-16">
+        <div className="py-16 md:py-20">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             {/* Brand */}
             <div className="space-y-4">
@@ -32,18 +32,18 @@ export function Footer() {
                 Capturing life&apos;s precious moments with professional photography
                 services.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex items-center">
                 {socialLinks.map((social) => {
                   const Icon = social.icon;
                   return (
                     <Link
                       key={social.name}
                       href={social.href}
-                      className="text-brand-white/70 hover:text-brand-white transition-colors"
-                      aria-label={social.name}
+                      className="group inline-flex items-center gap-2.5 text-brand-white/70 transition-colors duration-300 hover:text-brand-white"
                       {...(social.href === '#' ? { rel: 'nofollow', tabIndex: -1 } : { target: '_blank', rel: 'noopener noreferrer' })}
                     >
-                      <Icon className="h-5 w-5" />
+                      <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                      <span className="text-sm font-semibold font-serif tracking-wide">@ivayladimitrov</span>
                     </Link>
                   );
                 })}
@@ -52,7 +52,7 @@ export function Footer() {
 
             {/* Main Links */}
             <div>
-              <h4 className="mb-4 text-sm font-semibold font-serif">Navigation</h4>
+              <h4 className="mb-4 text-base font-semibold font-serif">Navigation</h4>
               <ul className="space-y-2">
                 {footerLinks.main.map((link) => (
                   <li key={link.name}>
@@ -69,7 +69,7 @@ export function Footer() {
 
             {/* Contact */}
             <div>
-              <h4 className="mb-4 text-sm font-semibold font-serif">Contact</h4>
+              <h4 className="mb-4 text-base font-semibold font-serif">Contact</h4>
               <ul className="space-y-2 text-sm text-brand-white/70">
                 <li>
                   <Link href="/contact" className="hover:text-brand-white transition-colors">
@@ -83,7 +83,7 @@ export function Footer() {
 
             {/* Legal */}
             <div>
-              <h4 className="mb-4 text-sm font-semibold font-serif">Legal</h4>
+              <h4 className="mb-4 text-base font-semibold font-serif">Legal</h4>
               <ul className="space-y-2">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>

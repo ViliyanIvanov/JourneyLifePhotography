@@ -25,6 +25,38 @@ const FEATURED_SLUGS = [
   'travel-photography',
 ];
 
+/* ─── Lower row cards: Corporate, Branding, Sports + Wedding ─── */
+const LOWER_CARDS = [
+  {
+    slug: 'wedding-1',
+    category: 'Weddings',
+    title: 'Weddings',
+    image: '/IvaDimitrovPhotos/acrossPages/card_wedding_palace.png',
+    href: '/portfolio/weddings',
+  },
+  {
+    slug: 'corporate',
+    category: 'Corporate',
+    title: 'Corporate',
+    image: '/IvaDimitrovPhotos/acrossPages/card_corporate_or_branding_brunette.png',
+    href: '/portfolio/corporate',
+  },
+  {
+    slug: 'branding',
+    category: 'Branding',
+    title: 'Branding',
+    image: '/IvaDimitrovPhotos/acrossPages/card_branding_child_swing.png',
+    href: '/portfolio/branding',
+  },
+  {
+    slug: 'sports',
+    category: 'Sports',
+    title: 'Sports',
+    image: '/IvaDimitrovPhotos/acrossPages/card_sports_runner.png',
+    href: '/portfolio/sports',
+  },
+];
+
 const featuredAlbums = FEATURED_SLUGS.map(
   (slug) => albumsData.find((a) => a.slug === slug)!
 ).filter(Boolean);
@@ -133,7 +165,7 @@ export function PortfolioShowcaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 md:py-32 bg-transparent overflow-hidden"
+      className="relative py-16 md:py-24 bg-transparent overflow-hidden"
     >
       {/* Ambient accent glow — hidden on mobile (invisible at 4% opacity + 120px blur, but expensive for mobile GPU) */}
       <div className="absolute inset-0 pointer-events-none hidden md:block">
@@ -246,9 +278,46 @@ export function PortfolioShowcaseSection() {
           </div>
         </div>
 
+        {/* Lower cards row */}
+        <div className="mt-12 lg:mt-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {LOWER_CARDS.map((card, i) => (
+              <ScrollAnimation
+                key={card.slug}
+                direction="up"
+                delay={100 + i * 80}
+              >
+                <Link href={card.href} className="group block">
+                  <div className="relative overflow-hidden rounded-2xl border border-brand-white/[0.06] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_0_24px_rgba(176,204,209,0.2)]">
+                    <div className="relative aspect-[3/4] overflow-hidden">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5">
+                        <span className="inline-block text-[10px] uppercase tracking-[0.15em] text-brand-accent/90 font-medium mb-1">
+                          {card.category}
+                        </span>
+                        <h3 className="text-sm lg:text-base font-serif font-semibold text-brand-white leading-snug">
+                          {card.title}
+                        </h3>
+                        <div className="h-0.5 w-0 bg-brand-accent group-hover:w-full transition-all duration-500 ease-out mt-2" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </ScrollAnimation>
+            ))}
+          </div>
+        </div>
+
         {/* CTA */}
         <ScrollAnimation direction="fade" effect="float" delay={300}>
-          <div className="text-center mt-8 lg:mt-4">
+          <div className="text-center mt-8 lg:mt-10">
             <Button variant="secondary" asChild>
               <Link href="/portfolio">View All Albums</Link>
             </Button>
